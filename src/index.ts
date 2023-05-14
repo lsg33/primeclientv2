@@ -4,11 +4,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const fs = require("fs");
-const rateLimit = require("express-rate-limit");
-const jwt = require("jsonwebtoken");
 import { Redis } from '@upstash/redis'
 import path from 'path';
 import logger from './structs/log';
+const rateLimit = require("express-rate-limit");
+const jwt = require("jsonwebtoken");
 const error = require("./structs/error.js");
 const functions = require("./structs/functions.js");
 const dotenv = require("dotenv");
@@ -27,8 +27,9 @@ async function main() {
         token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiY2Y4MGQyZDBmOWZlNDQ3ZjgzMDQyZjMxZjJlNGVhMGY=',
     })
     //const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
+    if (process.env.NODE_ENV !== "production")
     logger.backend("Current directory: " + __dirname);
-    //Switched to redis
+
     const redisTokens = await redis.get('tokens') || {};
     const tokens = JSON.parse(JSON.stringify(redisTokens))
 
@@ -44,7 +45,6 @@ async function main() {
 
     //fs.writeFileSync(path.join(__dirname, "../tokens.json"), JSON.stringify(tokens, null, 2) || "");
     const setTokens = await redis.set('tokens', JSON.stringify(tokens, null, 2));
-    //if node env isnt production, log tokens
     if (process.env.NODE_ENV !== "production")
         logger.backend("Redis set tokens status: " + setTokens);
 
@@ -69,8 +69,12 @@ async function main() {
 
     fs.readdirSync(path.join(__dirname, "routes")).forEach((fileName) => {
         if (fileName.includes(".map")) return;
-
         app.use(require(`./routes/${fileName}`));
+    });
+
+    fs.readdirSync(path.join(__dirname, "api")).forEach((fileName) => {
+        if (fileName.includes(".map")) return;
+        app.use(require(`./api/${fileName}`));
     });
 
     app.listen(PORT, () => {
