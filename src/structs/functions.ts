@@ -3,6 +3,7 @@ export { };
 const XMLBuilder = require("xmlbuilder");
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
@@ -195,7 +196,14 @@ function getItemShop() {
                 "basePrice": CatalogConfig[value].price
             }];
 
-            if (CatalogEntry.itemGrants.length > 0) catalog.storefronts[i].catalogEntries.push(CatalogEntry);
+            if (CatalogEntry.itemGrants.length > 0) {
+                let uniqueIdentifier = crypto.createHash("sha1").update(`${JSON.stringify(CatalogConfig[value].itemGrants)}_${CatalogConfig[value].price}`).digest("hex");
+
+                CatalogEntry.devName = uniqueIdentifier;
+                CatalogEntry.offerId = uniqueIdentifier;
+
+                catalog.storefronts[i].catalogEntries.push(CatalogEntry);
+            }
         }
     } catch {}
 

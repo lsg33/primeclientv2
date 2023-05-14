@@ -14,7 +14,6 @@ app.post("/fortnite/api/game/v2/toxicity/account/:reporter/report/:reportedPlaye
     const reporter = req.params.reporter;
     const reportedPlayer = req.params.reportedPlayer;
     
-    
     let reporterData = await User.findOne({ accountId: reporter }).lean();
     let reportedPlayerData = await User.findOne({ accountId: reportedPlayer }).lean();
     
