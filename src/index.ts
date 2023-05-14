@@ -58,57 +58,64 @@ async function main() {
 
     global.exchangeCodes = [];
 
-    mongoose.connect(process.env.MONGO_URI, () => {
-        logger.backend("App successfully connected to MongoDB!");
-    });
+    mongoose
+        .connect(process.env.MONGO_URI)
+        .then(() => {
+            logger.backend("Connected to MongoDB");
+        })
+        .catch((error) => {
+            console.error("Error connecting to MongoDB: ", error);
+        });
 
-    mongoose.connection.on("error", err => {
-        logger.error("MongoDB failed to connect, please make sure you have MongoDB installed and running.");
+    mongoose.connection.on("error", (err) => {
+        logger.error(
+            "MongoDB failed to connect, please make sure you have MongoDB installed and running."
+        );
         throw err;
     });
 
-app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-fs.readdirSync(path.join(__dirname, "routes")).forEach((fileName) => {
-    if (fileName.includes(".map")) return;
-    app.use(require(`./routes/${fileName}`));
-});
+    fs.readdirSync(path.join(__dirname, "routes")).forEach((fileName) => {
+        if (fileName.includes(".map")) return;
+        app.use(require(`./routes/${fileName}`));
+    });
 
-fs.readdirSync(path.join(__dirname, "api")).forEach((fileName) => {
-    if (fileName.includes(".map")) return;
-    app.use(require(`./api/${fileName}`));
-});
+    fs.readdirSync(path.join(__dirname, "api")).forEach((fileName) => {
+        if (fileName.includes(".map")) return;
+        app.use(require(`./api/${fileName}`));
+    });
 
-app.listen(PORT, () => {
-    logger.backend(`App started listening on port ${PORT}`);
+    app.listen(PORT, () => {
+        logger.backend(`App started listening on port ${PORT}`);
 
-    require("./xmpp/xmpp.js");
-    require("./bot/index.js");
-}).on("error", async (err) => {
-    if (err.code == "EADDRINUSE") {
-        logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);
-        await functions.sleep(3000)
-        process.exit(0);
-    } else throw err;
-});
+        require("./xmpp/xmpp.js");
+        require("./bot/index.js");
+    }).on("error", async (err) => {
+        if (err.code == "EADDRINUSE") {
+            logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);
+            await functions.sleep(3000)
+            process.exit(0);
+        } else throw err;
+    });
 
-// if endpoint not found, return this error
-app.use((req, res, next) => {
-    error.createError(
-        "errors.com.epicgames.common.not_found",
-        "Sorry the resource you were trying to find could not be found",
-        undefined, 1004, undefined, 404, res
-    );
-});
+    // if endpoint not found, return this error
+    app.use((req, res, next) => {
+        error.createError(
+            "errors.com.epicgames.common.not_found",
+            "Sorry the resource you were trying to find could not be found",
+            undefined, 1004, undefined, 404, res
+        );
+    });
 
-function DateAddHours(pdate, number) {
-    let date = pdate;
-    date.setHours(date.getHours() + number);
+    function DateAddHours(pdate, number) {
+        let date = pdate;
+        date.setHours(date.getHours() + number);
 
-    return date;
-}
+        return date;
+    }
 
 }
 
