@@ -29,7 +29,7 @@ app.get("/api/user/:key/:value", verifyApikey, (req, res) => {
 
 });
 
-app.post("/api//user/:key/:value", verifyApikey, (req, res) => {
+app.post("/api/user/:key/:value", verifyApikey, (req, res) => {
 
     const { key } = req.params;
     const { value } = req.params;

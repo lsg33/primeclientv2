@@ -66,8 +66,13 @@ function GetVersionInfo(req) {
             memory.lobby = `LobbySeason${memory.season}`;
 
             if (Number.isNaN(memory.season)) throw new Error();
-        } catch {
-            if (Number(memory.CL) < 3724489) {
+        } catch (e) {
+            if (Number.isNaN(memory.CL)) {
+                memory.season = 0;
+                memory.build = 0.0;
+                memory.CL = CL;
+                memory.lobby = "LobbySeason0";
+            } else if (Number(memory.CL) < 3724489) {
                 memory.season = 0;
                 memory.build = 0.0;
                 memory.CL = CL;

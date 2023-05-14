@@ -67,19 +67,6 @@ async function main() {
         throw err;
     });
 
-    const momentum = new Momentum({
-        url: 'http://127.0.0.1:8080',
-        apikey: "sileBwct4Qam0BhjvSfSa5a4H6Dmx7Rm"
-    });
-
-    app.get("/", async (req, res) => {
-
-    const user = await momentum.getUser("username", "Zetax")
-    console.log(await user)
-    res.json(await user)
-
-});
-
 app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

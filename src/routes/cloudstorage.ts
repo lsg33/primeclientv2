@@ -171,7 +171,6 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
     }
 });
 
-
 //.Ini stuff
 app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
@@ -188,82 +187,97 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
     }
 });
 
-
 //Settings stuff
 
 app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
-    console.log(req.originalUrl);
     const userid = req.params[0];
-    console.log("/fortnite/api/cloudstorage/user/*/:file" + JSON.stringify(req.params))
+
     try {
-        if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
-            fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
+        const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
         }
     } catch (err) { }
-    res.set("Content-Type", "application/octet-stream")
-    if (req.params.file.toLowerCase() !== "clientsettings.sav") {
-    }
-    const memory = functions.GetVersionInfo(req);
-    var currentBuildID = memory.CL;
-    let file;
-    file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
-    if (fs.existsSync(file)) {
-        const ParsedFile = fs.readFileSync(file);
-        return res.status(200).send(ParsedFile).end();
+
+    res.set("Content-Type", "application/octet-stream");
+
+    if (req.params.file.toLowerCase() === "clientsettings.sav") {
+
+        const filePath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
+        if (fs.existsSync(filePath)) {
+            const fileContent = fs.readFileSync(filePath);
+            return res.status(200).send(fileContent);
+        } else {
+            res.status(200).end();
+        }
     } else {
-        res.status(200);
-        res.end();
+        // do something else here if needed
     }
-});
+}
+);
 
 app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
     try {
-        if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
-            fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
+        const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
         }
-    } catch (err) { }
-    const memory = functions.GetVersionInfo(req);
-    const userid = req.params.accountId;
-    console.log("/fortnite/api/cloudstorage/user/:accountId " + userid)
-    res.set("Content-Type", "application/json")
-    var currentBuildID = memory.CL;
-    let file;
-    file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
-    if (fs.existsSync(file)) {
-        const ParsedFile = fs.readFileSync(file, 'latin1');
-        const ParsedStats = fs.statSync(file);
-        return res.json([{
-            "uniqueFilename": "ClientSettings.Sav",
-            "filename": "ClientSettings.Sav",
-            "hash": crypto.createHash('sha1').update(ParsedFile).digest('hex'),
-            "hash256": crypto.createHash('sha256').update(ParsedFile).digest('hex'),
-            "length": Buffer.byteLength(ParsedFile),
-            "contentType": "application/octet-stream",
-            "uploaded": ParsedStats.mtime,
-            "storageType": "S3",
-            "storageIds": {},
-            "accountId": req.params.accountId,
-            "doNotCache": true
-        }]);
-    } else {
-        return res.json([]);
+
+        const memory = functions.GetVersionInfo(req);
+        const userId = req.params.accountId;
+
+        res.set("Content-Type", "application/json");
+
+        const currentBuildID = memory.CL;
+        const filePath = path.join(dirPath, `ClientSettings-${userId}.Sav`);
+
+        if (fs.existsSync(filePath)) {
+            const fileContent = fs.readFileSync(filePath, "latin1");
+            const fileStats = fs.statSync(filePath);
+
+            const response = {
+                uniqueFilename: "ClientSettings.Sav",
+                filename: "ClientSettings.Sav",
+                hash: crypto.createHash("sha1").update(fileContent).digest("hex"),
+                hash256: crypto.createHash("sha256").update(fileContent).digest("hex"),
+                length: Buffer.byteLength(fileContent),
+                contentType: "application/octet-stream",
+                uploaded: fileStats.mtime,
+                storageType: "S3",
+                storageIds: {},
+                accountId: req.params.accountId,
+                doNotCache: true,
+            };
+
+            return res.json([response]);
+        } else {
+            return res.json([]);
+        }
+    } catch (err) {
+        console.error("Error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
-})
+});
+
+
+
 app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
     const userid = req.params[0];
-    console.log(req.params[0])
     try {
+
         if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
             fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
+
         }
-    } catch (err) { }
+    } catch (err) {}
+
     if (req.params.file.toLowerCase() !== "clientsettings.sav") {
         return res.status(404).json({
         });
     }
+
     const memory = functions.GetVersionInfo(req);
-    var currentBuildID = memory.CL;
-    let file;
+    let file: File;
     file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
     fs.writeFileSync(file, req.rawBody, 'latin1');
     res.status(204).end();
