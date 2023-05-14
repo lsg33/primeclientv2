@@ -1,3 +1,3 @@
 :start
-node index.js
+node build/index.js
 goto start
