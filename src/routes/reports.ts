@@ -5,7 +5,6 @@ const app = express.Router();
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user.js");
-const config = require("../Config/config.json");
 const {Client, Intents} = require("discord.js");
 const Discord = require("discord.js");
 
