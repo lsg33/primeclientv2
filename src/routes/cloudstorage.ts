@@ -5,25 +5,26 @@ const app = express.Router();
 const fs = require("fs");
 const crypto = require("crypto");
 const path = require("path");
-import AWS_S3, { S3 } from "@aws-sdk/client-s3";
+import S3 from 'aws-sdk/clients/s3';
 const limit = require("express-limit").limit;
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const functions = require("../structs/functions.js");
+//S3
+import { AWSError } from 'aws-sdk/lib/error';
+
+
+let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-
-if (!process.env.S3_ENDPOINT) throw new Error("S3_ENDPOINT is not defined in .env file");
-if (!process.env.S3_ACCESS_KEY_ID) throw new Error("S3_ACCESS_KEY_ID is not defined in .env file");
-if (!process.env.S3_SECRET_ACCESS_KEY) throw new Error("S3_SECRET_ACCESS_KEY is not defined in .env file");
 
 const s3 = new S3({
     apiVersion: 'latest',
     endpoint: process.env.S3_ENDPOINT,
     credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID || "unset",
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "unset",
+        accessKeyId: process.env.S3_ACCESS_KEY_ID || "",
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "",
     },
 });
 
@@ -41,22 +42,22 @@ app.use((req, res, next) => {
 
 const getCloudFile = async (objectName: string) => {
     try {
-        const params: AWS_S3.GetObjectCommandInput = {
+        const params: S3.GetObjectRequest = {
             Bucket: "backend",
             Key: objectName,
         };
-        const data: AWS_S3.GetObjectCommandOutput = await s3.getObject(params);
+        const data: S3.GetObjectOutput = await s3.getObject(params).promise();
         return data.Body;
     } catch (err: any) {
         if (err.code === "NoSuchKey") {
             // create empty .ini file
-            const params: AWS_S3.PutObjectCommandInput = {
+            const params: S3.PutObjectRequest = {
                 Bucket: "backend",
                 Key: objectName,
                 Body: "",
                 ContentType: "text/plain",
             };
-            await s3.putObject(params);
+            await s3.putObject(params).promise();
             return Buffer.from("");
         }
         throw err;
@@ -64,16 +65,16 @@ const getCloudFile = async (objectName: string) => {
 };
 
 const listCloudFiles = async (prefix: string) => {
-    const objectsList: Array<AWS_S3._Object> = [];
+    const objectsList: Array<S3.Object> = [];
 
     const listObjects = (ContinuationToken?: string) => {
         return new Promise((resolve, reject) => {
-            const params: AWS_S3.ListObjectsV2CommandInput = {
+            const params: S3.ListObjectsV2Request = {
                 Bucket: "backend",
                 Prefix: prefix,
                 ContinuationToken: ContinuationToken
             };
-            s3.listObjectsV2(params, (err, data) => {
+            s3.listObjectsV2(params, (err: AWSError, data: S3.ListObjectsV2Output) => {
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -93,13 +94,13 @@ const listCloudFiles = async (prefix: string) => {
 
 const createCloudStorageFolder = async (uid: string) => {
     const folderName = `CloudStorage/${uid}`;
-    const params: AWS_S3.PutObjectCommandInput = {
+    const params: S3.PutObjectRequest = {
         Bucket: "backend",
         Key: `${folderName}/`,
         Body: "",
         ContentType: "application/x-directory",
     };
-    await s3.putObject(params);
+    await s3.putObject(params).promise();
 };
 //.Ini Stuff
 app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
@@ -133,19 +134,19 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
         });
 
 
-        const localFiles = fs.readdirSync(path.join(__dirname, "..", "CloudStorage"));
+        const localFiles = fs.readdirSync(path.join(__dirname, "../../", "CloudStorage"));
         localFiles.forEach((file) => {
             const key = `CloudStorage/${process.env.INFO_UID || ""}/${file}`;
             const object = folderObjects.find(obj => obj.Key === key);
             if (!object) {
-                const fileData = fs.readFileSync(path.join(__dirname, "..", "CloudStorage", file));
-                const params: AWS_S3.PutObjectCommandInput = {
+                const fileData = fs.readFileSync(path.join(__dirname, "../../", "CloudStorage", file));
+                const params: S3.PutObjectRequest = {
                     Bucket: "backend",
                     Key: key,
                     Body: fileData,
                     ContentType: "application/octet-stream",
                 };
-                s3.putObject(params, (err, data) => {
+                s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
                     if (err) console.error(err);
                 });
                 CloudFiles.push({
@@ -195,8 +196,8 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
     const userid = req.params[0];
     console.log("/fortnite/api/cloudstorage/user/*/:file" + JSON.stringify(req.params))
     try {
-        if (!fs.existsSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"))) {
-            fs.mkdirSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"));
+        if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
+            fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
         }
     } catch (err) { }
     res.set("Content-Type", "application/octet-stream")
@@ -205,7 +206,7 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
     const memory = functions.GetVersionInfo(req);
     var currentBuildID = memory.CL;
     let file;
-    file = path.join("/etc/nexus/settings", "Nexus", "ClientSettings", `ClientSettings-${userid}.Sav`);
+    file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
     if (fs.existsSync(file)) {
         const ParsedFile = fs.readFileSync(file);
         return res.status(200).send(ParsedFile).end();
@@ -217,8 +218,8 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
 
 app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
     try {
-        if (!fs.existsSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"))) {
-            fs.mkdirSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"));
+        if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
+            fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
         }
     } catch (err) { }
     const memory = functions.GetVersionInfo(req);
@@ -227,7 +228,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, limit({ max:
     res.set("Content-Type", "application/json")
     var currentBuildID = memory.CL;
     let file;
-    file = path.join("/etc/nexus/settings", "Nexus", "ClientSettings", `ClientSettings-${userid}.Sav`);
+    file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
     if (fs.existsSync(file)) {
         const ParsedFile = fs.readFileSync(file, 'latin1');
         const ParsedStats = fs.statSync(file);
@@ -252,8 +253,8 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
     const userid = req.params[0];
     console.log(req.params[0])
     try {
-        if (!fs.existsSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"))) {
-            fs.mkdirSync(path.join("/etc/nexus/settings", "Nexus", "ClientSettings"));
+        if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
+            fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
         }
     } catch (err) { }
     if (req.params.file.toLowerCase() !== "clientsettings.sav") {
@@ -263,7 +264,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
     const memory = functions.GetVersionInfo(req);
     var currentBuildID = memory.CL;
     let file;
-    file = path.join("/etc/nexus/settings", "Nexus", "ClientSettings", `ClientSettings-${userid}.Sav`);
+    file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
     fs.writeFileSync(file, req.rawBody, 'latin1');
     res.status(204).end();
 })

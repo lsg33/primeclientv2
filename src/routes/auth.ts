@@ -40,11 +40,11 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     switch (req.body.grant_type) {
         case "client_credentials":
             let ip: string = req.ip;
-        
+/*         
             if (!global.clientTokens) {
                 global.clientTokens = await redis.get('tokens');
                 logger.backend("Client tokens array was empty, created new one.");
-            }
+            } */
         
             let clientToken = global.clientTokens.findIndex((i: { ip: any; }) => i.ip == ip);
             if (clientToken != -1) global.clientTokens.splice(clientToken, 1);

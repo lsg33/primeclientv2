@@ -91,7 +91,7 @@ function GetVersionInfo(req) {
 function getContentPages(req) {
     const memory = GetVersionInfo(req);
 
-    const contentpages = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "responses", "contentpages.json")).toString());
+    const contentpages = JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "responses", "contentpages.json")).toString());
 
     let Language = "en";
 
@@ -162,8 +162,8 @@ function getContentPages(req) {
 }
 
 function getItemShop() {
-    const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "responses", "catalog.json")).toString());
-    const CatalogConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "Config", "catalog_config.json").toString()));
+    const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "responses", "catalog.json")).toString());
+    const CatalogConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "Config", "catalog_config.json").toString()));
 
     try {
         for (let value in CatalogConfig) {
@@ -310,11 +310,11 @@ function DecodeBase64(str) {
 }
 
 function UpdateTokens() {
-/*     fs.writeFileSync"../tokenManager/tokens.json", JSON.stringify({
+    fs.writeFileSync("../../tokens.json", JSON.stringify({
         accessTokens: global.accessTokens,
         refreshTokens: global.refreshTokens,
         clientTokens: global.clientTokens
-    }, null, 2); */
+    }, null, 2));
     redis.set("tokens", JSON.stringify({
         accessTokens: global.accessTokens,
         refreshTokens: global.refreshTokens,
