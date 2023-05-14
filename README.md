@@ -9,6 +9,8 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 
 https://www.npmjs.com/package/momentumsdk
 
+![](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
+
 ### Installation
 
 #### Requirements
