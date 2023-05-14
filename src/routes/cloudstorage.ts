@@ -281,6 +281,5 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, limit({ max: 5,
     file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
     fs.writeFileSync(file, req.rawBody, 'latin1');
     res.status(204).end();
-})
-
+});
 module.exports = app;

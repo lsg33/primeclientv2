@@ -18,20 +18,20 @@ const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require(
 const Discord = require("discord.js");
 
 const client = new Client({
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers,
-	],
-	presence: {
-		activities: [{
-			name: 'Momentum',
-			type: ActivityType.Playing,
-		}],
-		status: 'online',
-	},
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+    ],
+    presence: {
+        activities: [{
+            name: 'Momentum',
+            type: ActivityType.Playing,
+        }],
+        status: 'online',
+    },
 });
 console.log("Bot is starting up...");
 client.login(process.env.BOT_TOKEN);
@@ -52,7 +52,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     } catch {
         return error.createError(
             "errors.com.epicgames.common.oauth.invalid_client",
-            "It appears that your Authorization header may be invalid or not present, please verify that you are sending the correct headers.", 
+            "It appears that your Authorization header may be invalid or not present, please verify that you are sending the correct headers.",
             [], 1011, "invalid_client", 400, res
         );
     }
@@ -60,21 +60,21 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     switch (req.body.grant_type) {
         case "client_credentials":
             let ip: string = req.ip;
-/*         
-            if (!global.clientTokens) {
-                global.clientTokens = await redis.get('tokens');
-                logger.backend("Client tokens array was empty, created new one.");
-            } */
-        
+            /*         
+                        if (!global.clientTokens) {
+                            global.clientTokens = await redis.get('tokens');
+                            logger.backend("Client tokens array was empty, created new one.");
+                        } */
+
             let clientToken = global.clientTokens.findIndex((i: { ip: any; }) => i.ip == ip);
             if (clientToken != -1) global.clientTokens.splice(clientToken, 1);
-        
+
             const token = tokenCreation.createClient(clientId, req.body.grant_type, ip, 4); // expires in 4 hours
-        
+
             functions.UpdateTokens();
-        
+
             const decodedClient = jwt.decode(token);
-        
+
             res.json({
                 access_token: `eg1~${token}`,
                 expires_in: Math.round(((DateAddHours(new Date(decodedClient.creation_date), decodedClient.hours_expire).getTime()) - (new Date().getTime())) / 1000),
@@ -84,12 +84,12 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 internal_client: true,
                 client_service: "fortnite"
             });
-            return;        
+            return;
 
         case "password":
             if (!req.body.username || !req.body.password) return error.createError(
                 "errors.com.epicgames.common.oauth.invalid_request",
-                "Username/password is required.", 
+                "Username/password is required.",
                 [], 1013, "invalid_request", 400, res
             );
             const { username: email, password: password } = req.body;
@@ -98,7 +98,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             let err = () => error.createError(
                 "errors.com.epicgames.account.invalid_account_credentials",
-                "Your e-mail and/or password are incorrect. Please check them and try again.", 
+                "Your e-mail and/or password are incorrect. Please check them and try again.",
                 [], 18031, "invalid_grant", 400, res
             );
 
@@ -106,12 +106,12 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             else {
                 if (!await bcrypt.compare(password, req.user.password)) return err();
             }
-        break;
+            break;
 
         case "refresh_token":
             if (!req.body.refresh_token) return error.createError(
                 "errors.com.epicgames.common.oauth.invalid_request",
-                "Refresh token is required.", 
+                "Refresh token is required.",
                 [], 1013, "invalid_request", 400, res
             );
 
@@ -136,7 +136,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
                 error.createError(
                     "errors.com.epicgames.account.auth_token.invalid_refresh_token",
-                    `Sorry the refresh token '${refresh_token}' is invalid`, 
+                    `Sorry the refresh token '${refresh_token}' is invalid`,
                     [refresh_token], 18036, "invalid_grant", 400, res
                 );
 
@@ -144,12 +144,12 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             }
 
             req.user = await User.findOne({ accountId: object.accountId }).lean();
-        break;
+            break;
 
         case "exchange_code":
             if (!req.body.exchange_code) return error.createError(
                 "errors.com.epicgames.common.oauth.invalid_request",
-                "Exchange code is required.", 
+                "Exchange code is required.",
                 [], 1013, "invalid_request", 400, res
             );
 
@@ -160,27 +160,27 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             if (index == -1) return error.createError(
                 "errors.com.epicgames.account.oauth.exchange_code_not_found",
-                "Sorry the exchange code you supplied was not found. It is possible that it was no longer valid", 
+                "Sorry the exchange code you supplied was not found. It is possible that it was no longer valid",
                 [], 18057, "invalid_grant", 400, res
             );
 
             global.exchangeCodes.splice(index, 1);
-            
+
             req.user = await User.findOne({ accountId: exchange.accountId }).lean();
-        break;
-        
+            break;
+
         default:
             error.createError(
                 "errors.com.epicgames.common.oauth.unsupported_grant_type",
-                `Unsupported grant type: ${req.body.grant_type}`, 
+                `Unsupported grant type: ${req.body.grant_type}`,
                 [], 1016, "unsupported_grant_type", 400, res
             );
-        return;
+            return;
     }
 
     if (req.user.banned) return error.createError(
         "errors.com.epicgames.account.account_not_active",
-        "You have been permanently banned from Fortnite.", 
+        "You have been permanently banned from Fortnite.",
         [], -1, undefined, 400, res
     );
 
@@ -206,16 +206,15 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
     const discordId = req.user.discordId || null;
 
-    console.log(`[LOGIN] ${req.user.username} logged in with discord id ${discordId}`);
-
     const embed = new EmbedBuilder()
-        .setColor('#0099ff')
-        .setTitle('Report')
-        .setURL('https://nexusfn.io/')
+        .setColor('#313338')
+        .setTitle('Login')
         .setDescription("New login detected! Was this you?")
         .addFields(
-                { name: 'Account name', value: req.user.username , inline: true },
-                )
+            { name: 'Account name', value: req.user.username, inline: false },
+            { name: 'Account ID', value: req.user.accountId, inline: true },
+            { name: 'IP Address', value: req.ip, inline: false },
+        )
         .setTimestamp()
         .setFooter({
             text: 'Fortnite Nexus',
@@ -223,7 +222,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
         });
 
     const discordUser = await client.users.fetch(discordId);
-    if (discordUser) discordUser.send(embed);
+    if (discordUser) discordUser.send({ embeds: [embed] });
 
     res.json({
         access_token: `eg1~${accessToken}`,
@@ -316,7 +315,7 @@ app.delete("/account/api/oauth/sessions/kill/:token", (req: { params: { token: a
         let refreshIndex = global.refreshTokens.findIndex((i: { accountId: any; }) => i.accountId == object.accountId);
         if (refreshIndex != -1) global.refreshTokens.splice(refreshIndex, 1);
     }
-    
+
     let clientIndex = global.clientTokens.findIndex((i: { token: any; }) => i.token == token);
     if (clientIndex != -1) global.clientTokens.splice(clientIndex, 1);
 
