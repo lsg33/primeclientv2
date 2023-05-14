@@ -7,6 +7,7 @@ const error = require("../structs/error.js");
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user.js");
+const escapeStringRegexp = require('escape-string-regexp');
 
 app.get("/account/api/public/account", async (req, res) => {
     let response:Object[] = [];
@@ -87,7 +88,8 @@ app.get("/api/v1/search/:accountId", async (req, res) => {
         undefined, 1001, undefined, 400, res
     );
 
-    let users = await User.find({ username_lower: new RegExp(`^${req.query.prefix.toLowerCase()}`), banned: false }).lean();
+    const prefix = escapeStringRegexp(req.query.prefix.toLowerCase());
+    const users = await User.find({ username_lower: new RegExp(`^${prefix}`), banned: false }).lean();
 
     for (let user of users) {
         if (response.length >= 100) break;
