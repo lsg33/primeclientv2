@@ -16,7 +16,7 @@ Momentum is a fork of the popular Fortnite Backend LawinServer. It is aimed to i
 - Discord Bot
 - Cloudflare R2 Bucket (Soon Optional)
 
-##### Using Docker (Recommended)
+#### Using Docker (Recommended)
 
 Create an `.env` file with the following contents:
 
@@ -47,7 +47,7 @@ Then run the Docker image using the following command:
 docker run -d -p 8080:8080 80:80 nexus-fn/momentum --env-file .env
 ```
 
-##### Using NodeJS (Windows and Linux)
+#### Using NodeJS (Windows and Linux)
 
 - Download the repository and extract it.
 - Install NodeJS and NPM. (https://nodejs.org/en/download/)
