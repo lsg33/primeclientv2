@@ -5,7 +5,7 @@ const app = express.Router();
 const { verifyApikey } = require("../utilities/api.js");
 const Profile = require("../model/profiles.js");
 
-app.get("/profile/accountId/:value", verifyApikey, (req, res) => {
+app.get("/api/profile/accountId/:value", verifyApikey, (req, res) => {
 
     const { value } = req.params;
 

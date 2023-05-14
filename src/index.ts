@@ -13,6 +13,7 @@ const error = require("./structs/error.js");
 const functions = require("./structs/functions.js");
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+import Momentum from 'momentumsdk'
 
 async function main() {
 
@@ -28,7 +29,7 @@ async function main() {
     })
     //const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
     if (process.env.NODE_ENV !== "production")
-    logger.backend("Current directory: " + __dirname);
+        logger.backend("Current directory: " + __dirname);
 
     const redisTokens = await redis.get('tokens') || {};
     const tokens = JSON.parse(JSON.stringify(redisTokens))
@@ -63,48 +64,61 @@ async function main() {
         throw err;
     });
 
-    app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-
-    fs.readdirSync(path.join(__dirname, "routes")).forEach((fileName) => {
-        if (fileName.includes(".map")) return;
-        app.use(require(`./routes/${fileName}`));
+    const momentum = new Momentum({
+        url: 'http://127.0.0.1:8080',
+        apikey: "sileBwct4Qam0BhjvSfSa5a4H6Dmx7Rm"
     });
 
-    fs.readdirSync(path.join(__dirname, "api")).forEach((fileName) => {
-        if (fileName.includes(".map")) return;
-        app.use(require(`./api/${fileName}`));
-    });
+    app.get("/", async (req, res) => {
 
-    app.listen(PORT, () => {
-        logger.backend(`App started listening on port ${PORT}`);
+    const user = await momentum.getUser("username", "Zetax")
+    console.log(await user)
+    res.json(await user)
 
-        require("./xmpp/xmpp.js");
-        require("./bot/index.js");
-    }).on("error", async (err) => {
-        if (err.code == "EADDRINUSE") {
-            logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);
-            await functions.sleep(3000)
-            process.exit(0);
-        } else throw err;
-    });
+});
 
-    // if endpoint not found, return this error
-    app.use((req, res, next) => {
-        error.createError(
-            "errors.com.epicgames.common.not_found",
-            "Sorry the resource you were trying to find could not be found",
-            undefined, 1004, undefined, 404, res
-        );
-    });
+app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    function DateAddHours(pdate, number) {
-        let date = pdate;
-        date.setHours(date.getHours() + number);
+fs.readdirSync(path.join(__dirname, "routes")).forEach((fileName) => {
+    if (fileName.includes(".map")) return;
+    app.use(require(`./routes/${fileName}`));
+});
 
-        return date;
-    }
+fs.readdirSync(path.join(__dirname, "api")).forEach((fileName) => {
+    if (fileName.includes(".map")) return;
+    app.use(require(`./api/${fileName}`));
+});
+
+app.listen(PORT, () => {
+    logger.backend(`App started listening on port ${PORT}`);
+
+    require("./xmpp/xmpp.js");
+    require("./bot/index.js");
+}).on("error", async (err) => {
+    if (err.code == "EADDRINUSE") {
+        logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);
+        await functions.sleep(3000)
+        process.exit(0);
+    } else throw err;
+});
+
+// if endpoint not found, return this error
+app.use((req, res, next) => {
+    error.createError(
+        "errors.com.epicgames.common.not_found",
+        "Sorry the resource you were trying to find could not be found",
+        undefined, 1004, undefined, 404, res
+    );
+});
+
+function DateAddHours(pdate, number) {
+    let date = pdate;
+    date.setHours(date.getHours() + number);
+
+    return date;
+}
 
 }
 

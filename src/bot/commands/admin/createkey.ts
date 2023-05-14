@@ -16,9 +16,17 @@ module.exports = {
 
 		await interaction.deferReply({ ephemeral: true });
 
+		//generate 32 character key
+		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let result = '';
+		const charactersLength = characters.length;
+		for (let i = 0; i < 32; i++) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		}
+
 		const newKey = new Api({
 			created: Date.now(),
-			apiKey: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+			apiKey: result,
 			access: "user",
 		}, async (err, api) => {
 			if (err) return console.log(err);
