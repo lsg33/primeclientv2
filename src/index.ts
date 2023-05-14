@@ -19,6 +19,9 @@ async function main() {
 
     if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 
+    const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
+    global.version = packageJson.version;
+
     global.JWT_SECRET = functions.MakeID();
     const PORT = 8080;
 

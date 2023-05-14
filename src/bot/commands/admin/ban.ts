@@ -67,7 +67,7 @@ module.exports = {
             })
             .setTimestamp();
 
-        await interaction.edit({ embeds: [embed], ephemeral: true });
+        await interaction.editReply({ embeds: [embed], ephemeral: true });
         await interaction.options.getUser('user').send({ content: "Your account has been banned by an administrator" });
     }
 };
