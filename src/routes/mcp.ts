@@ -646,6 +646,8 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         case "Dance":
             if (!profile.items[activeLoadoutId].attributes.locker_slots_data.slots[req.body.slotName]) break;
 
+            if (typeof req.body.indexWithinSlot != "number") return ValidationError("indexWithinSlot", "a number", res);
+
             if (req.body.indexWithinSlot >= 0 && req.body.indexWithinSlot <= 5) {
                 profile.stats.attributes.favorite_dance[req.body.indexWithinSlot] = req.body.itemToSlot;
                 profile.items[activeLoadoutId].attributes.locker_slots_data.slots.Dance.items[req.body.indexWithinSlot] = templateId;
@@ -660,6 +662,8 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
 
         case "ItemWrap":
             if (!profile.items[activeLoadoutId].attributes.locker_slots_data.slots[req.body.slotName]) break;
+
+            if (typeof req.body.indexWithinSlot != "number") return ValidationError("indexWithinSlot", "a number", res);
 
             switch (true) {
                 case req.body.indexWithinSlot >= 0 && req.body.indexWithinSlot <= 7:

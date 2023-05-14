@@ -63,7 +63,7 @@ async function main() {
         throw err;
     });
 
-    app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 25 }));
+    app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
