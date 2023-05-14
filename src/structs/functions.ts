@@ -15,7 +15,7 @@ import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
     url: 'https://suited-grizzly-30318.upstash.io',
-    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiY2Y4MGQyZDBmOWZlNDQ3ZjgzMDQyZjMxZjJlNGVhMGY=',
+    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
 })
 
 async function sleep(ms) {

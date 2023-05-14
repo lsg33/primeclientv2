@@ -6,7 +6,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 
 const redis = new Redis({
     url: 'https://suited-grizzly-30318.upstash.io',
-    token: process.env.REDIS_TOKEN || "token",
+    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
 })
 
 async function verifyApikey(req, res, next) {
@@ -16,7 +16,6 @@ async function verifyApikey(req, res, next) {
 
     const cachedApi = await redis.get(apikey);
     if (cachedApi) {
-        console.log("Using cached api key");
         return next();
     }
 

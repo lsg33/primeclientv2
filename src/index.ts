@@ -28,8 +28,8 @@ async function main() {
     //Leaked my password oops, but I already reset it ;) - I'm using upstash.io for redis
     const redis = new Redis({
         url: 'https://suited-grizzly-30318.upstash.io',
-        token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiY2Y4MGQyZDBmOWZlNDQ3ZjgzMDQyZjMxZjJlNGVhMGY=',
-    })
+        token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
+      })
     //const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
     if (process.env.NODE_ENV !== "production")
         logger.backend("Current directory: " + __dirname);

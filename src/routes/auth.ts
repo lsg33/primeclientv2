@@ -1,3 +1,5 @@
+import { EmbedBuilder } from "discord.js";
+
 export { };
 
 const express = require("express");
@@ -12,15 +14,33 @@ const tokenCreation = require("../tokenManager/tokenCreation.js");
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user.js");
 
-const { Redis } = require('@upstash/redis')
-const redis = new Redis({
-    url: 'https://suited-grizzly-30318.upstash.io',
-    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiY2Y4MGQyZDBmOWZlNDQ3ZjgzMDQyZjMxZjJlNGVhMGY=',
-})
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
+const Discord = require("discord.js");
 
-import logger from '../structs/log';
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+	],
+	presence: {
+		activities: [{
+			name: 'Momentum',
+			type: ActivityType.Playing,
+		}],
+		status: 'online',
+	},
+});
+console.log("Bot is starting up...");
+client.login(process.env.BOT_TOKEN);
 
-app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: string; }; body: { grant_type?: any; username?: any; password?: any; refresh_token?: any; exchange_code?: any; }; ip: any; user: { password: any; banned: any; accountId: any; username: any; }; }, res: { json: (arg0: { access_token: string; expires_in: number; expires_at: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; refresh_token?: string; refresh_expires?: number; refresh_expires_at?: any; account_id?: any; displayName?: any; app?: string; in_app_id?: any; device_id?: any; }) => void; }) => {
+client.once(Events.ClientReady, c => {
+    console.log(`2FA Bot ready! Logged in as ${c.user.tag}`);
+});
+
+app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: string; }; body: { grant_type?: any; username?: any; password?: any; refresh_token?: any; exchange_code?: any; }; ip: any; user }, res: { json: (arg0: { access_token: string; expires_in: number; expires_at: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; refresh_token?: string; refresh_expires?: number; refresh_expires_at?: any; account_id?: any; displayName?: any; app?: string; in_app_id?: any; device_id?: any; }) => void; }) => {
     let clientId: any[];
 
     try {
@@ -183,6 +203,27 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
     const decodedAccess = jwt.decode(accessToken);
     const decodedRefresh = jwt.decode(refreshToken);
+
+    const discordId = req.user.discordId || null;
+
+    console.log(`[LOGIN] ${req.user.username} logged in with discord id ${discordId}`);
+
+    const embed = new EmbedBuilder()
+        .setColor('#0099ff')
+        .setTitle('Report')
+        .setURL('https://nexusfn.io/')
+        .setDescription("New login detected! Was this you?")
+        .addFields(
+                { name: 'Account name', value: req.user.username , inline: true },
+                )
+        .setTimestamp()
+        .setFooter({
+            text: 'Fortnite Nexus',
+            iconURL: 'https://cdn.discordapp.com/icons/1063363261803802695/8f44ff31e2a8f0dab8143bda2c0e4db7.webp?size=512'
+        });
+
+    const discordUser = await client.users.fetch(discordId);
+    if (discordUser) discordUser.send(embed);
 
     res.json({
         access_token: `eg1~${accessToken}`,

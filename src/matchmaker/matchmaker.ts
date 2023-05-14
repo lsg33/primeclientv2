@@ -3,7 +3,6 @@ export { };
 const functions = require("../structs/functions.js");
 
 module.exports = async (ws) => {
-    // create hashes
     const ticketId = functions.MakeID().replace(/-/ig, "");
     const matchId = functions.MakeID().replace(/-/ig, "");
     const sessionId = functions.MakeID().replace(/-/ig, "");
@@ -13,9 +12,9 @@ module.exports = async (ws) => {
     Waiting();
     await functions.sleep(1000);
     Queued();
-    await functions.sleep(4000);
+    await functions.sleep(1000);
     SessionAssignment();
-    await functions.sleep(2000);
+    await functions.sleep(1000);
     Join();
 
     function Connecting() {
