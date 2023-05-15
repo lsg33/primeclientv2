@@ -2,24 +2,25 @@
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/) 
 ![size](https://img.shields.io/github/repo-size/Nexus-FN/Momentum?label=Size&style=for-the-badge)
+![](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
 
 Momentum is a fork of the popular Fortnite Backend LawinServer. It is aimed to improve the stability and be more suitable for production use.
 
 I just released a new NPM package called "MomentumSDK" which allows you to easily interact with Momentum. You can find it here:
 
-https://www.npmjs.com/package/momentumsdk
-
-![](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
+[![NPM](https://nodei.co/npm/momentumsdk.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/molmentumsdk)
 
 ### Installation
 
+While the installation may look hard and complex, it's actually really simple and takes about 5-10 minutes, I will make a Youtube Tutorial about it soon though.
+
 #### Requirements
 
-- Redis (Soon Optional)
-- NodeJS
-- NPM
-- Discord Bot
-- Cloudflare R2 Bucket (Soon Optional)
+- Upstash Redis (Soon Optional) [Find out how to create a redis database here](https://github.com/Nexus-FN/Momentum), it's really simple.
+- NodeJS Download [here](https://nodejs.org/en)
+- NPM (Automatically installed when installing NodeJS)
+- Discord Bot [Create one here](https://discord.com/developers/)
+- Cloudflare R2 Bucket / S3 Bucket (Soon Optional) [Find out how to create one here](https:/github.com/Nexus-FN/Momentum)
 
 #### Using Docker (Recommended)
 
@@ -37,7 +38,8 @@ CLIENT_ID="Your discord bot client id"
 GUILD_ID="Your discord guild id"
 GLOBALCHATENABLED="true"
 NAME="Name it whatever you want (But no spaces!), eg. Momentum"
-USE_REDIS = "true"
+USE_REDIS="true"
+REDIS_TOKEN="Your upstash token"
 ```
 
 Pull the Docker image using the following command:
@@ -56,7 +58,7 @@ docker run -d -p 8080:8080 80:80 nexus-fn/momentum --env-file .env
 
 - Download the repository and extract it.
 - Install NodeJS and NPM. (https://nodejs.org/en/download/)
-- Rename .env.example to .env and fill in the values.
+- Rename .env.example to .env and fill in the required values. (Requirements can be found at the top of this page)
 
 ```powershell
 npm install
@@ -65,27 +67,14 @@ npm run start
 ```
 
 
-#### Features
+#### New Features
+Features that do not exist in LawinV2
 
-* CloudStorage and ClientSettings (Settings Saving).
+* CloudStorage and ClientSettings (Settings Saving) in the Cloud.
 * Account:
   + 2FA
   + Suspicous Login Detection
-* Locker:
-    + Changing items.
-    + Changing item edit styles.
-    + Favoriting items.
-    + Marking items as seen.
-* Friends:
-    + Adding friends.
-    + Accepting friend requests.
-    + Removing friends.
-    + Blocking friends.
-* Item Shop:
-    + Customizable Item Shop.
-    + Purchasing items from the Item Shop.
 * Matchmaking:
   * Matchmaking with friends.
-  * Matchmaking with random players.
   * Random server selection.
   * Waiting until server is ready.
