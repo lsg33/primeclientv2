@@ -5,7 +5,7 @@ class logger {
     
     public bot(message: string) {
     
-        console.log(`\x1b[35mBOT\x1b[0m: ${message}`);
+        console.log(`\x1b[37m[\x1b[35mBOT\x1b[0m\x1b[37m] ${message}`)
     }
     
     public xmpp(message: string) {

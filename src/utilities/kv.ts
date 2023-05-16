@@ -1,6 +1,5 @@
 const kvjs = require('@heyputer/kv.js');
 import { Redis } from '@upstash/redis'
-import { Bool } from 'aws-sdk/clients/clouddirectory';
 import path from 'path';
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
@@ -11,8 +10,8 @@ let redis: Redis;
 
 if (process.env.USE_REDIS) {
     redis = new Redis({
-        url: 'https://suited-grizzly-30318.upstash.io',
-        token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
+        url: process.env.REDIS_URL || 'redis://localhost:6379',
+        token: process.env.REDIS_TOKEN || 'token',
     })
 }
 

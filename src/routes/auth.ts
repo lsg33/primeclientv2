@@ -44,11 +44,11 @@ const client = new Client({
 		status: 'online',
 	},
 });
-console.log("Bot is starting up...");
+logger.bot("MFA Bot is starting up...");
 client.login(process.env.BOT_TOKEN);
 
 client.once(Events.ClientReady, c => {
-    console.log(`2FA Bot ready! Logged in as ${c.user.tag}`);
+    logger.bot(`2FA Bot ready! Logged in as ${c.user.tag}`);
 });
 
 function waitFor2FA(req: { user: { discordId: any; }; }) {

@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
+import logger from '../structs/log';
 
 const kvjs = require('@heyputer/kv.js');
 const kv = new kvjs();
@@ -51,14 +52,14 @@ for (const folder of commandFolders) {
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			logger.error(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
 };
 
 
 client.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+	logger.bot(`Ready! Logged in as ${c.user.tag}`);
 });
 
 client.on("messageCreate", (message) => {
@@ -76,8 +77,8 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	try {
 		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
+	} catch (error:any) {
+		logger.error(error.toString());
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
 		} else {
