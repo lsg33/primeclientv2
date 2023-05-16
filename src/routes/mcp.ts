@@ -93,7 +93,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -273,7 +273,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         multiUpdate: MultiUpdate,
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
 
 });
@@ -348,7 +348,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -431,7 +431,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", ve
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -546,7 +546,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyT
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -754,7 +754,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -884,7 +884,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
@@ -1107,7 +1107,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
-
+    if (ApplyProfileChanges.length > 0)
     await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
 
 });
