@@ -17,7 +17,17 @@ module.exports = {
         const user = await Users.findOne({ discordId: interaction.user.id });
         if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
 
-        //toggle mfa in mongodb
+        if(!user.mfa) {
+            await interaction.user.send("Checking if your dms are enabled to enable MFA. Ignore this message if you can see it. Deleting in 10 seconds").then(msg => {
+                setTimeout(() => {
+                    msg.delete();
+                }, 10000);
+            }).catch(() => {
+                interaction.reply({ content: "Please enable your dms to use this command", ephemeral: true });
+                return;
+            });
+        }
+
         const updatedUser = await Users.findOneAndUpdate({ discordId: interaction.user.id }, { mfa: !user.mfa }, { new: true });
 
         const embed = new EmbedBuilder()

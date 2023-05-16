@@ -23,32 +23,10 @@ const kv = new kvjs();
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const Discord = require("discord.js");
 
-const client = new Client({
-	partials: ['CHANNEL', "MESSAGE", "REACTION"],
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildMessageReactions,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.DirectMessages,
-		GatewayIntentBits.DirectMessageReactions,
-		GatewayIntentBits.DirectMessageTyping,
-		GatewayIntentBits.GuildMessageTyping,
-	],
-	presence: {
-		activities: [{
-			name: 'Momentum',
-			type: ActivityType.Playing,
-		}],
-		status: 'online',
-	},
-});
-logger.bot("MFA Bot is starting up...");
-client.login(process.env.BOT_TOKEN);
+import client from "../bot/index";
 
 client.once(Events.ClientReady, c => {
-    logger.bot(`2FA Bot ready! Logged in as ${c.user.tag}`);
+    logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);
 });
 
 function waitFor2FA(req: { user: { discordId: any; }; }) {
