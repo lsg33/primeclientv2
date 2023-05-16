@@ -10,6 +10,16 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 
 [![NPM](https://nodei.co/npm/momentumsdk.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/momentumsdk)
 
+### New Features
+
+- [x] 2FA (Two Factor Authentication aka Multi-Factor Authentication)
+- [x] vBuck adjustments
+- [x] Matchmaking system
+
+## Here's a preview of the new 2FA system:
+
+![](https://cdn.nexusfn.net/file/2023/05/Discord_VMLHdyEEV1.gif)
+
 ### Installation
 
 While the installation may look hard and complex, it's actually really simple and takes about 5-10 minutes, I will make a Youtube Tutorial about it soon though.

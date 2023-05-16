@@ -14,24 +14,33 @@ const tokenCreation = require("../tokenManager/tokenCreation.js");
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user.js");
 
+const kvjs = require('@heyputer/kv.js');
+
+const kv = new kvjs();
+
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const Discord = require("discord.js");
 
 const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers,
-    ],
-    presence: {
-        activities: [{
-            name: 'Momentum',
-            type: ActivityType.Playing,
-        }],
-        status: 'online',
-    },
+	partials: ['CHANNEL', "MESSAGE", "REACTION"],
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.DirectMessageReactions,
+		GatewayIntentBits.DirectMessageTyping,
+		GatewayIntentBits.GuildMessageTyping,
+	],
+	presence: {
+		activities: [{
+			name: 'Momentum',
+			type: ActivityType.Playing,
+		}],
+		status: 'online',
+	},
 });
 console.log("Bot is starting up...");
 client.login(process.env.BOT_TOKEN);
@@ -39,6 +48,18 @@ client.login(process.env.BOT_TOKEN);
 client.once(Events.ClientReady, c => {
     console.log(`2FA Bot ready! Logged in as ${c.user.tag}`);
 });
+
+function waitFor2FA(req: { user: { discordId: any; }; }) {
+    return new Promise<void>((resolve) => {
+        const checkCondition = async () => {
+            while (await kv.get(req.user.discordId) !== "true") {
+                await new Promise((r) => setTimeout(r, 1000));
+            }
+            resolve();
+        };
+        checkCondition();
+    });
+}
 
 app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: string; }; body: { grant_type?: any; username?: any; password?: any; refresh_token?: any; exchange_code?: any; }; ip: any; user }, res: { json: (arg0: { access_token: string; expires_in: number; expires_at: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; refresh_token?: string; refresh_expires?: number; refresh_expires_at?: any; account_id?: any; displayName?: any; app?: string; in_app_id?: any; device_id?: any; }) => void; }) => {
     let clientId: any[];
@@ -204,25 +225,64 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     const decodedAccess = jwt.decode(accessToken);
     const decodedRefresh = jwt.decode(refreshToken);
 
-    const discordId = req.user.discordId || null;
+    if(req.user.mfa) {
 
-    const embed = new EmbedBuilder()
-        .setColor('#313338')
-        .setTitle('Login')
-        .setDescription("New login detected! Was this you?")
-        .addFields(
-            { name: 'Account name', value: req.user.username, inline: false },
-            { name: 'Account ID', value: req.user.accountId, inline: true },
-            { name: 'IP Address', value: req.ip, inline: false },
-        )
-        .setTimestamp()
-        .setFooter({
-            text: 'Fortnite Nexus',
-            iconURL: 'https://cdn.discordapp.com/icons/1063363261803802695/8f44ff31e2a8f0dab8143bda2c0e4db7.webp?size=512'
+        const discordId = req.user.discordId || null;
+
+        await kv.set(req.user.discordId, "false");
+    
+        const embed = new EmbedBuilder()
+            .setColor('#313338')
+            .setTitle('New Login')
+            .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
+            .addFields(
+                { name: 'Account name', value: req.user.username, inline: false },
+                { name: 'Account ID', value: req.user.accountId, inline: true },
+                { name: 'IP Address', value: req.ip, inline: false },
+            )
+            .setTimestamp()
+            .setFooter({
+                text: 'Momentum',
+                iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
+            });
+            
+    
+        const discordUser = await client.users.fetch(discordId);
+        const sentMessage = await discordUser.send({ embeds: [embed] });
+    
+        await sentMessage.react('✅');
+        await sentMessage.react('❌');
+    
+        const collectorFilter = (reaction, user) => {
+            return ['✅', '❌'].includes(reaction.emoji.name);
+        };
+    
+        await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
+        .then(async collected => {
+            const reaction = collected.first();
+    
+            if (reaction.emoji.name === '✅') {
+                await kv.set(req.user.discordId, "true");
+                await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
+            } else {
+                await kv.set(req.user.discordId, "false");
+                error.createError(
+                    "errors.com.epicgames.account.oauth.user_denied",
+                    "User denied the request.",
+                    [], 18058, "access_denied", 400, res
+                );
+                await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+            }
+        })
+        .catch(collected => {
+            sentMessage.reply('Your reaction was not detected in time, please try again.');
         });
-
-    const discordUser = await client.users.fetch(discordId);
-    if (discordUser) discordUser.send({ embeds: [embed] });
+    
+        //Wait for 2FA
+        await waitFor2FA(req);
+    } else {
+        console.log("No 2FA: " + req.user.mfa + " | " + req.user.username);
+    }
 
     res.json({
         access_token: `eg1~${accessToken}`,
@@ -241,6 +301,9 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
         in_app_id: req.user.accountId,
         device_id: deviceId
     });
+
+    await kv.set(req.user.discordId, 'false');
+
 });
 
 app.get("/account/api/oauth/verify", verifyToken, (req: { headers: { [x: string]: string; }; user: { accountId: any; username: any; }; }, res: { json: (arg0: { token: any; session_id: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; account_id: any; expires_in: number; expires_at: any; auth_method: any; display_name: any; app: string; in_app_id: any; device_id: any; }) => void; }) => {
@@ -262,36 +325,6 @@ app.get("/account/api/oauth/verify", verifyToken, (req: { headers: { [x: string]
         app: "fortnite",
         in_app_id: req.user.accountId,
         device_id: decodedToken.dvid
-    });
-});
-
-app.get("/account/api/oauth/exchange", verifyToken, (req: { headers: { [x: string]: string; }; user: { accountId: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string; }): any; new(): any; }; }; json: (arg0: { expiresInSeconds: number; code: any; creatingClientId: any; }) => void; }) => {
-    return res.status(400).json({
-        "error": "This endpoint is deprecated, please use the discord bot to generate an exchange code."
-    });
-    // remove the return code above if you still want to make use of this endpoint
-
-    let token = req.headers["authorization"].replace("bearer ", "");
-    const exchange_code = functions.MakeID().replace(/-/ig, "");
-
-    const decodedToken = jwt.decode(token.replace("eg1~", ""));
-
-    global.exchangeCodes.push({
-        accountId: req.user.accountId,
-        exchange_code: exchange_code,
-        creatingClientId: decodedToken.clid
-    });
-
-    setTimeout(() => {
-        let exchangeCode = global.exchangeCodes.findIndex((i: { exchange_code: any; }) => i.exchange_code == exchange_code);
-
-        if (exchangeCode != -1) global.exchangeCodes.splice(exchangeCode, 1);
-    }, 300000) // remove exchange code in 5 minutes if unused
-
-    res.json({
-        expiresInSeconds: 300,
-        code: exchange_code,
-        creatingClientId: decodedToken.clid
     });
 });
 

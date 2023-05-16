@@ -1,9 +1,14 @@
+import { ReactionCollector } from "discord.js";
+
 export { }
 
 const dotenv = require("dotenv");
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
+
+const kvjs = require('@heyputer/kv.js');
+const kv = new kvjs();
 
 const refreshCommands = require('./deploy-commands');
 
@@ -12,12 +17,17 @@ const fs = require('node:fs');
 const token = process.env.BOT_TOKEN;
 
 const client = new Client({
+	partials: ['CHANNEL', "MESSAGE", "REACTION"],
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildMessageReactions,
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.DirectMessages,
+		GatewayIntentBits.DirectMessageReactions,
+		GatewayIntentBits.DirectMessageTyping,
+		GatewayIntentBits.GuildMessageTyping,
 	],
 	presence: {
 		activities: [{
@@ -44,7 +54,8 @@ for (const folder of commandFolders) {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		}
 	}
-}
+};
+
 
 client.once(Events.ClientReady, c => {
 	console.log(`Ready! Logged in as ${c.user.tag}`);
