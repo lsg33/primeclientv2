@@ -74,7 +74,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -93,6 +93,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyToken, async (req, res) => {
@@ -249,7 +252,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -270,6 +273,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         multiUpdate: MultiUpdate,
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, async (req, res) => {
@@ -323,7 +329,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -342,6 +348,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", verifyToken, async (req, res) => {
@@ -403,7 +412,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", ve
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -422,6 +431,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", ve
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyToken, async (req, res) => {
@@ -515,7 +527,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyT
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -534,6 +546,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyT
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization", verifyToken, async (req, res) => {
@@ -720,7 +735,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -739,6 +754,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verifyToken, async (req, res) => {
@@ -847,7 +865,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -866,6 +884,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyToken, async (req, res) => {
@@ -1067,7 +1088,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
         profile.commandRevision += 1;
         profile.updated = new Date().toISOString();
 
-        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+//        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
     if (QueryRevision != BaseRevision) {
@@ -1086,6 +1107,9 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
         serverTime: new Date().toISOString(),
         responseVersion: 1
     });
+
+    await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async (req, res) => {
