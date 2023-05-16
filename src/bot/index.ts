@@ -62,12 +62,6 @@ client.once(Events.ClientReady, c => {
 	logger.bot(`Ready! Logged in as ${c.user.tag}`);
 });
 
-client.on("messageCreate", (message) => {
-	if (message.mentions.users.has(client.user.id)) { // this could be modified to make it have to *start* with or have only a ping
-		message.reply("Hey!.")
-	}
-});
-
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
