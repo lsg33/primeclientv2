@@ -26,11 +26,11 @@ While the installation may look hard and complex, it's actually really simple an
 
 #### Requirements
 
-- Upstash Redis (Optional but recommended) [Find out how to create a redis database here](https://github.com/Nexus-FN/Momentum), it's really simple.
+- Upstash Redis (Optional but recommended) [Find out how to create a redis database here](https://docs.upstash.com/redis), it's really simple.
 - NodeJS Download [here](https://nodejs.org/en)
 - NPM (Automatically installed when installing NodeJS)
 - Discord Bot [Create one here](https://discord.com/developers/)
-- Cloudflare R2 Bucket / S3 Bucket (Soon Optional) [Find out how to create one here](https:/github.com/Nexus-FN/Momentum)
+- Cloudflare R2 Bucket / S3 Bucket (Soon Optional) [Find out how to create one here](https://developers.cloudflare.com/r2/get-started/)
 
 #### Using Docker (Recommended)
 
