@@ -26,7 +26,7 @@ While the installation may look hard and complex, it's actually really simple an
 
 #### Requirements
 
-- Upstash Redis (Soon Optional) [Find out how to create a redis database here](https://github.com/Nexus-FN/Momentum), it's really simple.
+- Upstash Redis (Optional but recommended) [Find out how to create a redis database here](https://github.com/Nexus-FN/Momentum), it's really simple.
 - NodeJS Download [here](https://nodejs.org/en)
 - NPM (Automatically installed when installing NodeJS)
 - Discord Bot [Create one here](https://discord.com/developers/)
