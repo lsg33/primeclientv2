@@ -10,6 +10,8 @@ RUN npm install -g typescript
 COPY . .
 RUN  tsc
 
+ENV NODE_ENV=production
+
 EXPOSE 8080
 EXPOSE 80
 
