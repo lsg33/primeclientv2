@@ -7,10 +7,6 @@ const functions = require("../structs/functions.js");
 const error = require("../structs/error.js");
 
 const { Redis } = require('@upstash/redis')
-const redis = new Redis({
-    url: 'https://suited-grizzly-30318.upstash.io',
-    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
-})
 
 import logger from '../structs/log';
 

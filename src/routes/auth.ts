@@ -7,6 +7,8 @@ const app = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+import logger  from '../structs/log';
+
 const error = require("../structs/error.js");
 const functions = require("../structs/functions.js");
 
@@ -254,7 +256,8 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
         await sentMessage.react('❌');
     
         const collectorFilter = (reaction, user) => {
-            return ['✅', '❌'].includes(reaction.emoji.name);
+            logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
+            return ['✅', '❌'].includes(reaction.emoji.name) && user.id === user.id;
         };
     
         await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })

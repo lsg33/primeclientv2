@@ -1,3 +1,5 @@
+import kv from "../utilities/kv";
+
 export { };
 
 const XMLBuilder = require("xmlbuilder");
@@ -11,12 +13,6 @@ const User = require("../model/user.js");
 const Profile = require("../model/profiles.js");
 const profileManager = require("../structs/profile.js");
 const Friends = require("../model/friends.js");
-import { Redis } from '@upstash/redis'
-
-const redis = new Redis({
-    url: 'https://suited-grizzly-30318.upstash.io',
-    token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
-})
 
 async function sleep(ms) {
     await new Promise((resolve, reject) => {
@@ -328,7 +324,7 @@ function UpdateTokens() {
         refreshTokens: global.refreshTokens,
         clientTokens: global.clientTokens
     }, null, 2));
-    redis.set("tokens", JSON.stringify({
+    kv.set("tokens", JSON.stringify({
         accessTokens: global.accessTokens,
         refreshTokens: global.refreshTokens,
         clientTokens: global.clientTokens

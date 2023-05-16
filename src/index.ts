@@ -14,6 +14,7 @@ const functions = require("./structs/functions.js");
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import Momentum from 'momentumsdk'
+import kv from './utilities/kv';
 
 async function main() {
 
@@ -25,17 +26,18 @@ async function main() {
     global.JWT_SECRET = functions.MakeID();
     const PORT = 8080;
 
-    //Leaked my password oops, but I already reset it ;) - I'm using upstash.io for redis
-    const redis = new Redis({
-        url: 'https://suited-grizzly-30318.upstash.io',
-        token: 'AXZuASQgNTBiNzBiY2QtMTFhYS00NjM5LThmMzktOTJhYTE0YjRmYzdiNzRkYTk1MjVjMDRkNDEwNTg0MzY4ZDFiMjdlNWRiNmY=',
-      })
-    //const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
-    if (process.env.NODE_ENV !== "production")
-        logger.backend("Current directory: " + __dirname);
+    let redisTokens;
+    let tokens;
 
-    const redisTokens = await redis.get('tokens') || {};
-    const tokens = JSON.parse(JSON.stringify(redisTokens))
+    //Cannot use MemoryKV for this because it doesnt stay after restart
+    if(process.env.USE_REDIS) {
+        redisTokens = await kv.get('tokens') || {};
+        logger.debug("Redis tokens");
+        tokens = JSON.parse(JSON.stringify(redisTokens))   
+    } else {
+        logger.debug("File tokens");
+        tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
+    };
 
     for (let tokenType in tokens) {
         for (let tokenIndex in tokens[tokenType]) {
@@ -47,10 +49,19 @@ async function main() {
         }
     }
 
-    //fs.writeFileSync(path.join(__dirname, "../tokens.json"), JSON.stringify(tokens, null, 2) || "");
-    const setTokens = await redis.set('tokens', JSON.stringify(tokens, null, 2));
-    if (process.env.NODE_ENV !== "production")
-        logger.backend("Redis set tokens status: " + setTokens);
+    let setTokens: Boolean = false;
+
+    logger.debug("Use Redis: " + process.env.USE_REDIS);
+
+    //Cannot use MemoryKV for this because it doesnt stay after restart
+    if(process.env.USE_REDIS) {
+        logger.debug("Redis set tokens");
+        setTokens = await kv.set('tokens', JSON.stringify(tokens, null, 2));
+    } else {
+        logger.debug("File set tokens");
+        fs.writeFileSync(path.join(__dirname, "../tokens.json"), JSON.stringify(tokens, null, 2) || "");
+    };
+    logger.debug("Redis set tokens status: " + setTokens);
 
     global.accessTokens = tokens.accessTokens;
     global.refreshTokens = tokens.refreshTokens;

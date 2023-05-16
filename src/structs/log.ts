@@ -31,6 +31,12 @@ class logger {
         console.log(`\x1b[37m[\x1b[33mPANEL\x1b[0m\x1b[37m] ${message}`);
     }
 
+    public debug(message: string) {
+        if(process.env.NODE_ENV !== "production") {
+            console.log(`\x1b[37m[\x1b[34mDEBUG\x1b[0m\x1b[37m] ${message}`);
+        }
+    }
+
 }
 
 export default new logger();
