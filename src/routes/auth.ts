@@ -230,8 +230,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
         const discordUser = await client.users.fetch(discordId);
         const sentMessage = await discordUser.send({ embeds: [embed] });
     
-        await sentMessage.react('✅');
-        await sentMessage.react('❌');
+        await sentMessage.react('✅').then(() => sentMessage.react('❌'));
     
         const collectorFilter = (reaction, user) => {
             logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
@@ -253,9 +252,15 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                     [], 18058, "access_denied", 400, res
                 );
                 await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+                setTimeout(() => {
+                    sentMessage.delete();
+                }, 10000);
             }
         })
         .catch(collected => {
+            setTimeout(() => {
+                sentMessage.delete();
+            }, 10000);
             sentMessage.reply('Your reaction was not detected in time, please try again.');
         });
     
