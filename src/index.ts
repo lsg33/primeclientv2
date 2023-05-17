@@ -15,6 +15,7 @@ const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import Momentum from 'momentumsdk'
 import kv from './utilities/kv';
+import log from './structs/log';
 
 async function main() {
 
@@ -33,7 +34,12 @@ async function main() {
     if (process.env.USE_REDIS === "true") {
         redisTokens = await kv.get('tokens') || {};
         logger.debug("Redis tokens");
-        tokens = JSON.parse(JSON.stringify(redisTokens))
+        try {
+            tokens = JSON.parse(JSON.stringify(redisTokens))
+        } catch(err) {
+            await kv.set('tokens', fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
+            log.error("Redis tokens error, resetting tokens.json");
+        }
     } else {
         logger.debug("File tokens");
         tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
