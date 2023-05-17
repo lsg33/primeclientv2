@@ -247,8 +247,8 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
         return res.json([{
             "uniqueFilename": "ClientSettings.Sav",
             "filename": "ClientSettings.Sav",
-            "hash": crypto.createHash('sha1').update(random).digest('hex'),
-            "hash256": crypto.createHash('sha256').update(random).digest('hex'),
+            "hash": crypto.createHash('sha1').update(random.toString()).digest('hex'),
+            "hash256": crypto.createHash('sha256').update(random.toString()).digest('hex'),
             "length": s3Object.toString().length,
             "contentType": "application/octet-stream",
             "uploaded": mtime,

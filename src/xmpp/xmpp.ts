@@ -25,6 +25,8 @@ global.MUCs = {};
 
 app.get("/", (req, res) => {
     res.type("application/json");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("id", "F5zjBFjE4zv8SSEtraFwQDeYVK4KQ/XbQkQPTBT+dGA=")
 
     let data = JSON.stringify({
         "Clients": {
@@ -38,6 +40,7 @@ app.get("/", (req, res) => {
 
 app.get("/clients", (req, res) => {
     res.type("application/json");
+    res.header("id", "F5zjBFjE4zv8SSEtraFwQDeYVK4KQ/XbQkQPTBT+dGA=")
     
     let data = JSON.stringify({
         "amount": global.Clients.length,
@@ -219,16 +222,30 @@ wss.on('connection', async (ws) => {
 
                         if (!MUC.members.find(i => i.accountId == accountId)) return;
 
+                        switch (body.up().toString()) {
+                            case body.up.up().toString().includes("!help"):
+                                //send message with all commands back to the client
+                                receiver.client.send(XMLBuilder.create("message")
+                                .attribute("to", jid)
+                                .attribute("from", getMUCmember(roomName, displayName, accountId, resource))
+                                .attribute("xmlns", "jabber:client")
+                                .attribute("type", "chat")
+                                .element("body", body).up().toString());
+                            break;
+                        }
+
                         MUC.members.forEach(member => {
                             let ClientData = global.Clients.find(i => i.accountId == member.accountId);
                             if (!ClientData) return;
 
+                            let commands = `!help - Shows all commands\n!ping - Pong!`;
+
                             ClientData.client.send(XMLBuilder.create("message")
-                            .attribute("to", ClientData.jid)
-                            .attribute("from", getMUCmember(roomName, displayName, accountId, resource))
+                            .attribute("to", jid)
+                            .attribute("from", `${jid}`)
                             .attribute("xmlns", "jabber:client")
                             .attribute("type", "groupchat")
-                            .element("body", body).up().toString());
+                            .element("body", commands)).up().toString();
                         });
                     return;
                 }

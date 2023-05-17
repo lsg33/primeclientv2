@@ -1,3 +1,5 @@
+import safety from "../utilities/safety";
+
 export { };
 
 const express = require("express");
@@ -9,7 +11,7 @@ const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
 
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
-    let resp = config.chat.EnableGlobalChat ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
+    let resp = safety.env.GLOBALCHATENABLED ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
 
     res.json(resp);
 });

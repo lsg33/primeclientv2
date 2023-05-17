@@ -54,7 +54,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         if (Number.isNaN(calculatePort) || !calculatePort) throw new Error("Invalid port.");
 
         gameServerInfo.serverPort = calculatePort;
-    } catch {}
+    } catch { }
 
     res.json({
         "id": req.params.sessionId,
@@ -68,19 +68,19 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         "maxPrivatePlayers": 0,
         "openPrivatePlayers": 0,
         "attributes": {
-          "REGION_s": "EU",
-          "GAMEMODE_s": "FORTATHENA",
-          "ALLOWBROADCASTING_b": true,
-          "SUBREGION_s": "GB",
-          "DCID_s": "FORTNITE-LIVEEUGCEC1C2E30UBRCORE0A-14840880",
-          "tenant_s": "Fortnite",
-          "MATCHMAKINGPOOL_s": "Any",
-          "STORMSHIELDDEFENSETYPE_i": 0,
-          "HOTFIXVERSION_i": 0,
-          "PLAYLISTNAME_s": "Playlist_DefaultSolo",
-          "SESSIONKEY_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
-          "TENANT_s": "Fortnite",
-          "BEACONPORT_i": 15009
+            "REGION_s": "EU",
+            "GAMEMODE_s": "FORTATHENA",
+            "ALLOWBROADCASTING_b": true,
+            "SUBREGION_s": "GB",
+            "DCID_s": "FORTNITE-LIVEEUGCEC1C2E30UBRCORE0A-14840880",
+            "tenant_s": "Fortnite",
+            "MATCHMAKINGPOOL_s": "Any",
+            "STORMSHIELDDEFENSETYPE_i": 0,
+            "HOTFIXVERSION_i": 0,
+            "PLAYLISTNAME_s": "Playlist_DefaultSolo",
+            "SESSIONKEY_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
+            "TENANT_s": "Fortnite",
+            "BEACONPORT_i": 15009
         },
         "publicPlayers": [],
         "privatePlayers": [],
@@ -96,7 +96,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         "buildUniqueId": buildUniqueId[req.user.accountId] || "0",
         "lastUpdated": new Date().toISOString(),
         "started": false
-      });
+    });
 });
 
 app.post("/fortnite/api/matchmaking/session/*/join", (req, res) => {

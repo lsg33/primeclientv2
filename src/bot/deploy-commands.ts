@@ -38,7 +38,7 @@ const rest = new REST().setToken(token);
 // and deploy your commands!
 (async () => {
 	try {
-		logger.bot(`Started refreshing ${commands.length} application (/) commands.`);
+		logger.debug(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
@@ -46,7 +46,7 @@ const rest = new REST().setToken(token);
 			{ body: commands },
 		);
 
-		logger.bot(`Successfully reloaded ${data.length} application (/) commands.`);
+		logger.debug(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
 		console.error(error);

@@ -37,6 +37,10 @@ class logger {
         }
     }
 
+    public warn(message: string) {
+        console.log(`\x1b[33mWARN\x1b[0m: ${message}`);
+    }
+
 }
 
 export default new logger();

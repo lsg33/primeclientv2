@@ -234,7 +234,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     
         const collectorFilter = (reaction, user) => {
             logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
-            return ['✅', '❌'].includes(reaction.emoji.name) && user.id === user.id;
+            return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
         };
     
         await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })

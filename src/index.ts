@@ -15,15 +15,17 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import kv from './utilities/kv';
 import log from './structs/log';
 import safety from './utilities/safety';
+import update from './utilities/update';
+
+const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
 safety.checkENV();
+update.checkForUpdate(packageJson.version);
+
 
 async function main() {
 
     if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
-
-    const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
-    global.version = packageJson.version;
 
     global.JWT_SECRET = functions.MakeID();
     const PORT = 8080;
