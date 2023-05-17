@@ -107,6 +107,72 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             else {
                 if (!await bcrypt.compare(password, req.user.password)) return err();
             }
+
+            if(req.user.mfa) {
+
+                const discordId = req.user.discordId || null;
+        
+                await kv.set(req.user.discordId, "false");
+            
+                const embed = new EmbedBuilder()
+                    .setColor('#313338')
+                    .setTitle('New Login')
+                    .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
+                    .addFields(
+                        { name: 'Account name', value: req.user.username, inline: false },
+                        { name: 'Account ID', value: req.user.accountId, inline: true },
+                        { name: 'IP Address', value: req.ip, inline: false },
+                    )
+                    .setTimestamp()
+                    .setFooter({
+                        text: 'Momentum',
+                        iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
+                    });
+                    
+            
+                const discordUser = await client.users.fetch(discordId);
+                const sentMessage = await discordUser.send({ embeds: [embed] });
+            
+                await sentMessage.react('✅').then(() => sentMessage.react('❌'));
+            
+                const collectorFilter = (reaction, user) => {
+                    logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
+                    return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
+                };
+            
+                await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
+                .then(async collected => {
+                    const reaction = collected.first();
+            
+                    if (reaction.emoji.name === '✅') {
+                        await kv.set(req.user.discordId, "true");
+                        await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
+                    } else {
+                        await kv.set(req.user.discordId, "false");
+                        error.createError(
+                            "errors.com.epicgames.account.oauth.user_denied",
+                            "User denied the request.",
+                            [], 18058, "access_denied", 400, res
+                        );
+                        await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+                        setTimeout(() => {
+                            sentMessage.delete();
+                        }, 10000);
+                    }
+                })
+                .catch(collected => {
+                    setTimeout(() => {
+                        sentMessage.delete();
+                    }, 10000);
+                    sentMessage.reply('Your reaction was not detected in time, please try again.');
+                });
+            
+                //Wait for 2FA
+                await waitFor2FA(req);
+            } else {
+                console.log("No 2FA: " + req.user.mfa + " | " + req.user.username);
+            }
+
             break;
 
         case "refresh_token":
@@ -179,6 +245,12 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             return;
     }
 
+    if (req.user.banned === undefined) return error.createError(
+        "errors.com.epicgames.account.oauth.account_not_found",
+        "Sorry the account you are trying to login to does not exist",
+        [], 18056, "invalid_grant", 400, res
+    );
+
     if (req.user.banned) return error.createError(
         "errors.com.epicgames.account.account_not_active",
         "You have been permanently banned from Fortnite.",
@@ -204,71 +276,6 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
     const decodedAccess = jwt.decode(accessToken);
     const decodedRefresh = jwt.decode(refreshToken);
-
-    if(req.user.mfa) {
-
-        const discordId = req.user.discordId || null;
-
-        await kv.set(req.user.discordId, "false");
-    
-        const embed = new EmbedBuilder()
-            .setColor('#313338')
-            .setTitle('New Login')
-            .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
-            .addFields(
-                { name: 'Account name', value: req.user.username, inline: false },
-                { name: 'Account ID', value: req.user.accountId, inline: true },
-                { name: 'IP Address', value: req.ip, inline: false },
-            )
-            .setTimestamp()
-            .setFooter({
-                text: 'Momentum',
-                iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
-            });
-            
-    
-        const discordUser = await client.users.fetch(discordId);
-        const sentMessage = await discordUser.send({ embeds: [embed] });
-    
-        await sentMessage.react('✅').then(() => sentMessage.react('❌'));
-    
-        const collectorFilter = (reaction, user) => {
-            logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
-            return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
-        };
-    
-        await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
-        .then(async collected => {
-            const reaction = collected.first();
-    
-            if (reaction.emoji.name === '✅') {
-                await kv.set(req.user.discordId, "true");
-                await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
-            } else {
-                await kv.set(req.user.discordId, "false");
-                error.createError(
-                    "errors.com.epicgames.account.oauth.user_denied",
-                    "User denied the request.",
-                    [], 18058, "access_denied", 400, res
-                );
-                await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
-                setTimeout(() => {
-                    sentMessage.delete();
-                }, 10000);
-            }
-        })
-        .catch(collected => {
-            setTimeout(() => {
-                sentMessage.delete();
-            }, 10000);
-            sentMessage.reply('Your reaction was not detected in time, please try again.');
-        });
-    
-        //Wait for 2FA
-        await waitFor2FA(req);
-    } else {
-        console.log("No 2FA: " + req.user.mfa + " | " + req.user.username);
-    }
 
     res.json({
         access_token: `eg1~${accessToken}`,

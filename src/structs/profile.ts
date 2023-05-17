@@ -1,18 +1,25 @@
+import path from "path";
+import log from "./log";
+
 export { };
 
 const fs = require("fs");
 
-function createProfiles(accountId) {
-    let profiles = {};
+async function createProfiles(accountId: string) {
 
-    fs.readdirSync("./Config/DefaultProfiles").forEach(fileName => {
-        const profile = require(`../Config/DefaultProfiles/${fileName}`);
+    log.debug(`Creating profiles for account ${accountId}`);
+
+    let profiles:Object = {};
+
+    fs.readdirSync(path.join(__dirname, "../../Config/DefaultProfiles/")).forEach(fileName => {
+        const profile = require(path.join(__dirname, `../../Config/DefaultProfiles/${fileName}`));
 
         profile.accountId = accountId;
         profile.created = new Date().toISOString();
         profile.updated = new Date().toISOString();
 
         profiles[profile.profileId] = profile;
+        log.debug(`Created profile ${profile.profileId} for account ${accountId}`);
     });
 
     return profiles;

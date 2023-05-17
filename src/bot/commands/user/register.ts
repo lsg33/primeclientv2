@@ -1,4 +1,6 @@
 import { EmbedBuilder } from "discord.js";
+import log from "../../../structs/log";
+const Users = require('../../../model/user');
 
 export { }
 
@@ -30,71 +32,55 @@ module.exports = {
 		const email = interaction.options.getString('email');
 		const plainPassword = interaction.options.getString('password');
 
-		let error:boolean = false;
+		const user = await Users.findOne({ discordId: interaction.user.id });
+        if (user) return interaction.reply({ content: "You are already registered!", ephemeral: true });
 
-		const register = await functions.registerUser(discordId, username, email, plainPassword);
-		const message = register.message;
-		if (message.includes("error")) {
-			await interaction.reply({ content: message, ephemeral: true });
-			error = true;
-			return;
-		} else if (message.includes("already")) {
-			await interaction.reply({ content: message, ephemeral: true });
-			error = true;
-			return;
-		} else if (message.includes("password")) {
-			await interaction.reply({ content: message, ephemeral: true });
-			error = true;
-			return;
-		} else if (message.includes("valid ")) {
-			await interaction.reply({ content: message, ephemeral: true });
-			error = true;
-			return;
-		}
+		await functions.registerUser(discordId, username, email, plainPassword).then(async (res) => {
+			const publicembed = new EmbedBuilder()
+				.setTitle("Thank you!")
+				.setDescription("Thank you for registering at Momentum! As a reward you have been granted 500 vBucks you can use in the shop.")
+				.addFields(
+					{
+						name: "Username",
+						value: username,
+					},
+					{
+						name: "Email",
+						value: email,
+					},
+				)
+				.setColor("#313338")
+				.setFooter({
+					text: "Momentum",
+					iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+				})
+				.setTimestamp();
 
-		const publicembed = new EmbedBuilder()
-			.setTitle("Thank you!")
-			.setDescription("Thank you for registering at Momentum! As a reward you have been granted 500 vBucks you can use in the shop.")
-			.addFields(
-				{
-					name: "Username",
-					value: username,
-				},
-				{
-					name: "Email",
-					value: email,
-				},
-			)
-			.setColor("#313338")
-			.setFooter({
-				text: "Momentum",
-				iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-			})
-			.setTimestamp();
 
-		const embed = new EmbedBuilder()
-			.setTitle("Account created")
-			.setDescription("Your account has been successfully created")
-			.addFields(
-				{
-					name: "Username",
-					value: username,
-				},
-				{
-					name: "Email",
-					value: email,
-				},
-			)
-			.setColor("#313338")
-			.setFooter({
-				text: "Momentum",
-				iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-			})
-			.setTimestamp();
+			const embed = new EmbedBuilder()
+				.setTitle("Account created")
+				.setDescription("Your account has been successfully created")
+				.addFields(
+					{
+						name: "Username",
+						value: username,
+					},
+					{
+						name: "Email",
+						value: email,
+					},
+				)
+				.setColor("#313338")
+				.setFooter({
+					text: "Momentum",
+					iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+				})
+				.setTimestamp();
 
-		await interaction.reply({ content: message, ephemeral: true });
-		if (!error) {
-			await interaction.user.send({ embeds: [publicembed] });
-		}
+				await interaction.user.send({ embeds: [publicembed] });
+				await interaction.reply({ embeds: [embed], ephemeral: true });
+		}).catch((err) => {
+			log.error(err);
+		});
 	},
 };

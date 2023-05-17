@@ -1,4 +1,5 @@
 import kv from "../utilities/kv";
+import log from "./log";
 
 export { };
 
@@ -11,7 +12,7 @@ const path = require("path");
 
 const User = require("../model/user.js");
 const Profile = require("../model/profiles.js");
-const profileManager = require("../structs/profile.js");
+const profileManager = require("../structs/profile");
 const Friends = require("../model/friends.js");
 
 async function sleep(ms) {
@@ -275,7 +276,7 @@ function getPresenceFromUser(fromId, toId, offline) {
     ClientData.client.send(xml.toString());
 }
 
-async function registerUser(discordId, username, email, plainPassword) {
+async function registerUser(discordId: any, username: string, email: string, plainPassword: string | any[]) {
     email = email.toLowerCase();
 
     if (!discordId || !username || !email || !plainPassword) return { message: "Username/email/password is required.", status: 400 };
@@ -301,12 +302,17 @@ async function registerUser(discordId, username, email, plainPassword) {
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     try {
+        log.debug(`Creating account with the username ${username} and email ${email}`);
         await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword }).then(async (i) => {
-            await Profile.create({ created: i.created, accountId: i.accountId, profiles: profileManager.createProfiles(i.accountId) });
+            log.debug(`Created user with the username ${username} and email ${email}`);
+            await Profile.create({ created: i.created, accountId: i.accountId, profiles: await profileManager.createProfiles(i.accountId) });
+            log.debug(`Created profile for the user with the username ${username} and email ${email}`);
             await Friends.create({ created: i.created, accountId: i.accountId });
+            log.debug(`Created friends for the user with the username ${username} and email ${email}`);
         });
     } catch (err:any) {
         if (err.code == 11000) return { message: `Username or email is already in use.`, status: 400 };
+        console.error(err);
 
         return { message: "An unknown error has occured, please try again later.", status: 400 };
     };
