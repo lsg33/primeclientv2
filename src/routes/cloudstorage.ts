@@ -13,6 +13,7 @@ const functions = require("../structs/functions.js");
 //S3
 import { AWSError } from 'aws-sdk/lib/error';
 import safety from '../utilities/safety';
+import log from '../structs/log';
 
 
 let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -44,7 +45,7 @@ app.use((req, res, next) => {
 const getCloudFile = async (objectName: string) => {
     try {
         const params: S3.GetObjectRequest = {
-            Bucket: "backend",
+            Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
             Key: objectName,
         };
         const data: S3.GetObjectOutput = await s3.getObject(params).promise();
@@ -53,7 +54,7 @@ const getCloudFile = async (objectName: string) => {
         if (err.code === "NoSuchKey") {
             // create empty .ini file
             const params: S3.PutObjectRequest = {
-                Bucket: "backend",
+                Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
                 Key: objectName,
                 Body: "",
                 ContentType: "text/plain",
@@ -71,7 +72,7 @@ const listCloudFiles = async (prefix: string) => {
     const listObjects = (ContinuationToken?: string) => {
         return new Promise((resolve, reject) => {
             const params: S3.ListObjectsV2Request = {
-                Bucket: "backend",
+                Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
                 Prefix: prefix,
                 ContinuationToken: ContinuationToken
             };
@@ -96,7 +97,7 @@ const listCloudFiles = async (prefix: string) => {
 const createCloudStorageFolder = async (uid: string) => {
     const folderName = `CloudStorage/${uid}`;
     const params: S3.PutObjectRequest = {
-        Bucket: "backend",
+        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
         Key: `${folderName}/`,
         Body: "",
         ContentType: "application/x-directory",
@@ -143,7 +144,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
                 if (!object) {
                     const fileData = fs.readFileSync(path.join(__dirname, "../../", "CloudStorage", file));
                     const params: S3.PutObjectRequest = {
-                        Bucket: "backend",
+                        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
                         Key: key,
                         Body: fileData,
                         ContentType: "application/octet-stream",
@@ -242,6 +243,14 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
     const s3Object = await getCloudFile(key);
 
+    //if s3 object is 0 bytes, return 404
+    if (s3Object && s3Object.toString().length === 0) {
+        log.debug("File is 0 bytes, returning 404");
+        return res.status(404).json({
+            "error": "file not found"
+        });
+    }
+
     if (!s3Object) {
         res.status(200);
         res.end();
@@ -298,6 +307,8 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
 
 app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
+    log.debug("PUT /fortnite/api/cloudstorage/user/*/:file");
+
     const userid = req.params[0];
 
     if (req.params.file.toLowerCase() !== "clientsettings.sav") {
@@ -309,11 +320,14 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
     const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
     console.log(`Uploading Settings to S3`);
     const params: S3.PutObjectRequest = {
-        Bucket: "backend",
+        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
         Key: key,
         Body: req.rawBody,
         ContentType: "application/octet-stream",
     };
+    s3.deleteObject(params, (err: AWSError, data: S3.DeleteObjectOutput) => {
+        if (err) console.error(err);
+    });
     s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
         if (err) console.error(err);
     });
