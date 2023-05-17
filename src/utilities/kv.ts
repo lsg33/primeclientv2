@@ -8,7 +8,7 @@ const memkv = new kvjs();
 
 let redis: Redis;
 
-if (process.env.USE_REDIS) {
+if (process.env.USE_REDIS === "true") {
     redis = new Redis({
         url: process.env.REDIS_URL || 'redis://localhost:6379',
         token: process.env.REDIS_TOKEN || 'token',
@@ -19,7 +19,7 @@ class kv {
 
     async get(key: string): Promise<string> {
 
-        if (process.env.USE_REDIS) {
+        if (process.env.USE_REDIS === "true") {
             return await redis.get(key) || "";
         } else {
             return await memkv.get(key) || "";
@@ -29,7 +29,7 @@ class kv {
 
     async set(key: string, value: any): Promise<Boolean> {
 
-        if (process.env.USE_REDIS) {
+        if (process.env.USE_REDIS === "true") {
             const set = await redis.set(key, value);
             if (set == "OK") {
                 return true;

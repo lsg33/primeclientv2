@@ -30,7 +30,7 @@ async function main() {
     let tokens;
 
     //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (process.env.USE_REDIS) {
+    if (process.env.USE_REDIS === "true") {
         redisTokens = await kv.get('tokens') || {};
         logger.debug("Redis tokens");
         tokens = JSON.parse(JSON.stringify(redisTokens))
@@ -54,7 +54,7 @@ async function main() {
     logger.debug("Use Redis: " + process.env.USE_REDIS);
 
     //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (process.env.USE_REDIS) {
+    if (process.env.USE_REDIS === "true") {
         logger.debug("Redis set tokens");
         setTokens = await kv.set('tokens', JSON.stringify(tokens, null, 2));
     } else {
