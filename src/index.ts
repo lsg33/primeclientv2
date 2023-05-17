@@ -19,11 +19,10 @@ import update from './utilities/update';
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
-safety.checkENV();
-update.checkForUpdate(packageJson.version);
-
-
 async function main() {
+
+    safety.checkENV();
+    await update.checkForUpdate(packageJson.version);
 
     if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 
@@ -33,18 +32,18 @@ async function main() {
     let redisTokens;
     let tokens;
 
-    //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (safety.env.USE_REDIS = true) {
-        redisTokens = await kv.get('tokens') || {};
-        logger.debug("Redis tokens");
+    if (safety.env.USE_REDIS == true) {
+        console.log(safety.env.USE_REDIS);
+        redisTokens = JSON.parse(JSON.stringify(await kv.get('tokens')));
+        logger.debug("USE REDIS TRUE");
         try {
             tokens = JSON.parse(JSON.stringify(redisTokens))
-        } catch(err) {
+        } catch (err) {
             await kv.set('tokens', fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
             log.error("Redis tokens error, resetting tokens.json");
         }
     } else {
-        logger.debug("File tokens");
+        logger.debug("FILE TOKENS");
         tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
     };
 
@@ -58,19 +57,14 @@ async function main() {
         }
     }
 
-    let setTokens: Boolean = false;
-
-    logger.debug("Use Redis: " + safety.env.USE_REDIS);
-
     //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (safety.env.USE_REDIS = true) {
-        logger.debug("Redis set tokens");
-        setTokens = await kv.set('tokens', JSON.stringify(tokens, null, 2));
+    if (process.env.USE_REDIS?.toString() === "true") {
+        logger.debug("REDIS SET TOKENS");
+        await kv.set('tokens', JSON.stringify(tokens, null, 2));
     } else {
-        logger.debug("File set tokens");
+        logger.debug("File SET TOKENS");
         fs.writeFileSync(path.join(__dirname, "../tokens.json"), JSON.stringify(tokens, null, 2) || "");
     };
-    logger.debug("Redis set tokens status: " + setTokens);
 
     global.accessTokens = tokens.accessTokens;
     global.refreshTokens = tokens.refreshTokens;
