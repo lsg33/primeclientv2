@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const path = require("path");
 import S3 from 'aws-sdk/clients/s3';
 const limit = require("express-limit").limit;
+const AWS = require("aws-sdk");
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const functions = require("../structs/functions.js");
@@ -15,18 +16,17 @@ import { AWSError } from 'aws-sdk/lib/error';
 import log from '../structs/log';
 import safety from './../utilities/safety';
 
-let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const s3 = new S3({
     apiVersion: 'latest',
-    endpoint: safety.env.S3_ENDPOINT,
+    endpoint: safety.env.S3_ENDPOINT || "",
     credentials: {
         accessKeyId: safety.env.S3_ACCESS_KEY_ID || "",
         secretAccessKey: safety.env.S3_SECRET_ACCESS_KEY || "",
     },
+    region: 'auto'
 });
 
 //Save settings stuff
