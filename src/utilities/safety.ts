@@ -27,10 +27,10 @@ export class safety {
     private convertToBool(value: boolean | any, key: string): Bool {
         if (value.toString() === "true") {
             return true;
-        } else if (value.toString() === false) {
+        } else if (value.toString() === "false") {
             return false;
         } else {
-            throw new Error(`The enviroment variable ${key} is not true or false, please declare it correctly in the .env file`);
+            throw new Error(`The enviroment variable ${key} is not true or false, please declare it correctly in the .env file. Value: ${value}`);
         }
     };
 
