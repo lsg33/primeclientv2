@@ -1,4 +1,4 @@
-export { }
+export { };
 
 const express = require("express");
 const app = express.Router();
@@ -12,9 +12,8 @@ const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const functions = require("../structs/functions.js");
 //S3
 import { AWSError } from 'aws-sdk/lib/error';
-import safety from '../utilities/safety';
 import log from '../structs/log';
-
+import safety from './../utilities/safety';
 
 let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
@@ -201,12 +200,12 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
 
 app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
-    if(safety.env.USE_S3 = true) {
+    if (safety.env.USE_S3 = true) {
         const fileName = req.params.file;
         const key = `CloudStorage/${safety.env.NAME || ""}/${fileName}`;
-    
+
         const s3Object = await getCloudFile(key);
-    
+
         if (s3Object) {
             return res.status(200).send(s3Object).end();
         } else {
@@ -217,7 +216,7 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
         const file = path.join(__dirname, "../../", "CloudStorage", req.params.file);
 
         if (fs.existsSync(file)) return res.status(200).send(fs.readFileSync(file));
-    
+
         res.status(200).end();
     }
 
@@ -226,117 +225,201 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 //Settings stuff
 app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
-    const userid = req.params[0];
+    if (safety.env.USE_S3 == true) {
+        const userid = req.params[0];
 
-    res.set("Content-Type", "application/octet-stream")
+        res.set("Content-Type", "application/octet-stream")
 
-    if (req.params.file.toLowerCase() !== "clientsettings.sav") {
-        return res.status(404).json({
-            "error": "file not found"
-        });
+        if (req.params.file.toLowerCase() !== "clientsettings.sav") {
+            return res.status(404).json({
+                "error": "file not found"
+            });
+        }
+
+        const fileName = req.params.file;
+        const key = `CloudStorage/${safety.env.NAME}/${userid}/${fileName}`;
+
+        console.log(key);
+
+        const s3Object = await getCloudFile(key);
+
+        //if s3 object is 0 bytes, return 404
+        if (s3Object && s3Object.toString().length === 0) {
+            log.debug("File is 0 bytes, returning 404");
+            return res.status(404).json({
+                "error": "file not found"
+            });
+        }
+
+        if (!s3Object) {
+            res.status(200);
+            res.end();
+            return;
+        }
+
+        const buffer = Buffer.from(s3Object.toString(), "latin1");
+
+        const memory = functions.GetVersionInfo(req);
+
+        return res.status(200).send(buffer).end();
+        //return res.status(200).send(s3Object.toString()).end();
+    } else {
+        const userid = req.params[0];
+        try {
+            const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath);
+            }
+        } catch (err) { }
+        res.set("Content-Type", "application/octet-stream");
+        if (req.params.file.toLowerCase() === "clientsettings.sav") {
+            const filePath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
+            if (fs.existsSync(filePath)) {
+                const fileContent = fs.readFileSync(filePath);
+                return res.status(200).send(fileContent);
+            } else {
+                res.status(200).end();
+            }
+        } else {
+            // do something else here if needed
+        }
     }
 
-    const fileName = req.params.file;
-    const key = `CloudStorage/${safety.env.NAME}/${userid}/${fileName}`;
-
-    console.log(key);
-
-    const s3Object = await getCloudFile(key);
-
-    //if s3 object is 0 bytes, return 404
-    if (s3Object && s3Object.toString().length === 0) {
-        log.debug("File is 0 bytes, returning 404");
-        return res.status(404).json({
-            "error": "file not found"
-        });
-    }
-
-    if (!s3Object) {
-        res.status(200);
-        res.end();
-        return;
-    }
-
-    const buffer = Buffer.from(s3Object.toString(), "latin1");
-
-    const memory = functions.GetVersionInfo(req);
-
-    return res.status(200).send(buffer).end();
-    //return res.status(200).send(s3Object.toString()).end();
 })
 
 app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
 
-    const userid = req.params.accountId;
+    if (safety.env.USE_S3 == true) {
+        const userid = req.params.accountId;
 
-    const key = `CloudStorage/${safety.env.NAME}/${userid}/ClientSettings.Sav`;
+        const key = `CloudStorage/${safety.env.NAME}/${userid}/ClientSettings.Sav`;
 
-    const s3Object = await getCloudFile(key);
+        const s3Object = await getCloudFile(key);
 
-    res.set("Content-Type", "application/json")
+        res.set("Content-Type", "application/json")
 
-    const memory = functions.GetVersionInfo(req);
+        const memory = functions.GetVersionInfo(req);
 
-    var currentBuildID = memory.CL;
+        var currentBuildID = memory.CL;
 
-    if (s3Object) {
+        if (s3Object) {
 
-        const ParsedFile = s3Object.toString();
-        const mtime = new Date();
+            const ParsedFile = s3Object.toString();
+            const mtime = new Date();
 
-        const random: Number = Math.floor(10000 + Math.random() * 90000);
+            const random: Number = Math.floor(10000 + Math.random() * 90000);
 
-        return res.json([{
-            "uniqueFilename": "ClientSettings.Sav",
-            "filename": "ClientSettings.Sav",
-            "hash": crypto.createHash('sha1').update(random.toString()).digest('hex'),
-            "hash256": crypto.createHash('sha256').update(random.toString()).digest('hex'),
-            "length": s3Object.toString().length,
-            "contentType": "application/octet-stream",
-            "uploaded": mtime,
-            "storageType": "S3",
-            "storageIds": {},
-            "accountId": req.params.accountId,
-            "doNotCache": true
-        }]);
+            return res.json([{
+                "uniqueFilename": "ClientSettings.Sav",
+                "filename": "ClientSettings.Sav",
+                "hash": crypto.createHash('sha1').update(random.toString()).digest('hex'),
+                "hash256": crypto.createHash('sha256').update(random.toString()).digest('hex'),
+                "length": s3Object.toString().length,
+                "contentType": "application/octet-stream",
+                "uploaded": mtime,
+                "storageType": "S3",
+                "storageIds": {},
+                "accountId": req.params.accountId,
+                "doNotCache": true
+            }]);
 
+        } else {
+            return res.json([]);
+        }
     } else {
-        return res.json([]);
+        try {
+            const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath);
+            }
+            const memory = functions.GetVersionInfo(req);
+            const userId = req.params.accountId;
+            res.set("Content-Type", "application/json");
+            const currentBuildID = memory.CL;
+            const filePath = path.join(dirPath, `ClientSettings-${userId}.Sav`);
+            if (fs.existsSync(filePath)) {
+                const fileContent = fs.readFileSync(filePath, "latin1");
+                const fileStats = fs.statSync(filePath);
+                const response = {
+                    uniqueFilename: "ClientSettings.Sav",
+                    filename: "ClientSettings.Sav",
+                    hash: crypto.createHash("sha1").update(fileContent).digest("hex"),
+                    hash256: crypto.createHash("sha256").update(fileContent).digest("hex"),
+                    length: Buffer.byteLength(fileContent),
+                    contentType: "application/octet-stream",
+                    uploaded: fileStats.mtime,
+                    storageType: "S3",
+                    storageIds: {},
+                    accountId: req.params.accountId,
+                    doNotCache: true,
+                };
+                return res.json([response]);
+            } else {
+                return res.json([]);
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
     }
+
 })
 
 app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
-    log.debug("PUT /fortnite/api/cloudstorage/user/*/:file");
+    if (safety.env.USE_S3 == true) {
+        log.debug("PUT /fortnite/api/cloudstorage/user/*/:file");
 
-    const userid = req.params[0];
+        const userid = req.params[0];
 
-    if (req.params.file.toLowerCase() !== "clientsettings.sav") {
-        return res.status(404).json({
-            "error": "file not found"
+        if (req.params.file.toLowerCase() !== "clientsettings.sav") {
+            return res.status(404).json({
+                "error": "file not found"
+            });
+        }
+
+        const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
+        console.log(`Uploading Settings to S3`);
+        const params: S3.PutObjectRequest = {
+            Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
+            Key: key,
+            Body: req.rawBody,
+            ContentType: "application/octet-stream",
+        };
+        s3.deleteObject(params, (err: AWSError, data: S3.DeleteObjectOutput) => {
+            if (err) console.error(err);
         });
+        s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
+            if (err) console.error(err);
+        });
+
+        const memory = functions.GetVersionInfo(req);
+
+        var currentBuildID = memory.CL;
+
+        res.status(204).end();
+    } else {
+        const userid = req.params[0];
+        try {
+
+            if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
+                fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
+
+            }
+        } catch (err) { }
+
+        if (req.params.file.toLowerCase() !== "clientsettings.sav") {
+            return res.status(404).json({
+            });
+        }
+
+        const memory = functions.GetVersionInfo(req);
+        let file: File;
+        file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
+        fs.writeFileSync(file, req.rawBody, 'latin1');
+        res.status(204).end();
     }
 
-    const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
-    console.log(`Uploading Settings to S3`);
-    const params: S3.PutObjectRequest = {
-        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
-        Key: key,
-        Body: req.rawBody,
-        ContentType: "application/octet-stream",
-    };
-    s3.deleteObject(params, (err: AWSError, data: S3.DeleteObjectOutput) => {
-        if (err) console.error(err);
-    });
-    s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
-        if (err) console.error(err);
-    });
-
-    const memory = functions.GetVersionInfo(req);
-
-    var currentBuildID = memory.CL;
-
-    res.status(204).end();
 })
 
 module.exports = app;

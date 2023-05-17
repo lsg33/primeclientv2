@@ -25,12 +25,6 @@ interface iEnv {
 
 export class safety {
     private convertToBool(value: string | undefined | boolean, key: string): Bool {
-        //log.debug(`Converting ${key} to boolean. Value: ${value}`);
-        
-        value = value === undefined ? false : value;
-
-        console.log(typeof value + key);
-
         if (value == "true") {
             log.debug(`Converted ${key} to true`);
             return true;
