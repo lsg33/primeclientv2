@@ -55,7 +55,7 @@ export class safety {
 
         for (const [key, value] of Object.entries(this.env)) {
             if (value === undefined) {
-                throw new Error(`The enviroment variable ${key} is missing, please declare it in the .env file`);
+                throw new TypeError(`The enviroment variable ${key} is missing, please declare it in the .env file`);
             }
             return true;
         }
