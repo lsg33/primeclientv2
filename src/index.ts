@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const fs = require("fs");
-import { Redis } from '@upstash/redis'
 import path from 'path';
 import logger from './structs/log';
 const rateLimit = require("express-rate-limit");
@@ -13,9 +12,11 @@ const error = require("./structs/error.js");
 const functions = require("./structs/functions.js");
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-import Momentum from 'momentumsdk'
 import kv from './utilities/kv';
 import log from './structs/log';
+import safety from './utilities/safety';
+
+safety.checkENV();
 
 async function main() {
 
@@ -31,7 +32,7 @@ async function main() {
     let tokens;
 
     //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (process.env.USE_REDIS === "true") {
+    if (safety.env.USE_REDIS = true) {
         redisTokens = await kv.get('tokens') || {};
         logger.debug("Redis tokens");
         try {
@@ -57,10 +58,10 @@ async function main() {
 
     let setTokens: Boolean = false;
 
-    logger.debug("Use Redis: " + process.env.USE_REDIS);
+    logger.debug("Use Redis: " + safety.env.USE_REDIS);
 
     //Cannot use MemoryKV for this because it doesnt stay after restart
-    if (process.env.USE_REDIS === "true") {
+    if (safety.env.USE_REDIS = true) {
         logger.debug("Redis set tokens");
         setTokens = await kv.set('tokens', JSON.stringify(tokens, null, 2));
     } else {
@@ -76,7 +77,7 @@ async function main() {
     global.exchangeCodes = [];
 
     mongoose
-        .connect(process.env.MONGO_URI)
+        .connect(safety.env.MONGO_URI)
         .then(() => {
             logger.backend("Connected to MongoDB");
         })

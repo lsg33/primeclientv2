@@ -7,6 +7,7 @@ const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const axios = require("axios");
 import logger from '../structs/log';
+import safety from "../utilities/safety";
 
 const kvjs = require('@heyputer/kv.js');
 const kv = new kvjs();
@@ -15,7 +16,7 @@ const refreshCommands = require('./deploy-commands');
 
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const fs = require('node:fs');
-const token = process.env.BOT_TOKEN;
+const token = safety.env.BOT_TOKEN;
 
 const client = new Client({
 	partials: ['CHANNEL', "MESSAGE", "REACTION"],

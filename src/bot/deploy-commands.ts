@@ -5,11 +5,12 @@ const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 
 import logger from "../structs/log";
+import safety from "../utilities/safety";
 
 const { REST, Routes } = require('discord.js');
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
-const token = process.env.BOT_TOKEN;
+const clientId = safety.env.CLIENT_ID;
+const guildId = safety.env.GUILD_ID;
+const token = safety.env.BOT_TOKEN;
 
 const fs = require('node:fs');
 
