@@ -4,7 +4,7 @@
 ![size](https://img.shields.io/github/repo-size/Nexus-FN/Momentum?label=Size&style=for-the-badge)
 ![](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
 
-Momentum is a fork of the popular Fortnite Backend LawinServer. It is aimed to improve the stability and be more suitable for production use.
+Momentum is a fork (skid) of the Fortnite Backend LawinServer. It is aimed to improve the stability and be more suitable for production use.
 
 I just released a new NPM package called "MomentumSDK" which allows you to easily interact with Momentum. You can find it here:
 
