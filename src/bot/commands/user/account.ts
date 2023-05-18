@@ -1,7 +1,13 @@
+export { }
+
 import { Hash } from "crypto";
 import { EmbedBuilder } from "discord.js";
+import { Asteria } from "momentumsdk";
 
-export { }
+const asteria = new Asteria({
+    collectAnonStats: true,
+    throwErrors: true,
+});
 
 const { SlashCommandBuilder } = require('discord.js');
 const Users = require('../../../model/user');
@@ -12,7 +18,6 @@ module.exports = {
         .setName('account')
         .setDescription('Shows you your account information'),
 
-
     async execute(interaction) {
         const user = await Users.findOne({ discordId: interaction.user.id });
         if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
@@ -22,15 +27,18 @@ module.exports = {
         const selectedSkin = profile.profiles.athena.stats.attributes.favorite_character;
         const selectedSkinSplit = selectedSkin.split(":") || "CID_005_Athena_Commando_M_Default";
 
-        const skin:any = await fetch(`https://fortnite-api.com/v2/cosmetics/br/search?id=${selectedSkinSplit[1]}`, {
-            method: 'GET',                
-        }).then(response => response.json());
+        let cosmetic: { images: { icon: string; }; } = { images: { icon: "" } };
 
-        let icon = "https://nexusassets.zetax.workers.dev/ceba508f24a70c50bd8782d08bd530b0d0df82e0baf7e357bcfd01ac81898297.gif";
-
-        if (skin.data) {
-            icon = skin.data.images.icon;
+        try {
+            cosmetic = await asteria.getCosmetic("name", selectedSkinSplit[1], true);
+        } catch (err) {
+            console.log(err);
+            cosmetic = { images: { icon: "https://nexusassets.zetax.workers.dev/ceba508f24a70c50bd8782d08bd530b0d0df82e0baf7e357bcfd01ac81898297.gif" } }
         }
+
+        if(!cosmetic) cosmetic = { images: { icon: "https://nexusassets.zetax.workers.dev/ceba508f24a70c50bd8782d08bd530b0d0df82e0baf7e357bcfd01ac81898297.gif" } }
+
+        let icon = cosmetic.images.icon;
 
         const embed = new EmbedBuilder()
             .setTitle("Your account")

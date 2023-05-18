@@ -1,6 +1,5 @@
 import path from "path";
 import log from "../structs/log";
-import { Bool } from "aws-sdk/clients/clouddirectory";
 import kv from "./kv";
 
 const dotenv = require("dotenv");
@@ -24,7 +23,7 @@ interface iEnv {
 }
 
 export class safety {
-    private convertToBool(value: string | undefined | boolean, key: string): Bool {
+    private convertToBool(value: string | undefined | boolean, key: string): Boolean {
         if (value == "true") {
             log.debug(`Converted ${key} to true`);
             return true;
@@ -55,15 +54,25 @@ export class safety {
         REDIS_URL: process.env.REDIS_URL,
     };
 
-    public checkENV(): Bool {
+    public checkENV(): Boolean {
         for (const [key, value] of Object.entries(this.env)) {
             if (value === undefined) {
                 throw new TypeError(
                     `The enviroment variable ${key} is missing, please declare it in the .env file.`
                 );
             }
+            if(key == "NAME") {
+                if(value.length > 32) {
+                    throw new TypeError(
+                        `The enviroment variable ${key} is too long, please declare it in the .env file.`
+                    );
+                } else {
+                    this.env[key] = value.replace(/ /g, "_");
+                }
+            }
             return true;
         }
+        //Not recommended to use, but you have the option to.
         global.env = this.env;
         return false;
     }

@@ -5,12 +5,338 @@ const app = express.Router();
 
 const Profile = require("../model/profiles.js");
 const profileManager = require("../structs/profile.js");
+const Friends = require("../model/friends");
 const error = require("../structs/error.js");
 const functions = require("../structs/functions.js");
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
 global.giftReceived = {};
+
+app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verifyToken, async (req, res) => {
+    const profiles = await Profile.findOne({ accountId: req.user.accountId });
+
+    if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
+        "errors.com.epicgames.modules.profiles.operation_forbidden",
+        `Unable to find template configuration for profile ${req.query.profileId}`, 
+        [req.query.profileId], 12813, undefined, 403, res
+    );
+
+    let profile = profiles.profiles[req.query.profileId];
+
+    if (req.query.profileId != "common_core") return error.createError(
+        "errors.com.epicgames.modules.profiles.invalid_command",
+        `SetReceiveGiftsEnabled is not valid on ${req.query.profileId} profile`, 
+        ["SetReceiveGiftsEnabled",req.query.profileId], 12801, undefined, 400, res
+    );
+
+    let ApplyProfileChanges:Object[] = [];
+    let BaseRevision = profile.rvn || 0;
+    let QueryRevision = req.query.rvn || -1;
+
+    if (typeof req.body.bReceiveGifts != "boolean") return ValidationError("bReceiveGifts", "a boolean", res);
+
+    profile.stats.attributes.allowed_to_receive_gifts = req.body.bReceiveGifts;
+
+    ApplyProfileChanges.push({
+        "changeType": "statModified",
+        "name": "allowed_to_receive_gifts",
+        "value": profile.stats.attributes.allowed_to_receive_gifts
+    });
+
+    if (ApplyProfileChanges.length > 0) {
+        profile.rvn += 1;
+        profile.commandRevision += 1;
+        profile.updated = new Date().toISOString();
+
+        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+    }
+
+    if (QueryRevision != BaseRevision) {
+        ApplyProfileChanges = [{
+            "changeType": "fullProfileUpdate",
+            "profile": profile
+        }];
+    }
+
+    res.json({
+        profileRevision: profile.rvn || 0,
+        profileId: req.query.profileId,
+        profileChangesBaseRevision: BaseRevision,
+        profileChanges: ApplyProfileChanges,
+        profileCommandRevision: profile.commandRevision || 0,
+        serverTime: new Date().toISOString(),
+        responseVersion: 1
+    });
+});
+
+app.post("/fortnite/api/game/v2/profile/*/client/GiftCatalogEntry", verifyToken, async (req, res) => {
+    const profiles = await Profile.findOne({ accountId: req.user.accountId });
+
+    if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
+        "errors.com.epicgames.modules.profiles.operation_forbidden",
+        `Unable to find template configuration for profile ${req.query.profileId}`, 
+        [req.query.profileId], 12813, undefined, 403, res
+    );
+
+    let profile = profiles.profiles[req.query.profileId];
+
+    if (req.query.profileId != "common_core") return error.createError(
+        "errors.com.epicgames.modules.profiles.invalid_command",
+        `GiftCatalogEntry is not valid on ${req.query.profileId} profile`, 
+        ["GiftCatalogEntry",req.query.profileId], 12801, undefined, 400, res
+    );
+
+    let Notifications = [];
+    let ApplyProfileChanges:Object[] = [];
+    let BaseRevision = profile.rvn || 0;
+    let QueryRevision = req.query.rvn || -1;
+    let validGiftBoxes = [
+        "GiftBox:gb_default",
+        "GiftBox:gb_giftwrap1",
+        "GiftBox:gb_giftwrap2",
+        "GiftBox:gb_giftwrap3"
+    ];
+
+    let missingFields = checkFields(["offerId","receiverAccountIds","giftWrapTemplateId"], req.body);
+
+    if (missingFields.fields.length > 0) return error.createError(
+        "errors.com.epicgames.validation.validation_failed",
+        `Validation Failed. [${missingFields.fields.join(", ")}] field(s) is missing.`,
+        [`[${missingFields.fields.join(", ")}]`], 1040, undefined, 400, res
+    );
+
+    if (typeof req.body.offerId != "string") return ValidationError("offerId", "a string", res);
+    if (!Array.isArray(req.body.receiverAccountIds)) return ValidationError("receiverAccountIds", "an array", res);
+    if (typeof req.body.giftWrapTemplateId != "string") return ValidationError("giftWrapTemplateId", "a string", res);
+    if (typeof req.body.personalMessage != "string") return ValidationError("personalMessage", "a string", res);
+
+    if (req.body.personalMessage.length > 100) return error.createError(
+        "errors.com.epicgames.string.length_check",
+        `The personalMessage you provided is longer than 100 characters, please make sure your personal message is less than 100 characters long and try again.`,
+        undefined, 16027, undefined, 400, res
+    );
+
+    if (!validGiftBoxes.includes(req.body.giftWrapTemplateId)) return error.createError(
+        "errors.com.epicgames.giftbox.invalid",
+        `The giftbox you provided is invalid, please provide a valid giftbox and try again.`,
+        undefined, 16027, undefined, 400, res
+    );
+
+    if (req.body.receiverAccountIds.length < 1 || req.body.receiverAccountIds.length > 5) return error.createError(
+        "errors.com.epicgames.item.quantity.range_check",
+        `You need to atleast gift to 1 person and can not gift to more than 5 people.`,
+        undefined, 16027, undefined, 400, res
+    );
+
+    if (checkIfDuplicateExists(req.body.receiverAccountIds)) return error.createError(
+        "errors.com.epicgames.array.duplicate_found",
+        `There are duplicate accountIds in receiverAccountIds, please remove the duplicates and try again.`,
+        undefined, 16027, undefined, 400, res
+    );
+
+    let sender = await Friends.findOne({ accountId: req.user.accountId }).lean();
+
+    for (let receiverId of req.body.receiverAccountIds) {
+        if (typeof receiverId != "string") return error.createError(
+            "errors.com.epicgames.array.invalid_string",
+            `There is a non-string object inside receiverAccountIds, please provide a valid value and try again.`,
+            undefined, 16027, undefined, 400, res
+        );
+
+        if (!sender.list.accepted.find(i => i.accountId == receiverId) && receiverId != req.user.accountId) return error.createError(
+            "errors.com.epicgames.friends.no_relationship",
+            `User ${req.user.accountId} is not friends with ${receiverId}`,
+            [req.user.accountId,receiverId], 28004, undefined, 403, res
+        );
+    }
+
+    if (!profile.items) profile.items = {};
+
+    let findOfferId = functions.getOfferID(req.body.offerId);
+    if (!findOfferId) return error.createError(
+        "errors.com.epicgames.fortnite.id_invalid",
+        `Offer ID (id: '${req.body.offerId}') not found`, 
+        [req.body.offerId], 16027, undefined, 400, res
+    );
+
+    switch (true) {
+        case /^BR(Daily|Weekly)Storefront$/.test(findOfferId.name):
+            if (findOfferId.offerId.prices[0].currencyType.toLowerCase() == "mtxcurrency") {
+                let paid = false;
+                let price = (findOfferId.offerId.prices[0].finalPrice) * req.body.receiverAccountIds.length;
+
+                for (let key in profile.items) {
+                    if (!profile.items[key].templateId.toLowerCase().startsWith("currency:mtx")) continue;
+
+                    let currencyPlatform = profile.items[key].attributes.platform;
+                    if ((currencyPlatform.toLowerCase() != profile.stats.attributes.current_mtx_platform.toLowerCase()) && (currencyPlatform.toLowerCase() != "shared")) continue;
+
+                    if (profile.items[key].quantity < price) return error.createError(
+                        "errors.com.epicgames.currency.mtx.insufficient",
+                        `You can not afford this item (${price}), you only have ${profile.items[key].quantity}.`,
+                        [`${price}`,`${profile.items[key].quantity}`], 1040, undefined, 400, res
+                    );
+
+                    profile.items[key].quantity -= price;
+
+                    ApplyProfileChanges.push({
+                        "changeType": "itemQuantityChanged",
+                        "itemId": key,
+                        "quantity": profile.items[key].quantity
+                    });
+
+                    paid = true;
+
+                    break;
+                }
+
+                if (!paid && price > 0) return error.createError(
+                    "errors.com.epicgames.currency.mtx.insufficient",
+                    `You can not afford this item.`,
+                    [], 1040, undefined, 400, res
+                );
+            }
+
+            for (let receiverId of req.body.receiverAccountIds) {
+                const receiverProfiles = await Profile.findOne({ accountId: receiverId });
+                let athena = receiverProfiles.profiles["athena"];
+                let common_core = receiverProfiles.profiles["common_core"];
+
+                if (!athena.items) athena.items = {};
+
+                if (!common_core.stats.attributes.allowed_to_receive_gifts) return error.createError(
+                    "errors.com.epicgames.user.gift_disabled",
+                    `User ${receiverId} has disabled receiving gifts.`,
+                    [receiverId], 28004, undefined, 403, res
+                );
+
+                for (let itemGrant of findOfferId.offerId.itemGrants) {
+                    for (let itemId in athena.items) {
+                        if (itemGrant.templateId.toLowerCase() == athena.items[itemId].templateId.toLowerCase()) return error.createError(
+                            "errors.com.epicgames.modules.gamesubcatalog.purchase_not_allowed",
+                            `User ${receiverId} already owns this item.`,
+                            [receiverId], 28004, undefined, 403, res
+                        );
+                    }
+                }
+            }
+
+            for (let receiverId of req.body.receiverAccountIds) {
+                const receiverProfiles = await Profile.findOne({ accountId: receiverId });
+                let athena = receiverProfiles.profiles["athena"];
+                let common_core = ((receiverId == req.user.accountId) ? profile : receiverProfiles.profiles["common_core"]);
+
+                let giftBoxItemID = functions.MakeID();
+
+                interface iGiftBoxItem {
+                    templateId: string,
+                    attributes: {
+                        fromAccountId: string,
+                        lootList: any[],
+                        params: {
+                            userMessage: string
+                        },
+                        level: number,
+                        giftedOn: string
+                    },
+                    quantity: number
+                }
+
+                let giftBoxItem:iGiftBoxItem = {
+                    "templateId": req.body.giftWrapTemplateId,
+                    "attributes": {
+                        "fromAccountId": req.user.accountId,
+                        "lootList": [],
+                        "params": {
+                            "userMessage": req.body.personalMessage
+                        },
+                        "level": 1,
+                        "giftedOn": new Date().toISOString()
+                    },
+                    "quantity": 1
+                };
+
+                if (!athena.items) athena.items = {};
+                if (!common_core.items) common_core.items = {};
+
+                for (let value of findOfferId.offerId.itemGrants) {
+                    const ID = functions.MakeID();
+
+                    const Item = {
+                        "templateId": value.templateId,
+                        "attributes": {
+                            "item_seen": false,
+                            "variants": [],
+                        },
+                        "quantity": 1
+                    };
+
+                    athena.items[ID] = Item;
+
+                    giftBoxItem.attributes.lootList.push({
+                        "itemType": Item.templateId,
+                        "itemGuid": ID,
+                        "itemProfile": "athena",
+                        "quantity": 1
+                    });
+                }
+
+                common_core.items[giftBoxItemID] = giftBoxItem;
+
+                if (receiverId == req.user.accountId) ApplyProfileChanges.push({
+                    "changeType": "itemAdded",
+                    "itemId": giftBoxItemID,
+                    "item": common_core.items[giftBoxItemID]
+                });
+
+                athena.rvn += 1;
+                athena.commandRevision += 1;
+                athena.updated = new Date().toISOString();
+
+                common_core.rvn += 1;
+                common_core.commandRevision += 1;
+                common_core.updated = new Date().toISOString();
+
+                await receiverProfiles.updateOne({ $set: { [`profiles.athena`]: athena, [`profiles.common_core`]: common_core } });
+
+                global.giftReceived[receiverId] = true;
+
+                functions.sendXmppMessageToId({
+                    type: "com.epicgames.gift.received",
+                    payload: {},
+                    timestamp: new Date().toISOString()
+                }, receiverId);
+            }
+        break;
+    }
+
+    if (ApplyProfileChanges.length > 0 && !req.body.receiverAccountIds.includes(req.user.accountId)) {
+        profile.rvn += 1;
+        profile.commandRevision += 1;
+        profile.updated = new Date().toISOString();
+
+        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
+    }
+
+    if (QueryRevision != BaseRevision) {
+        ApplyProfileChanges = [{
+            "changeType": "fullProfileUpdate",
+            "profile": profile
+        }];
+    }
+
+    res.json({
+        profileRevision: profile.rvn || 0,
+        profileId: req.query.profileId,
+        profileChangesBaseRevision: BaseRevision,
+        profileChanges: ApplyProfileChanges,
+        notifications: Notifications,
+        profileCommandRevision: profile.commandRevision || 0,
+        serverTime: new Date().toISOString(),
+        responseVersion: 1
+    });
+});
 
 app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, async (req, res) => {
     const profiles = await Profile.findOne({ accountId: req.user.accountId });
@@ -36,7 +362,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
     if (typeof req.body.giftBoxItemId == "string") {
         if (!profile.items[req.body.giftBoxItemId]) return error.createError(
             "errors.com.epicgames.fortnite.id_invalid",
-            `Item (id: "${req.body.giftBoxItemId}") not found`, 
+            `Item (id: '${req.body.giftBoxItemId}') not found`,
             [req.body.giftBoxItemId], 16027, undefined, 400, res
         );
 
@@ -151,7 +477,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
     let findOfferId = functions.getOfferID(req.body.offerId);
     if (!findOfferId) return error.createError(
         "errors.com.epicgames.fortnite.id_invalid",
-        `Offer ID (id: "${req.body.offerId}") not found`, 
+        `Offer ID (id: '${req.body.offerId}') not found`,
         [req.body.offerId], 16027, undefined, 400, res
     );
 
@@ -608,7 +934,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         if (!specialCosmetics.includes(item)) {
             return error.createError(
                 "errors.com.epicgames.fortnite.id_invalid",
-                `Item (id: "${req.body.itemToSlot}") not found`, 
+                `Item (id: '${req.body.itemToSlot}') not found`,
                 [req.body.itemToSlot], 16027, undefined, 400, res
             );
         } else {
@@ -802,7 +1128,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
 
     if (!profile.items[req.body.lockerItem]) return error.createError(
         "errors.com.epicgames.fortnite.id_invalid",
-        `Item (id: "${req.body.lockerItem}") not found`, 
+        `Item (id: '${req.body.lockerItem}') not found`,
         [req.body.lockerItem], 16027, undefined, 400, res
     );
 
@@ -951,7 +1277,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
 
     if (!profile.items[req.body.lockerItem]) return error.createError(
         "errors.com.epicgames.fortnite.id_invalid",
-        `Item (id: "${req.body.lockerItem}") not found`, 
+        `Item (id: '${req.body.lockerItem}') not found`,
         [req.body.lockerItem], 16027, undefined, 400, res
     );
 
@@ -967,7 +1293,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
         if (!specialCosmetics.includes(item)) {
             return error.createError(
                 "errors.com.epicgames.fortnite.id_invalid",
-                `Item (id: "${req.body.itemToSlot}") not found`, 
+                `Item (id: '${req.body.itemToSlot}') not found`,
                 [req.body.itemToSlot], 16027, undefined, 400, res
             );
         } else {
@@ -1131,7 +1457,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
     let MultiUpdate:Object[] = [];
 
-    if ((req.query.profileId == "common_core" || req.query.profileId == "profile0") && global.giftReceived[req.user.accountId]) {
+    if ((req.query.profileId == "common_core") && global.giftReceived[req.user.accountId]) {
         global.giftReceived[req.user.accountId] = false;
 
         let athena = profiles.profiles["athena"];

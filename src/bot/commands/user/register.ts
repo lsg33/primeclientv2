@@ -78,7 +78,7 @@ module.exports = {
 				.setTimestamp();
 
 				await interaction.user.send({ embeds: [publicembed] });
-				await interaction.reply({ embeds: [embed], ephemeral: true });
+				await interaction.reply(res.message);
 		}).catch((err) => {
 			log.error(err);
 		});

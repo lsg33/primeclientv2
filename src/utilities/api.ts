@@ -1,5 +1,4 @@
 const Api = require("../model/api.js");
-import { Redis } from "@upstash/redis"
 import path from "path";
 import kv from "./kv";
 const dotenv = require("dotenv");

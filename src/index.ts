@@ -35,7 +35,7 @@ async function main() {
     if (safety.env.USE_REDIS == true) {
         console.log(safety.env.USE_REDIS);
         redisTokens = JSON.parse(JSON.stringify(await kv.get('tokens')));
-        logger.debug("USE REDIS TRUE");
+        logger.debug("REDIS TOKENS");
         try {
             tokens = JSON.parse(JSON.stringify(redisTokens))
         } catch (err) {

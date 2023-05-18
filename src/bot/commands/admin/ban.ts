@@ -34,7 +34,7 @@ module.exports = {
         if (!targetUser) msg = "The account username you entered does not exist.";
         else if (targetUser.banned == true) msg = "This account is already banned.";
 
-        if (targetUser && targetUser.banned != true) {
+        if (targetUser && targetUser.banned !== true) {
             await targetUser.updateOne({ $set: { banned: true } });
 
             let refreshToken = global.refreshTokens.findIndex(i => i.accountId == targetUser.accountId);

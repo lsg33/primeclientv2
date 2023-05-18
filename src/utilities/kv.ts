@@ -1,5 +1,5 @@
 const kvjs = require('@heyputer/kv.js');
-import { Redis } from '@upstash/redis'
+const { Redis } = require('@upstash/redis');
 import path from 'path';
 import safety from './safety';
 const dotenv = require("dotenv");
@@ -7,7 +7,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 
 const memkv = new kvjs();
 
-let redis: Redis;
+let redis;
 
 if (safety.env.USE_REDIS) {
     redis = new Redis({

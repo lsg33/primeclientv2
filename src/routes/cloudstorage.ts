@@ -7,27 +7,51 @@ const crypto = require("crypto");
 const path = require("path");
 import S3 from 'aws-sdk/clients/s3';
 const limit = require("express-limit").limit;
-const AWS = require("aws-sdk");
-
+import os from 'os';
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 const functions = require("../structs/functions.js");
-//S3
 import { AWSError } from 'aws-sdk/lib/error';
 import log from '../structs/log';
 import safety from './../utilities/safety';
 
+const operatingSystem = os.platform();
+
+let pathToClientSettings: string = "";
+if (operatingSystem == "win32") {
+    pathToClientSettings = path.join(__dirname, "../ClientSettings");
+    if (!fs.existsSync(pathToClientSettings)) {
+        log.warn("ClientSettings folder for Windows not found, creating...");
+        fs.mkdirSync(pathToClientSettings);
+    }
+} else if (operatingSystem == "linux") {
+    pathToClientSettings = path.join("/etc/momentum/", "Momentum", "ClientSettings");
+    if (!fs.existsSync(path.join(pathToClientSettings))) {
+        log.warn("ClientSettings folder for Linux not found, creating...");
+        fs.mkdirSync(path.join(pathToClientSettings));
+        fs.chmodSync('/etc/momentum/settings', 0o700);
+        fs.chmodSync(path.join(pathToClientSettings), 0o700);
+    }
+}
+
 const dotenv = require("dotenv");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
-const s3 = new S3({
-    apiVersion: 'latest',
-    endpoint: safety.env.S3_ENDPOINT || "",
-    credentials: {
-        accessKeyId: safety.env.S3_ACCESS_KEY_ID || "",
-        secretAccessKey: safety.env.S3_SECRET_ACCESS_KEY || "",
-    },
-    region: 'auto'
-});
+let s3: S3;
+
+if (safety.env.USE_S3 == true) {
+    log.debug("USE S3 TRUE");
+    s3 = new S3({
+        apiVersion: 'latest',
+        endpoint: safety.env.S3_ENDPOINT || "",
+        credentials: {
+            accessKeyId: safety.env.S3_ACCESS_KEY_ID || "",
+            secretAccessKey: safety.env.S3_SECRET_ACCESS_KEY || "",
+        },
+        region: 'auto'
+    });
+} else {
+    log.debug("USE S3 FALSE");
+}
 
 //Save settings stuff
 app.use((req, res, next) => {
@@ -106,7 +130,7 @@ const createCloudStorageFolder = async (uid: string) => {
 
 //.Ini Stuff
 app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
-    if (safety.env.USE_S3 = true) {
+    if (safety.env.USE_S3 == true) {
         try {
             const uid: string | undefined = safety.env.NAME;
             const folderName = `CloudStorage/${uid}`;
@@ -178,6 +202,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
 
         fs.readdirSync(dir).forEach(name => {
             if (name.toLowerCase().endsWith(".ini")) {
+                log.debug(`Found .ini file: ${name}`);
                 const ParsedFile = fs.readFileSync(path.join(dir, name)).toString();
                 const ParsedStats = fs.statSync(path.join(dir, name));
 
@@ -200,7 +225,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
 
 app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
-    if (safety.env.USE_S3 = true) {
+    if (safety.env.USE_S3 == true) {
         const fileName = req.params.file;
         const key = `CloudStorage/${safety.env.NAME || ""}/${fileName}`;
 
@@ -328,7 +353,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
         }
     } else {
         try {
-            const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
+            const dirPath = path.join(pathToClientSettings);
             if (!fs.existsSync(dirPath)) {
                 fs.mkdirSync(dirPath);
             }
@@ -402,8 +427,8 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
         const userid = req.params[0];
         try {
 
-            if (!fs.existsSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"))) {
-                fs.mkdirSync(path.join("/etc/momentum/settings", "Momentum", "ClientSettings"));
+            if (!fs.existsSync(path.join(pathToClientSettings))) {
+                fs.mkdirSync(path.join(pathToClientSettings));
 
             }
         } catch (err) { }
@@ -415,7 +440,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
         const memory = functions.GetVersionInfo(req);
         let file: File;
-        file = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
+        file = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
         fs.writeFileSync(file, req.rawBody, 'latin1');
         res.status(204).end();
     }
