@@ -12,6 +12,8 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 
 ### Check out the new documentation here https://docs.nexusfn.net/
 
+### Join the Discord at https://discord.gg/7njfwrAqTd
+
 ### New Features
 
 - [x] 2FA (Two Factor Authentication aka Multi-Factor Authentication)
