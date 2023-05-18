@@ -17,8 +17,8 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 ### New Features
 
 - [x] 2FA (Two Factor Authentication aka Multi-Factor Authentication)
-- [x] vBuck adjustments
-- [x] Matchmaking system
+- [x] Storing settings in the cloud
+- [x] Full Matchmaking system
 
 ## Here's a preview of the new 2FA system:
 
