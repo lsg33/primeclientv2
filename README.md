@@ -12,7 +12,9 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 
 ### Check out the new documentation here https://docs.nexusfn.net/
 
-### Join the Discord at https://discord.gg/7njfwrAqTd
+You can't do much wrong while installing this. All enviroment/config variables are automatically checked to see if they exist and are at least of the correct type
+
+### Join the Discord for help at https://discord.gg/7njfwrAqTd
 
 ### New Features
 
