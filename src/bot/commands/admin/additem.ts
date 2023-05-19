@@ -2,7 +2,7 @@ export { }
 
 import { Hash } from "crypto";
 import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import { Asteria } from "momentumsdk";
+import Asteria from "asteriasdk";
 
 const { SlashCommandBuilder } = require('discord.js');
 const functions = require('../../../structs/functions.js');
@@ -38,20 +38,23 @@ module.exports = {
         const selectedUserId: Number = selectedUser.id;
 
         const user = await Users.findOne({ discordId: selectedUserId });
+        const profile = await Profiles.findOne({ accountId: user.accountId });
         if (!user) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
 
         const cosmeticname: string = interaction.options.getString('cosmeticname');
 
+        //check if user already has the cosmetic
+        const cosmeticCheck = await asteria.getCosmetic("name", cosmeticname, false);
+        if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return interaction.reply({ content: "That user already has that cosmetic", ephemeral: true });
+
         let cosmetic: any = {};
 
         try {
-            cosmetic = await asteria.getCosmetic("name", cosmeticname);
+            cosmetic = await asteria.getCosmetic("name", cosmeticname, false);
         } catch (err) {
             console.log(err);
             return await interaction.reply({ content: "That cosmetic does not exist", ephemeral: true });
         }
-
-        console.log(cosmetic.name);
 
         const updatedProfile = await Profiles.findOneAndUpdate(
             { accountId: user.accountId },

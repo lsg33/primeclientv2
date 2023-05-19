@@ -2,7 +2,7 @@ export { }
 
 import { Hash } from "crypto";
 import { EmbedBuilder } from "discord.js";
-import { Asteria } from "momentumsdk";
+import Asteria from "asteriasdk";
 
 const asteria = new Asteria({
     collectAnonStats: true,

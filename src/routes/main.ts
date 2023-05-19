@@ -8,10 +8,8 @@ const app = express.Router();
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
-const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
-
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
-    let resp = safety.env.GLOBALCHATENABLED ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
+    let resp = safety.env.GLOBALCHAT_ENABLED == true ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
 
     res.json(resp);
 });

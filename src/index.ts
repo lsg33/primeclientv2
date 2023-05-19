@@ -32,6 +32,9 @@ async function main() {
     let redisTokens;
     let tokens;
 
+    log.backend(`Using ${safety.env.USE_REDIS == true ? "Redis" : "File"} for tokens`)
+    log.backend(`Using ${safety.env.USE_S3 == true ? "S3" : "File"} for cloud and settings storage`)
+
     if (safety.env.USE_REDIS == true) {
         console.log(safety.env.USE_REDIS);
         redisTokens = JSON.parse(JSON.stringify(await kv.get('tokens')));
@@ -71,6 +74,8 @@ async function main() {
     global.clientTokens = tokens.clientTokens;
 
     global.exchangeCodes = [];
+
+    mongoose.set("strictQuery", true);
 
     mongoose
         .connect(safety.env.MONGO_URI)

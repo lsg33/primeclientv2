@@ -28,7 +28,6 @@ if (operatingSystem == "win32") {
     if (!fs.existsSync(path.join(pathToClientSettings))) {
         log.warn("ClientSettings folder for Linux not found, creating...");
         fs.mkdirSync(path.join(pathToClientSettings));
-        fs.chmodSync(pathToClientSettings, 0o700);
         fs.chmodSync(path.join(pathToClientSettings), 0o700);
     }
 }
@@ -201,6 +200,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
         let CloudFiles: Object[] = [];
 
         fs.readdirSync(dir).forEach(name => {
+            log.debug(`Found file: ${name}`);
             if (name.toLowerCase().endsWith(".ini")) {
                 log.debug(`Found .ini file: ${name}`);
                 const ParsedFile = fs.readFileSync(path.join(dir, name)).toString();
@@ -220,6 +220,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
                 });
             }
         });
+        res.json(CloudFiles);
     }
 });
 
@@ -240,7 +241,11 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
     } else {
         const file = path.join(__dirname, "../../", "CloudStorage", req.params.file);
 
+        log.debug(`File: ${file}`);
+
         if (fs.existsSync(file)) return res.status(200).send(fs.readFileSync(file));
+
+        log.debug(`File: ${file} does not exist`);
 
         res.status(200).end();
     }
@@ -291,14 +296,12 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
     } else {
         const userid = req.params[0];
         try {
-            const dirPath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings");
-            if (!fs.existsSync(dirPath)) {
-                fs.mkdirSync(dirPath);
-            }
+            const dirPath = path.join(pathToClientSettings);
         } catch (err) { }
         res.set("Content-Type", "application/octet-stream");
         if (req.params.file.toLowerCase() === "clientsettings.sav") {
-            const filePath = path.join("/etc/momentum/settings", "Momentum", "ClientSettings", `ClientSettings-${userid}.Sav`);
+            const filePath = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
+            log.debug(`Settings file path: ${filePath}`)
             if (fs.existsSync(filePath)) {
                 const fileContent = fs.readFileSync(filePath);
                 return res.status(200).send(fileContent);
@@ -306,7 +309,7 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
                 res.status(200).end();
             }
         } else {
-            // do something else here if needed
+            log.debug("File name is not clientsettings.sav, returning 404");
         }
     }
 
@@ -353,16 +356,13 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
         }
     } else {
         try {
-            const dirPath = path.join(pathToClientSettings);
-            if (!fs.existsSync(dirPath)) {
-                fs.mkdirSync(dirPath);
-            }
             const memory = functions.GetVersionInfo(req);
             const userId = req.params.accountId;
             res.set("Content-Type", "application/json");
             const currentBuildID = memory.CL;
-            const filePath = path.join(dirPath, `ClientSettings-${userId}.Sav`);
+            const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}.Sav`);
             if (fs.existsSync(filePath)) {
+                log.debug(`Settings file path exists: ${filePath}`)
                 const fileContent = fs.readFileSync(filePath, "latin1");
                 const fileStats = fs.statSync(filePath);
                 const response = {
@@ -380,6 +380,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
                 };
                 return res.json([response]);
             } else {
+                log.debug(`Settings file path does not exist: ${filePath}`)
                 return res.json([]);
             }
         } catch (err) {
@@ -424,6 +425,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
         res.status(204).end();
     } else {
+        log.debug("PUT /fortnite/api/cloudstorage/user/*/:file not using S3");
         const userid = req.params[0];
         try {
 

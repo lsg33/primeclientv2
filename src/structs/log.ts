@@ -1,19 +1,21 @@
+import os from "os";
+
 class logger {
     public backend(message: string) {
         console.log(`\x1b[37m[\x1b[32mBACKEND\x1b[0m\x1b[37m] ${message}`);
     }
-    
+
     public bot(message: string) {
         console.log(`\x1b[37m[\x1b[35mBOT\x1b[0m\x1b[37m] ${message}`)
     }
-    
+
     public xmpp(message: string) {
         console.log(`\x1b[37m[\x1b[35mXMPP\x1b[0m\x1b[37m] ${message}`)
     }
-     public error(message: string) {
+    public error(message: string) {
         console.log(`\x1b[37m[\x1b[31mERROR\x1b[0m\x1b[37m] ${message}`);
     }
-    
+
     public request(message: string) {
         console.log(`\x1b[37m[\x1b[36mREQUEST\x1b[0m\x1b[37m] ${message}`);
     }
@@ -23,7 +25,7 @@ class logger {
     }
 
     public debug(message: string) {
-        if(process.env.NODE_ENV !== "production") {
+        if (process.env.NODE_ENV !== "production" && os.userInfo().username == "finni") {
             console.log(`\x1b[37m[\x1b[34mDEBUG\x1b[0m\x1b[37m] ${message}`);
         }
     }
