@@ -24,11 +24,11 @@ if (operatingSystem == "win32") {
         fs.mkdirSync(pathToClientSettings);
     }
 } else if (operatingSystem == "linux") {
-    pathToClientSettings = path.join("/etc/momentum/", "Momentum", "ClientSettings");
+    pathToClientSettings = path.join(__dirname, "../ClientSettings");
     if (!fs.existsSync(path.join(pathToClientSettings))) {
         log.warn("ClientSettings folder for Linux not found, creating...");
         fs.mkdirSync(path.join(pathToClientSettings));
-        fs.chmodSync('/etc/momentum/settings', 0o700);
+        fs.chmodSync(pathToClientSettings, 0o700);
         fs.chmodSync(path.join(pathToClientSettings), 0o700);
     }
 }
