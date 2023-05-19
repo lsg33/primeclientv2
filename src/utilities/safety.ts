@@ -1,4 +1,4 @@
-import path from "path";
+import path, { parse } from "path";
 import log from "../structs/log";
 
 const dotenv = require("dotenv");
@@ -19,6 +19,8 @@ interface iEnv {
     USE_REDIS: Boolean | undefined;
     REDIS_TOKEN: string | undefined;
     REDIS_URL: string | undefined;
+    PER_USER_SERVER: Boolean | undefined;
+    PORT: number | undefined;
 }
 
 export class safety {
@@ -56,16 +58,21 @@ export class safety {
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
         REDIS_TOKEN: process.env.REDIS_TOKEN,
         REDIS_URL: process.env.REDIS_URL,
+        PER_USER_SERVER: this.convertToBool(process.env.PER_USER_SERVER, "PER_USER_SERVER"),
+        PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080")
     };
 
-    public checkENV(): boolean {
+    public airbag(): boolean {
+
+        if (parseInt(process.version.slice(1)) < 18) {
+            throw new Error(
+                `Your node version is too old, please update to at least 18. Your version: ${process.version}`
+            );
+        }
+
         let errorOccured: boolean = false;
         let missingVariables: string[] = [];
 
-        /*if (this.isDocker()) {
-            log.warn("Docker detected, disabling S3.");
-            this.env.USE_S3 = false;
-        } */
         for (const [key, value] of Object.entries(this.env)) {
             if (value == undefined) {
                 missingVariables.push(key);
@@ -83,21 +90,20 @@ export class safety {
         }
 
         if (errorOccured) {
-            console.log(missingVariables.length);
             //Super unnecessary, but I like it.
             throw new TypeError(
                 `The environment ${missingVariables.length > 1 ? "variables" : "variable"
                 } ${missingVariables
                     .slice(0, -1)
                     .join(", ")}${missingVariables.length > 1 ? "," : ""
-                }${missingVariables.length > 1 ? " and" : ""
+                } ${missingVariables.length > 1 ? " and" : ""
                 } ${missingVariables.slice(-1)} ${missingVariables.length > 1 ? "are" : "is"
                 } missing, please declare ${missingVariables.length > 1 ? "them" : "it"
                 } in the .env file.`
             );
         }
 
-        //Not recommended to use, but you have the option to.
+        //Not recommended to use as it's not typed, but you have the option to.
         global.env = this.env;
         return true;
     }

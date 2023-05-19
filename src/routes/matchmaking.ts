@@ -1,5 +1,6 @@
 import decode from "../utilities/decode";
 import kv from "../utilities/kv";
+import safety from "../utilities/safety";
 
 export { };
 
@@ -47,14 +48,20 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    console.log("Matchmaking session requested 2.");
+    const gameServers:string[] = ["192.168.178.192", "127.0.0.1"]
 
-    const user = await decode.decodeAuth(req);
+    let user: { gameserver: string } = { gameserver: "127.0.0.1" };
+
+    if(safety.env.PER_USER_SERVER == true) {
+        decode.decodeAuth(req)
+    }
 
     let gameServerInfo = {
-        serverAddress: user,
+        serverAddress: safety.env.PER_USER_SERVER == true ? user.gameserver : gameServers[Math.floor(Math.random() * gameServers.length)],
         serverPort: 7777
     };
+
+    console.log("G,eserver: " + gameServerInfo.serverAddress);
 
     res.json({
         "id": req.params.sessionId,

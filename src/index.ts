@@ -17,17 +17,22 @@ import log from './structs/log';
 import safety from './utilities/safety';
 import update from './utilities/update';
 
+if (process.getuid && process.getuid() !== 0) {
+    log.error("Due to the way the ClientSettings folder permissions are updated, you must run this as root/sudo for one time.");
+    process.exit(1);
+}
+
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
 async function main() {
 
-    safety.checkENV();
+    safety.airbag();
     await update.checkForUpdate(packageJson.version);
 
     if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 
     global.JWT_SECRET = functions.MakeID();
-    const PORT = 8080;
+    const PORT = safety.env.PORT;
 
     let redisTokens;
     let tokens;

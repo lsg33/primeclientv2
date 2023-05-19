@@ -14,7 +14,7 @@ const Friends = require("../model/friends.js");
 
 const port = 80;
 const wss = new WebSocket({ server: app.listen(port) });
-const matchmaker = require("../matchmaker/matchmaker.js");
+import matchmaker from "../matchmaker/matchmaker";
 
 let domain = "prod.ol.epicgames.com";
 
@@ -54,11 +54,11 @@ wss.on('listening', () => {
     logger.xmpp(`XMPP and Matchmaker started listening on port ${port}`);
 });
 
-wss.on('connection', async (ws) => {
+wss.on('connection', async (ws, req) => {
     ws.on('error', () => {});
 
     // Start matchmaker if it's not connecting for xmpp.
-    if (ws.protocol.toLowerCase() != "xmpp") return matchmaker(ws);
+    if (ws.protocol.toLowerCase() != "xmpp") return matchmaker.server(ws, req);
 
     let joinedMUCs = [];
     let accountId = "";
