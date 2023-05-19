@@ -4,7 +4,7 @@
 ![size](https://img.shields.io/github/repo-size/Nexus-FN/Momentum?label=Size&style=for-the-badge)
 ![](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
 
-Momentum is a fork of the popular Fortnite Backend LawinServer. It is aimed to improve the stability and be more suitable for production use.
+Momentum is a fork (skid) of the Fortnite Backend LawinServer. It is aimed to improve the stability and be more suitable for production use.
 
 I just released a new NPM package called "MomentumSDK" which allows you to easily interact with Momentum. You can find it here:
 
@@ -12,11 +12,13 @@ I just released a new NPM package called "MomentumSDK" which allows you to easil
 
 ### Check out the new documentation here https://docs.nexusfn.net/
 
+### Join the Discord at https://discord.gg/7njfwrAqTd
+
 ### New Features
 
 - [x] 2FA (Two Factor Authentication aka Multi-Factor Authentication)
-- [x] vBuck adjustments
-- [x] Matchmaking system
+- [x] Storing settings in the cloud
+- [x] Full Matchmaking system
 
 ## Here's a preview of the new 2FA system:
 
