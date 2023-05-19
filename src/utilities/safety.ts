@@ -62,10 +62,10 @@ export class safety {
         let errorOccured: boolean = false;
         let missingVariables: string[] = [];
 
-        if (this.isDocker()) {
+        /*if (this.isDocker()) {
             log.warn("Docker detected, disabling S3.");
             this.env.USE_S3 = false;
-        }
+        } */
         for (const [key, value] of Object.entries(this.env)) {
             if (value == undefined) {
                 missingVariables.push(key);
