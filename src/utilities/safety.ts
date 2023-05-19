@@ -1,8 +1,8 @@
 import path, { parse } from "path";
 import log from "../structs/log";
 
-const dotenv = require("dotenv");
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+import dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 interface iEnv {
     MONGO_URI: string | undefined;
@@ -20,14 +20,14 @@ interface iEnv {
     REDIS_TOKEN: string | undefined;
     REDIS_URL: string | undefined;
     PER_USER_SERVER: Boolean | undefined;
-    PORT: number | undefined;
+    PORT?: number | undefined;
 }
 
 export class safety {
     private convertToBool(value: string | undefined | boolean, key: string): Boolean {
-        if (value == "true") {
+        if (value === "true") {
             return true;
-        } else if (value == "false") {
+        } else if (value === "false") {
             return false;
         } else {
             throw new Error(
@@ -36,7 +36,7 @@ export class safety {
         }
     }
 
-    public isDocker(): Boolean {
+    public isDocker(): boolean {
         if (process.env.DOCKER == "true") {
             return true;
         }

@@ -16,6 +16,7 @@ import kv from './utilities/kv';
 import log from './structs/log';
 import safety from './utilities/safety';
 import update from './utilities/update';
+import process from 'node:process';
 
 if (process.getuid && process.getuid() !== 0) {
     log.error("Due to the way the ClientSettings folder permissions are updated, you must run this as root/sudo for one time.");
@@ -23,6 +24,13 @@ if (process.getuid && process.getuid() !== 0) {
 }
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
+
+process.once('SIGTERM', async function (code) {
+    console.log('SIGTERM received...');
+    await app.close();
+    log.warn("SIGTERM received, exiting...");
+    process.exit(0);
+});
 
 async function main() {
 

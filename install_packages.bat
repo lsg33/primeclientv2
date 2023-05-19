@@ -1,3 +1,1 @@
-npm i
-npm i -g typescript
-pause
+npm install && npm install -g typescript && tsc && echo Installation Finished! & pause
