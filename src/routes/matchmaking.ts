@@ -1,10 +1,13 @@
+import decode from "../utilities/decode";
+import kv from "../utilities/kv";
+
 export { };
 
 const express = require("express");
 const app = express.Router();
 const fs = require("fs");
 const functions = require("../structs/functions.js");
-
+const User = require("../model/user");
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
 let buildUniqueId = {};
@@ -13,7 +16,8 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
     res.status(200).end();
 });
 
-app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, (req, res) => {
+app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
+
     if (typeof req.query.bucketId != "string") return res.status(400).end();
     if (req.query.bucketId.split(":").length != 4) return res.status(400).end();
 
@@ -31,6 +35,9 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 });
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
+
+    console.log("Matchmaking session requested 1.");
+
     res.json({
         "accountId": req.params.accountId,
         "sessionId": req.params.sessionId,
@@ -38,23 +45,16 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
     });
 });
 
-app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) => {
-    const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
+app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
+
+    console.log("Matchmaking session requested 2.");
+
+    const user = await decode.decodeAuth(req);
 
     let gameServerInfo = {
-        serverAddress: "127.0.0.1",
+        serverAddress: user,
         serverPort: 7777
-    }
-
-    try {
-        let calculateIp = config.gameServerIP.split(":")[0];
-        let calculatePort = Number(config.gameServerIP.split(":")[1]);
-
-        if (calculateIp) gameServerInfo.serverAddress = calculateIp;
-        if (Number.isNaN(calculatePort) || !calculatePort) throw new Error("Invalid port.");
-
-        gameServerInfo.serverPort = calculatePort;
-    } catch { }
+    };
 
     res.json({
         "id": req.params.sessionId,
@@ -104,6 +104,9 @@ app.post("/fortnite/api/matchmaking/session/*/join", (req, res) => {
 });
 
 app.post("/fortnite/api/matchmaking/session/matchMakingRequest", (req, res) => {
+
+    console.log("Matchmaking session requested 3.");
+
     res.json([]);
 });
 
