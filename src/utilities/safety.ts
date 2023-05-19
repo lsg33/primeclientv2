@@ -6,21 +6,22 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 interface iEnv {
     MONGO_URI: string | undefined;
-    USE_S3: Boolean | undefined;
-    S3_BUCKET_NAME: string | undefined;
-    S3_ENDPOINT: string | undefined;
-    S3_ACCESS_KEY_ID: string | undefined;
-    S3_SECRET_ACCESS_KEY: string | undefined;
     BOT_TOKEN: string | undefined;
     CLIENT_ID: string | undefined;
     GUILD_ID: string | undefined;
     GLOBALCHAT_ENABLED: Boolean | undefined;
     NAME: string | undefined;
+    PORT?: number | undefined;
+    //Advanced
+    USE_S3: Boolean | undefined;
+    S3_BUCKET_NAME: string | undefined;
+    S3_ENDPOINT: string | undefined;
+    S3_ACCESS_KEY_ID: string | undefined;
+    S3_SECRET_ACCESS_KEY: string | undefined;
     USE_REDIS: Boolean | undefined;
     REDIS_TOKEN: string | undefined;
     REDIS_URL: string | undefined;
     PER_USER_SERVER: Boolean | undefined;
-    PORT?: number | undefined;
 }
 
 export class safety {
@@ -45,21 +46,21 @@ export class safety {
 
     public env: iEnv = {
         MONGO_URI: process.env.MONGO_URI,
-        USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
-        S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
-        S3_ENDPOINT: process.env.S3_ENDPOINT,
-        S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
-        S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
         BOT_TOKEN: process.env.BOT_TOKEN,
         CLIENT_ID: process.env.CLIENT_ID,
         GUILD_ID: process.env.GUILD_ID,
         GLOBALCHAT_ENABLED: this.convertToBool(process.env.GLOBALCHATENABLED, "GLOBALCHATENABLED"),
         NAME: process.env.NAME,
+        PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080"),
+        USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
+        S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+        S3_ENDPOINT: process.env.S3_ENDPOINT,
+        S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
+        S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
+        PER_USER_SERVER: this.convertToBool(process.env.PER_USER_SERVER, "PER_USER_SERVER"),
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
         REDIS_TOKEN: process.env.REDIS_TOKEN,
         REDIS_URL: process.env.REDIS_URL,
-        PER_USER_SERVER: this.convertToBool(process.env.PER_USER_SERVER, "PER_USER_SERVER"),
-        PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080")
     };
 
     public airbag(): boolean {
