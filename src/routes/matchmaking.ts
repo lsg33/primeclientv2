@@ -24,10 +24,10 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     buildUniqueId[req.user.accountId] = req.query.bucketId.split(":")[0];
 
-    const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
+    const matchmakerIP = safety.env.MATCHMAKER_IP !== undefined ? safety.env.MATCHMAKER_IP : "127.0.0.1:80";
 
     res.json({
-        "serviceUrl": `ws://${config.matchmakerIP}`,
+        "serviceUrl": `ws://${matchmakerIP}`,
         "ticketType": "mms-player",
         "payload": "69=",
         "signature": "420="
@@ -48,7 +48,7 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const gameServers:string[] = ["192.168.178.192", "127.0.0.1"]
+    const gameServers:string[] = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split('_') : [];
 
     let user: { gameserver: string } = { gameserver: "127.0.0.1" };
 
@@ -60,8 +60,6 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
         serverAddress: safety.env.PER_USER_SERVER == true ? user.gameserver : gameServers[Math.floor(Math.random() * gameServers.length)],
         serverPort: 7777
     };
-
-    console.log("G,eserver: " + gameServerInfo.serverAddress);
 
     res.json({
         "id": req.params.sessionId,

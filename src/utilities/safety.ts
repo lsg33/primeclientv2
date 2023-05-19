@@ -11,8 +11,10 @@ interface iEnv {
     GUILD_ID: string | undefined;
     GLOBALCHAT_ENABLED: Boolean | undefined;
     NAME: string | undefined;
-    PORT?: number | undefined;
+    PORT: number | undefined;
+    GAME_SERVERS: string | undefined;
     //Advanced
+    MATCHMAKER_IP: string | undefined;
     USE_S3: Boolean | undefined;
     S3_BUCKET_NAME: string | undefined;
     S3_ENDPOINT: string | undefined;
@@ -52,6 +54,8 @@ export class safety {
         GLOBALCHAT_ENABLED: this.convertToBool(process.env.GLOBALCHATENABLED, "GLOBALCHATENABLED"),
         NAME: process.env.NAME,
         PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080"),
+        GAME_SERVERS: process.env.GAME_SERVERS,
+        MATCHMAKER_IP: process.env.MATCHMAKER_IP,
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
         S3_ENDPOINT: process.env.S3_ENDPOINT,
@@ -87,6 +91,11 @@ export class safety {
                 } else {
                     this.env[key] = value.replace(/ /g, "_");
                 }
+            }
+            if (key == "USE_REDIS")
+            {
+                this.env.USE_REDIS = false;
+                log.warn("USE_REDIS has been disabled as using Redis is currently unstable and error prone. Stay tuned for updates.");
             }
         }
 
