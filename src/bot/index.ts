@@ -72,7 +72,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	try {
 		await command.execute(interaction);
-	} catch (error:any) {
+	} catch (error: any) {
 		logger.error(error.toString());
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -80,6 +80,21 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isModalSubmit()) return;
+	if (interaction.customId === 'shopmodal') {
+		const shopJSON = interaction.fields.getTextInputValue('shopjson');
+		try {
+			JSON.parse(shopJSON);
+			await fs.writeFile(path.join(__dirname, '../../responses/catalog.json'), shopJSON);
+			await interaction.reply({ content: 'Your submission was received successfully!' });
+		} catch (error) {
+			return await interaction.followUp({ content: 'The JSON you provided is invalid!' });
+		}
+	}
+	console.log(interaction);
 });
 
 client.login(token);

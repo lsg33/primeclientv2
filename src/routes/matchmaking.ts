@@ -1,3 +1,4 @@
+import log from "../structs/log";
 import decode from "../utilities/decode";
 import kv from "../utilities/kv";
 import safety from "../utilities/safety";
@@ -10,14 +11,20 @@ const fs = require("fs");
 const functions = require("../structs/functions.js");
 const User = require("../model/user");
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+const qs = require('qs');
 
 let buildUniqueId = {};
 
 app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
+
     res.status(200).end();
 });
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
+
+    const queryString = req.query;
+    const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
+    const playerCustomKey = parsedQuery['player.customKey'];
 
     if (typeof req.query.bucketId != "string") return res.status(400).end();
     if (req.query.bucketId.split(":").length != 4) return res.status(400).end();
@@ -37,7 +44,8 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
 
-    console.log("Matchmaking session requested 1.");
+    console.log("GET /fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId");
+    console.log(req);
 
     res.json({
         "accountId": req.params.accountId,
@@ -48,11 +56,11 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const gameServers:string[] = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split('_') : [];
+    const gameServers: string[] = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split('_') : [];
 
     let user: { gameserver: string } = { gameserver: "127.0.0.1" };
 
-    if(safety.env.PER_USER_SERVER == true) {
+    if (safety.env.PER_USER_SERVER == true) {
         user = await decode.decodeAuth(req)
     }
 
@@ -105,12 +113,11 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
 });
 
 app.post("/fortnite/api/matchmaking/session/*/join", (req, res) => {
+
     res.status(204).end();
 });
 
 app.post("/fortnite/api/matchmaking/session/matchMakingRequest", (req, res) => {
-
-    console.log("Matchmaking session requested 3.");
 
     res.json([]);
 });
