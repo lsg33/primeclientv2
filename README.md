@@ -26,6 +26,8 @@ You can't do much wrong while installing this. All enviroment/config variables a
 
 ![](https://cdn.nexusfn.net/file/2023/05/Discord_VMLHdyEEV1.gif)
 
+Note: You are not allowed to sell parts of this code or claim it as your own, as well as remove the branding in the contentpages.json
+
 #### New Features
 Features that do not exist in LawinV2
 
