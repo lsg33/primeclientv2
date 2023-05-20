@@ -45,7 +45,6 @@ module.exports = {
 
         //check if user already has the cosmetic
         const cosmeticCheck = await asteria.getCosmetic("name", cosmeticname, false);
-        if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return interaction.reply({ content: "That user already has that cosmetic", ephemeral: true });
 
         let cosmetic: any = {};
 
@@ -54,6 +53,8 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return await interaction.reply({ content: "That cosmetic does not exist", ephemeral: true });
+        } finally {
+            if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return interaction.reply({ content: "That user already has that cosmetic", ephemeral: true });
         }
 
         const updatedProfile = await Profiles.findOneAndUpdate(

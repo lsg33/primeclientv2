@@ -1,5 +1,6 @@
 import path, { parse } from "path";
 import log from "../structs/log";
+import fs from "fs";
 
 import dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
@@ -75,6 +76,16 @@ export class safety {
             );
         }
 
+        try {
+            JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../tokens.json"), "utf-8"));
+        } catch (e) {
+            fs.writeFileSync(path.resolve(__dirname, "../../tokens.json"), JSON.stringify({
+                "accessTokens": [],
+                "refreshTokens": [],
+                "clientTokens": []
+            }));
+        }
+
         let errorOccured: boolean = false;
         let missingVariables: string[] = [];
 
@@ -92,8 +103,7 @@ export class safety {
                     this.env[key] = value.replace(/ /g, "_");
                 }
             }
-            if (key == "USE_REDIS")
-            {
+            if (key == "USE_REDIS") {
                 this.env.USE_REDIS = false;
                 log.warn("USE_REDIS has been disabled as using Redis is currently unstable and error prone. Stay tuned for updates.");
             }

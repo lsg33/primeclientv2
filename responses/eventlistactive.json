@@ -1,0 +1,80 @@
+{
+    "result": true,
+    "region": "EU",
+    "lang": "en",
+    "season": 12,
+    "events": [
+        {
+            "id": "epicgames_S12_EU_DuosTest",
+            "displayId": "s12_test_duos",
+            "region": "EU",
+            "detectionDate": "2020-02-29T16:00:00.000Z",
+            "name_line1": "DUOS",
+            "name_line2": "TEST EVENT",
+            "poster": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_Poster_Front-750x1080-3fcd795f59a70c0f1104d7b91428c333ae0de719.jpg",
+            "posterBack": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_Poster_Back-750x1080-ded5a2a14617e6586f9db2d2ab29fde400ce81a7.jpg",
+            "loadingScreen": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_ModeTile-1024x512-b6da7350cd4a5552d597cf047973f8c767ef90f8.jpg",
+            "tileImage": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_ModeTile-1024x512-b6da7350cd4a5552d597cf047973f8c767ef90f8.jpg",
+            "short_description": "We're running a test event on the new update. Try and reach the top of the Leaderboard!",
+            "long_description": "This tournament will self destruct at the conclusion of our testing period.  Any scores or pins will be removed after the tournament is complete.",
+            "schedule": "",
+            "beginTime": "2020-02-29T16:00:00.000Z",
+            "endTime": "2020-02-29T19:00:00.000Z",
+            "cumulative": false,
+            "platforms": [],
+            "renderData": {
+                "background_text_color": "FFF7AC",
+                "poster_fade_color": "000000",
+                "secondary_color": "000000",
+                "title_color": "FFFFFF",
+                "background_right_color": "000000",
+                "primary_color": "DCBD4B",
+                "shadow_color": "1F1E1C",
+                "background_left_color": "171615",
+                "base_color": "FFFFFF"
+            },
+            "windows": [
+                {
+                    "windowId": "S12_EU_DuosTest_Event1",
+                    "beginTime": "2020-02-29T16:00:00.000Z",
+                    "endTime": "2020-02-29T19:00:00.000Z"
+                }
+            ]
+        },
+        {
+            "id": "epicgames_S12_EU_SoloTest",
+            "displayId": "s12_test_solo",
+            "region": "EU",
+            "detectionDate": "2020-03-01T16:00:00.000Z",
+            "name_line1": "SOLO",
+            "name_line2": "TEST EVENT",
+            "poster": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_Poster_Front-750x1080-3fcd795f59a70c0f1104d7b91428c333ae0de719.jpg",
+            "posterBack": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_Poster_Back-750x1080-ded5a2a14617e6586f9db2d2ab29fde400ce81a7.jpg",
+            "loadingScreen": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_ModeTile-1024x512-b6da7350cd4a5552d597cf047973f8c767ef90f8.jpg",
+            "tileImage": "https://cdn2.unrealengine.com/Fortnite/fortnite-game/tournamentinformation/TEST_12BR_Competitive_In-Game_FNCS_ModeTile-1024x512-b6da7350cd4a5552d597cf047973f8c767ef90f8.jpg",
+            "short_description": "We're running a test event on the new update. Try and reach the top of the Leaderboard!",
+            "long_description": "This tournament will self destruct at the conclusion of our testing period.  Any scores will be removed after the tournament is complete.",
+            "schedule": "",
+            "beginTime": "2020-03-01T16:00:00.000Z",
+            "endTime": "2020-03-01T19:00:00.000Z",
+            "cumulative": false,
+            "platforms": [
+                "PS4",
+                "Mac",
+                "IOS",
+                "XboxOne",
+                "Android",
+                "Switch",
+                "Windows"
+            ],
+            "renderData": {},
+            "windows": [
+                {
+                    "windowId": "S12_EU_SoloTest_Event1",
+                    "beginTime": "2020-03-01T16:00:00.000Z",
+                    "endTime": "2020-03-01T19:00:00.000Z"
+                }
+            ]
+        }
+    ]
+}

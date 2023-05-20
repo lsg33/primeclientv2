@@ -43,10 +43,6 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 });
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
-
-    console.log("GET /fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId");
-    console.log(req);
-
     res.json({
         "accountId": req.params.accountId,
         "sessionId": req.params.sessionId,

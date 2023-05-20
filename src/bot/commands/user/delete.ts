@@ -64,7 +64,7 @@ module.exports = {
                     })
                     .setTimestamp();
         
-                interaction.editReply({ embeds: [embed], ephemeral: true });
+                interaction.followUp({ embeds: [embed], ephemeral: true });
             } else if (confirmation.customId === 'cancel') {
                 const embed = new EmbedBuilder()
                     .setTitle(`Account Deletion Cancelled`)
@@ -76,13 +76,13 @@ module.exports = {
                     })
                     .setTimestamp();
         
-                interaction.editReply({ embeds: [embed], ephemeral: true });
+                interaction.followUp({ embeds: [embed], ephemeral: true });
             }
                 
 
         } catch (err) {
             console.log(err);
-            return interaction.editReply({ content: "You took too long to respond!", components: [] });
+            return interaction.followUp({ content: "You took too long to respond!", components: [] });
         }
 
     },

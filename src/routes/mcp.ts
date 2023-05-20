@@ -1514,6 +1514,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
         case "SetHardcoreModifier": break;
         case "SetMtxPlatform": break;
         case "BulkEquipBattleRoyaleCustomization": break;
+        case "ClaimMfaEnabled":
+            if (profile.stats.attributes.mfa_enabled) return error.createError(
+                "errors.com.epicgames.modules.profiles.operation_forbidden",
+                "MFA already enabled",
+                [], 12813, undefined, 403, res
+            );
+            break;
 
         default:
             error.createError(
