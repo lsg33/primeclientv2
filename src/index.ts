@@ -123,8 +123,8 @@ async function main() {
     app.listen(PORT, () => {
         logger.backend(`App started listening on port ${PORT}`);
 
-        require("./xmpp/xmpp.js");
-        require("./bot/index.js");
+        require("./xmpp/xmpp");
+        require("./bot/index");
     }).on("error", async (err) => {
         if (err.code == "EADDRINUSE") {
             logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);

@@ -433,7 +433,9 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
                 fs.mkdirSync(path.join(pathToClientSettings));
 
             }
-        } catch (err) { }
+        } catch (err) {
+            log.error(err as string);
+        }
 
         if (req.params.file.toLowerCase() !== "clientsettings.sav") {
             return res.status(404).json({
