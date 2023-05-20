@@ -33,7 +33,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle(`MFA ${updatedUser.mfa ? "Enabled" : "Disabled"}`)
             .setDescription("MFA has been toggled")
-            .setColor("#313338")
+            .setColor("#2b2d31")
             .addFields([
                 {
                     name: "Username",

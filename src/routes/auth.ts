@@ -115,7 +115,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 await kv.set(req.user.discordId, "false");
             
                 const embed = new EmbedBuilder()
-                    .setColor('#313338')
+                    .setColor('#2b2d31')
                     .setTitle('New Login')
                     .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
                     .addFields(

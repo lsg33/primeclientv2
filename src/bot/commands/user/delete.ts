@@ -33,7 +33,7 @@ module.exports = {
         const confirmationEmbed = new EmbedBuilder()
             .setTitle(`Are you sure you want to delete your account?`)
             .setDescription("This action is irreversible, and will delete all your data.")
-            .setColor("#313338")
+            .setColor("#2b2d31")
             .setFooter({
                 text: "Momentum",
                 iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
@@ -57,7 +57,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setTitle(`Account Deleted`)
                     .setDescription("Your account has been deleted, we're sorry to see you go! \n\nNote: The interaction has not actually failed, just discord being weird.")
-                    .setColor("#313338")
+                    .setColor("#2b2d31")
                     .setFooter({
                         text: "Momentum",
                         iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
@@ -69,7 +69,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setTitle(`Account Deletion Cancelled`)
                     .setDescription("Your account has not been deleted.")
-                    .setColor("#313338")
+                    .setColor("#2b2d31")
                     .setFooter({
                         text: "Momentum",
                         iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",

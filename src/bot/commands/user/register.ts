@@ -49,7 +49,7 @@ module.exports = {
 						value: email,
 					},
 				)
-				.setColor("#313338")
+				.setColor("#2b2d31")
 				.setFooter({
 					text: "Momentum",
 					iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
@@ -70,15 +70,32 @@ module.exports = {
 						value: email,
 					},
 				)
-				.setColor("#313338")
+				.setColor("#2b2d31")
 				.setFooter({
 					text: "Momentum",
 					iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
 				})
 				.setTimestamp();
 
-				await interaction.user.send({ embeds: [publicembed] });
 				await interaction.reply({ content: res.message, ephemeral: true });
+
+				const publicEmbed = new EmbedBuilder()
+					.setTitle("New registration")
+					.setDescription("A new user has registered")
+					.addFields(
+						{
+							name: "Username",
+							value: username,
+						}
+					)
+					.setColor("#2b2d31")
+					.setFooter({
+						text: "Momentum",
+						iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+					})
+					.setTimestamp();
+
+				await interaction.channel.send({ embeds: [publicEmbed] });
 		}).catch((err) => {
 			log.error(err);
 		});

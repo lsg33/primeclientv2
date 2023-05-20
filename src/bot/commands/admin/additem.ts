@@ -46,6 +46,8 @@ module.exports = {
         //check if user already has the cosmetic
         const cosmeticCheck = await asteria.getCosmetic("name", cosmeticname, false);
 
+        if(cosmeticname.toLowerCase() === cosmeticname) return interaction.reply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
+
         let cosmetic: any = {};
 
         try {
@@ -82,7 +84,7 @@ module.exports = {
             .setTitle("Cosmetic added")
             .setDescription("Successfully gave the user the cosmetic: " + cosmetic.name)
             .setThumbnail(cosmetic.images.icon)
-            .setColor("#313338")
+            .setColor("#2b2d31")
             .setFooter({
                 text: "Momentum",
                 iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",

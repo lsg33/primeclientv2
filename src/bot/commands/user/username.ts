@@ -32,7 +32,7 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setTitle("Username changed")
 			.setDescription("Your account username has been changed to " + username + "")
-			.setColor("#313338")
+			.setColor("#2b2d31")
 			.setFooter({
 				text: "Momentum",
 				iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",

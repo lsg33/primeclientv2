@@ -43,7 +43,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setTitle("Your account")
             .setDescription("These are your account details")
-            .setColor("#313338")
+            .setColor("#2b2d31")
             .addFields([
                 {
                     name: "Username",
