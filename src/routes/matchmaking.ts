@@ -53,7 +53,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
     let user: { gameserver: string } = { gameserver: "127.0.0.1" };
 
     if(safety.env.PER_USER_SERVER == true) {
-        decode.decodeAuth(req)
+        user = await decode.decodeAuth(req)
     }
 
     let gameServerInfo = {
