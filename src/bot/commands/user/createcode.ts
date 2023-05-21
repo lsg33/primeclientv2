@@ -40,6 +40,10 @@ module.exports = {
             if (code.includes(" ")) return interaction.reply({ content: "Your code can't contain spaces", ephemeral: true });
             if (/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(code)) return interaction.reply({ content: "Your code can't contain any special characters", ephemeral: true });
 
+            const ipExp: RegExp = new RegExp("^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$");
+
+            if (!ipExp.test(ip)) return interaction.reply({ content: "Your provided an invalid ip adress", ephemeral: true });
+
             const codeExists = await mmcodes.findOne({ code_lower: code.toLowerCase() });
             if (codeExists) return interaction.reply({ content: "This code already exists", ephemeral: true });
 

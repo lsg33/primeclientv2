@@ -24,7 +24,6 @@ interface iEnv {
     USE_REDIS: Boolean | undefined;
     REDIS_TOKEN: string | undefined;
     REDIS_URL: string | undefined;
-    PER_USER_SERVER: Boolean | undefined;
 }
 
 export class safety {
@@ -62,7 +61,6 @@ export class safety {
         S3_ENDPOINT: process.env.S3_ENDPOINT,
         S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
         S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
-        PER_USER_SERVER: this.convertToBool(process.env.PER_USER_SERVER, "PER_USER_SERVER"),
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
         REDIS_TOKEN: process.env.REDIS_TOKEN,
         REDIS_URL: process.env.REDIS_URL,
