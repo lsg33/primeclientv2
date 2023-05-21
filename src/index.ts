@@ -18,11 +18,6 @@ import safety from './utilities/safety';
 import update from './utilities/update';
 import process from 'node:process';
 
-if (process.getuid && process.getuid() !== 0) {
-    log.error("Due to the way the ClientSettings folder permissions are updated, you must run this as root/sudo for one time.");
-    process.exit(1);
-}
-
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
 process.once('SIGTERM', async function (code) {
@@ -35,7 +30,13 @@ process.once('SIGTERM', async function (code) {
 async function main() {
 
     safety.airbag();
-    await update.checkForUpdate(packageJson.version);
+    
+    try {
+        await update.checkForUpdate(packageJson.version);
+    } catch (err) {
+        log.error("Failed to check for updates");
+    }
+
 
     if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 

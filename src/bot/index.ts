@@ -5,7 +5,6 @@ export { }
 const dotenv = require("dotenv");
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-const axios = require("axios");
 import logger from '../structs/log';
 import safety from "../utilities/safety";
 
