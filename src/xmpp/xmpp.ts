@@ -227,18 +227,6 @@ wss.on('connection', async (ws, req) => {
 
                         if (!MUC.members.find(i => i.accountId == accountId)) return;
 
-                        switch (body.up().toString()) {
-                            case body.up.up().toString().includes("!help"):
-                                //send message with all commands back to the client
-                                receiver.client.send(XMLBuilder.create("message")
-                                .attribute("to", jid)
-                                .attribute("from", getMUCmember(roomName, displayName, accountId, resource))
-                                .attribute("xmlns", "jabber:client")
-                                .attribute("type", "chat")
-                                .element("body", body).up().toString());
-                            break;
-                        }
-
                         MUC.members.forEach(member => {
                             let ClientData = global.Clients.find(i => i.accountId == member.accountId);
                             if (!ClientData) return;
