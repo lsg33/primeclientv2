@@ -88,7 +88,6 @@ client.on(Events.InteractionCreate, async interaction => {
 			return await interaction.followUp({ content: 'The JSON you provided is invalid!' });
 		}
 	}
-	console.log(interaction);
 });
 
 client.login(token);

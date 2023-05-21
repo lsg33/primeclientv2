@@ -84,7 +84,6 @@ module.exports = {
                 
 
         } catch (err) {
-            console.log(err);
             return interaction.followUp({ content: "You took too long to respond!", components: [] });
         }
 

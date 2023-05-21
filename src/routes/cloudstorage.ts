@@ -269,8 +269,6 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
         const fileName = req.params.file;
         const key = `CloudStorage/${safety.env.NAME}/${userid}/${fileName}`;
 
-        console.log(key);
-
         const s3Object = await getCloudFile(key);
 
         //if s3 object is 0 bytes, return 404

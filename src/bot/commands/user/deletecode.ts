@@ -45,8 +45,6 @@ module.exports = {
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (err) {
-            console.log("An error occured while executing the command");
-            console.log(err);
             await interaction.reply({ content: "An error occured while creating your code. Please try again later.", ephemeral: true });
         }
 

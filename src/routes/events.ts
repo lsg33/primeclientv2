@@ -7,7 +7,6 @@ import fs from "fs";
 import path from "path";
 
 app.get("/api/v1/events/Fortnite/download/:accountId", async (req, res) => {
-    console.log(req)
     const events = JSON.parse(fs.readFileSync(path.join(__dirname, "../../responses/eventlistactive.json"), "utf8"));
     res.json(events)
 

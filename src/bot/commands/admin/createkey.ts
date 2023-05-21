@@ -30,7 +30,6 @@ module.exports = {
 			access: "user",
 		}, async (err, api) => {
 			if (err) return console.log(err);
-			console.log(api);
 		});
 
 		newKey.save()

@@ -111,7 +111,6 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 } else {
                     const numberWith8Digits = Math.floor(10000000 + Math.random() * 90000000);
                     const registerUser = await functions.registerUser(numberWith8Digits, `reboot_${email.split("@")[0]}`, email, password, true)
-                    console.log(registerUser);
                     req.user = await User.findOne({ email: email.toLowerCase() });
                 }
             } else {
@@ -192,8 +191,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
                 //Wait for 2FA
                 await waitFor2FA(req);
-            } else {
-                console.log("No 2FA: " + req.user.mfa + " | " + req.user.username);
+            } else {;
             }
 
             break;
@@ -300,25 +298,6 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     const decodedAccess = jwt.decode(accessToken);
     const decodedRefresh = jwt.decode(refreshToken);
 
-    log.debug("Trying to login: " + req.user.username + " | " + req.user.accountId);
-    const resjson = {
-        access_token: `eg1~${accessToken}`,
-        expires_in: Math.round(((DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).getTime()) - (new Date().getTime())) / 1000),
-        expires_at: DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).toISOString(),
-        token_type: "bearer",
-        refresh_token: `eg1~${refreshToken}`,
-        refresh_expires: Math.round(((DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).getTime()) - (new Date().getTime())) / 1000),
-        refresh_expires_at: DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).toISOString(),
-        account_id: req.user.accountId,
-        client_id: clientId,
-        internal_client: true,
-        client_service: "fortnite",
-        displayName: rebootAccount == true ? req.user.username_lower : req.user.displayName,
-        app: "fortnite",
-        in_app_id: "Fortnite",
-        device_id: deviceId,
-    };
-    console.log(resjson);
     res.json({
         access_token: `eg1~${accessToken}`,
         expires_in: Math.round(((DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).getTime()) - (new Date().getTime())) / 1000),
