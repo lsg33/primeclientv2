@@ -17,10 +17,6 @@ const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify");
 const qs = require('qs');
 const error = require("../structs/error");
 
-client.on("ready", async () => {
-    log.debug("Ready!");
-});
-
 let buildUniqueId = {};
 
 app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
