@@ -19,12 +19,9 @@ You can't do much wrong while installing this. All enviroment/config variables a
 ### New Features
 
 - [x] 2FA (Two Factor Authentication aka Multi-Factor Authentication)
+- [x] Custom matchmaking codes (**NEW**) 
 - [x] Storing settings in the cloud
 - [x] Full Matchmaking system
-
-## Here's a preview of the new 2FA system:
-
-![](https://cdn.nexusfn.net/file/2023/05/Discord_VMLHdyEEV1.gif)
 
 Note: You are not allowed to sell parts of this code or claim it as your own, as well as remove the branding in the contentpages.json
 
