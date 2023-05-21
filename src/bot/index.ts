@@ -62,7 +62,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	const command = client.commands.get(interaction.commandName);
 
-	if (!command) return;
+	if (!command) await interaction.reply({ content: 'This command does not exist', ephemeral: true });
 
 	try {
 		await command.execute(interaction);
