@@ -21,16 +21,16 @@ class kv {
     async get(key: string): Promise<string> {
 
         if (safety.env.USE_REDIS) {
-            return await redis.get(key) || "";
+            return await redis.get(key);
         } else {
-            return await memkv.get(key) || "";
+            return memkv.get(key);
         }
 
     }
 
     async set(key: string, value: any): Promise<Boolean> {
 
-        if (safety.env.USE_REDIS) {
+        if (safety.env.USE_REDIS == true) {
             const set = await redis.set(key, value);
             if (set == "OK") {
                 return true;
@@ -38,7 +38,7 @@ class kv {
                 return false;
             }
         } else {
-            return await memkv.set(key, value);
+            return memkv.set(key, value);
         }
 
     }

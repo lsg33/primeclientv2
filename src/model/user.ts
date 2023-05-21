@@ -2,6 +2,20 @@ export { };
 
 const mongoose = require("mongoose");
 
+export interface iUser {
+    created: Date,
+    banned: Boolean,
+    discordId: String,
+    accountId: String,
+    username: String,
+    username_lower: String,
+    email: String,
+    password: String,
+    mfa: Boolean,
+    gameserver: String
+    canCreateCodes: Boolean
+}
+
 const UserSchema = new mongoose.Schema(
     {
         created: { type: Date, required: true },
@@ -14,6 +28,7 @@ const UserSchema = new mongoose.Schema(
         password: { type: String, required: true },
         mfa: { type: Boolean, default: false },
         gameserver: { type: String, default: null },
+        canCreateCodes: { type: Boolean, default: false }
     },
     {
         collection: "users"

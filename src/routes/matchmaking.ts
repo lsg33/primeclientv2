@@ -1,3 +1,5 @@
+import { iMMCodes } from "../model/mmcodes";
+import { iUser } from "../model/user";
 import log from "../structs/log";
 import decode from "../utilities/decode";
 import kv from "../utilities/kv";
@@ -8,10 +10,16 @@ export { };
 const express = require("express");
 const app = express.Router();
 const fs = require("fs");
-const functions = require("../structs/functions.js");
+const functions = require("../structs/functions");
 const User = require("../model/user");
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+const MMCode = require("../model/mmcodes");
+const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify");
 const qs = require('qs');
+const error = require("../structs/error");
+
+client.on("ready", async () => {
+    log.debug("Ready!");
+});
 
 let buildUniqueId = {};
 
@@ -24,7 +32,23 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     const queryString = req.query;
     const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
-    const playerCustomKey = parsedQuery['player.customKey'];
+    const playerCustomKey = parsedQuery['player.option.customKey'];
+    log.debug("Custom key is: " + playerCustomKey);
+
+    if (playerCustomKey !== undefined) {
+        log.debug("Custom key is defined");
+        const codeDocument = await MMCode.findOne({ code_lower: playerCustomKey.toLowerCase() });
+
+        if (!codeDocument) {
+            return error.createError(
+                "errors.com.epicgames.common.matchmaking.code.not_found",
+                "Your matchmaking code does not exist, please create it using the Discord bot",
+                [], 1013, "invalid_code", 404, res
+            );
+        }
+
+        await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
+    }
 
     if (typeof req.query.bucketId != "string") return res.status(400).end();
     if (req.query.bucketId.split(":").length != 4) return res.status(400).end();
@@ -52,26 +76,29 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const gameServers: string[] = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split('_') : [];
+    const user: iUser = await decode.decodeAuth(req)
 
-    let user: { gameserver: string } = { gameserver: "127.0.0.1" };
-
-    if (safety.env.PER_USER_SERVER == true) {
-        user = await decode.decodeAuth(req)
+    let codeKV: any = await kv.get(`playerCustomKey:${user.accountId}`);
+    if (codeKV === undefined || codeKV === null) {
+        const gameServers = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split("_") : "127.0.0.1:7777_192.168.178.1:7777";
+        log.debug("CodeKV is undefined or null");
+        const randomServer = gameServers[Math.floor(Math.random() * gameServers.length)];
+        const [ip, port] = randomServer.split(":");
+        codeKV = {
+            ip: ip,
+            port: port
+        };
     }
 
-    let gameServerInfo = {
-        serverAddress: safety.env.PER_USER_SERVER == true ? user.gameserver : gameServers[Math.floor(Math.random() * gameServers.length)],
-        serverPort: 7777
-    };
+    log.debug("IP is " + codeKV.ip + " and port is " + codeKV.port.toString());
 
     res.json({
         "id": req.params.sessionId,
         "ownerId": functions.MakeID().replace(/-/ig, "").toUpperCase(),
         "ownerName": "[DS]fortnite-liveeugcec1c2e30ubrcore0a-z8hj-1968",
         "serverName": "[DS]fortnite-liveeugcec1c2e30ubrcore0a-z8hj-1968",
-        "serverAddress": gameServerInfo.serverAddress,
-        "serverPort": gameServerInfo.serverPort,
+        "serverAddress": codeKV.ip,
+        "serverPort": codeKV.port.toString(),
         "maxPublicPlayers": 220,
         "openPublicPlayers": 175,
         "maxPrivatePlayers": 0,
