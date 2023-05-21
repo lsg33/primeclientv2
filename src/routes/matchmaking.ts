@@ -86,8 +86,6 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
         };
     }
 
-    log.debug("IP is " + codeKV.ip + " and port is " + codeKV.port.toString());
-
     res.json({
         "id": req.params.sessionId,
         "ownerId": functions.MakeID().replace(/-/ig, "").toUpperCase(),
