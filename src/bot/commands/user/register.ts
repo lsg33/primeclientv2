@@ -37,7 +37,7 @@ module.exports = {
 		const user = await Users.findOne({ discordId: interaction.user.id });
         if (user) return interaction.editReply({ content: "You are already registered!", ephemeral: true });
 
-		await functions.registerUser(discordId, username, email, plainPassword).then(async (res) => {
+		await functions.registerUser(discordId, username, email, plainPassword, false).then(async (res) => {
 
 			const embed = new EmbedBuilder()
 				.setTitle("Account created")

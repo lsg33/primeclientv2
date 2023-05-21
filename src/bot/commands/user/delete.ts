@@ -6,6 +6,7 @@ export { }
 const { SlashCommandBuilder } = require('discord.js');
 const Users = require('../../../model/user');
 const Profiles = require('../../../model/profiles');
+const Friends = require('../../../model/friends');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -53,6 +54,8 @@ module.exports = {
 
             if (confirmation.customId === 'confirm') {
                 await Users.findOneAndDelete({ discordId: interaction.user.id });
+                await Profiles.findOneAndDelete({ accountId: await user.accountId });
+                await Friends.findOneAndDelete({ accountId: await user.accountId });
 
                 const embed = new EmbedBuilder()
                     .setTitle(`Account Deleted`)

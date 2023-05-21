@@ -15,6 +15,7 @@ const Friends = require("../model/friends.js");
 const port = 80;
 const wss = new WebSocket({ server: app.listen(port) });
 import matchmaker from "../matchmaker/matchmaker";
+import log from "../structs/log.js";
 
 let domain = "prod.ol.epicgames.com";
 
@@ -120,6 +121,10 @@ wss.on('connection', async (ws, req) => {
 
                 let user = await User.findOne({ accountId: object.accountId, banned: false }).lean();
                 if (!user) return Error(ws);
+
+                if(user.isServer == true) {
+                    return Error(ws);
+                }
 
                 accountId = user.accountId;
                 displayName = user.username;

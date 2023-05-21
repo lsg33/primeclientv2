@@ -275,7 +275,7 @@ function getPresenceFromUser(fromId, toId, offline) {
     ClientData.client.send(xml.toString());
 }
 
-async function registerUser(discordId: any, username: string, email: string, plainPassword: string | any[]) {
+async function registerUser(discordId: any, username: string, email: string, plainPassword: string | any[], isServer: boolean) {
     email = email.toLowerCase();
 
     if (!discordId || !username || !email || !plainPassword) return { message: "Username/email/password is required.", status: 400 };
@@ -290,7 +290,6 @@ async function registerUser(discordId: any, username: string, email: string, pla
     if (username.length >= 25) return { message: "Your username must be less than 25 characters long.", status: 400 };
     if (username.length < 3) return { message: "Your username must be atleast 3 characters long.", status: 400 };
     if (plainPassword.length >= 128) return { message: "Your password must be less than 128 characters long.", status: 400 };
-    if (plainPassword.length < 8) return { message: "Your password must be atleast 8 characters long.", status: 400 };
 
     const allowedCharacters = (" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~").split("");
     
@@ -302,7 +301,7 @@ async function registerUser(discordId: any, username: string, email: string, pla
 
     try {
         log.debug(`Creating account with the username ${username} and email ${email}`);
-        await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword }).then(async (i) => {
+        await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer}).then(async (i) => {
             log.debug(`Created user with the username ${username} and email ${email}`);
             await Profile.create({ created: i.created, accountId: i.accountId, profiles: await profileManager.createProfiles(i.accountId) });
             log.debug(`Created profile for the user with the username ${username} and email ${email}`);

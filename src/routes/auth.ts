@@ -7,7 +7,7 @@ const app = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-import logger  from '../structs/log';
+import logger from '../structs/log';
 
 const error = require("../structs/error.js");
 const functions = require("../structs/functions.js");
@@ -24,6 +24,7 @@ const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require(
 const Discord = require("discord.js");
 
 import client from "../bot/index";
+import log from "../structs/log";
 
 client.once(Events.ClientReady, c => {
     logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);
@@ -43,6 +44,7 @@ function waitFor2FA(req: { user: { discordId: any; }; }) {
 
 app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: string; }; body: { grant_type?: any; username?: any; password?: any; refresh_token?: any; exchange_code?: any; }; ip: any; user }, res: { json: (arg0: { access_token: string; expires_in: number; expires_at: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; refresh_token?: string; refresh_expires?: number; refresh_expires_at?: any; account_id?: any; displayName?: any; app?: string; in_app_id?: any; device_id?: any; }) => void; }) => {
     let clientId: any[];
+    let rebootAccount: boolean = false;
 
     try {
         clientId = functions.DecodeBase64(req.headers["authorization"].split(" ")[1]).split(":");
@@ -88,6 +90,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             return;
 
         case "password":
+
             if (!req.body.username || !req.body.password) return error.createError(
                 "errors.com.epicgames.common.oauth.invalid_request",
                 "Username/password is required.",
@@ -95,7 +98,25 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             );
             const { username: email, password: password } = req.body;
 
-            req.user = await User.findOne({ email: email.toLowerCase() }).lean();
+            const regex = /@projectreboot\.dev$/;
+
+            rebootAccount = regex.test(email);
+
+            log.debug(`Reboot account: ${rebootAccount}`);
+
+            if (rebootAccount) {
+                const findUser = await User.findOne({ email: email.toLowerCase() });
+                if (findUser) {
+                    req.user = findUser;
+                } else {
+                    const numberWith8Digits = Math.floor(10000000 + Math.random() * 90000000);
+                    const registerUser = await functions.registerUser(numberWith8Digits, `reboot_${email.split("@")[0]}`, email, password, true)
+                    console.log(registerUser);
+                    req.user = await User.findOne({ email: email.toLowerCase() });
+                }
+            } else {
+                req.user = await User.findOne({ email: email.toLowerCase() }).lean();
+            }
 
             let err = () => error.createError(
                 "errors.com.epicgames.account.invalid_account_credentials",
@@ -105,15 +126,17 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             if (!req.user) return err();
             else {
-                if (!await bcrypt.compare(password, req.user.password)) return err();
+                if (!rebootAccount) {
+                    if (!await bcrypt.compare(password, req.user.password)) return err();
+                }
             }
 
-            if(req.user.mfa) {
+            if (req.user.mfa) {
 
                 const discordId = req.user.discordId || null;
-        
+
                 await kv.set(req.user.discordId, "false");
-            
+
                 const embed = new EmbedBuilder()
                     .setColor('#2b2d31')
                     .setTitle('New Login')
@@ -128,45 +151,45 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                         text: 'Momentum',
                         iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
                     });
-                    
-            
+
+
                 const discordUser = await client.users.fetch(discordId);
                 const sentMessage = await discordUser.send({ embeds: [embed] });
-            
+
                 await sentMessage.react('✅').then(() => sentMessage.react('❌'));
-            
+
                 const collectorFilter = (reaction, user) => {
                     logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
                 };
-            
+
                 await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
-                .then(async collected => {
-                    const reaction = collected.first();
-            
-                    if (reaction.emoji.name === '✅') {
-                        await kv.set(req.user.discordId, "true");
-                        await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
-                    } else {
-                        await kv.set(req.user.discordId, "false");
-                        error.createError(
-                            "errors.com.epicgames.account.oauth.user_denied",
-                            "User denied the request.",
-                            [], 18058, "access_denied", 400, res
-                        );
-                        await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+                    .then(async collected => {
+                        const reaction = collected.first();
+
+                        if (reaction.emoji.name === '✅') {
+                            await kv.set(req.user.discordId, "true");
+                            await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
+                        } else {
+                            await kv.set(req.user.discordId, "false");
+                            error.createError(
+                                "errors.com.epicgames.account.oauth.user_denied",
+                                "User denied the request.",
+                                [], 18058, "access_denied", 400, res
+                            );
+                            await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+                            setTimeout(() => {
+                                sentMessage.delete();
+                            }, 10000);
+                        }
+                    })
+                    .catch(collected => {
                         setTimeout(() => {
                             sentMessage.delete();
                         }, 10000);
-                    }
-                })
-                .catch(collected => {
-                    setTimeout(() => {
-                        sentMessage.delete();
-                    }, 10000);
-                    sentMessage.reply('Your reaction was not detected in time, please try again.');
-                });
-            
+                        sentMessage.reply('Your reaction was not detected in time, please try again.');
+                    });
+
                 //Wait for 2FA
                 await waitFor2FA(req);
             } else {
@@ -277,6 +300,25 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     const decodedAccess = jwt.decode(accessToken);
     const decodedRefresh = jwt.decode(refreshToken);
 
+    log.debug("Trying to login: " + req.user.username + " | " + req.user.accountId);
+    const resjson = {
+        access_token: `eg1~${accessToken}`,
+        expires_in: Math.round(((DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).getTime()) - (new Date().getTime())) / 1000),
+        expires_at: DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).toISOString(),
+        token_type: "bearer",
+        refresh_token: `eg1~${refreshToken}`,
+        refresh_expires: Math.round(((DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).getTime()) - (new Date().getTime())) / 1000),
+        refresh_expires_at: DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).toISOString(),
+        account_id: req.user.accountId,
+        client_id: clientId,
+        internal_client: true,
+        client_service: "fortnite",
+        displayName: rebootAccount == true ? req.user.username_lower : req.user.displayName,
+        app: "fortnite",
+        in_app_id: "Fortnite",
+        device_id: deviceId,
+    };
+    console.log(resjson);
     res.json({
         access_token: `eg1~${accessToken}`,
         expires_in: Math.round(((DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).getTime()) - (new Date().getTime())) / 1000),
