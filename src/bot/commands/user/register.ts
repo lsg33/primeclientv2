@@ -27,35 +27,17 @@ module.exports = {
 
 	async execute(interaction) {
 
+		await interaction.deferReply({ ephemeral: true });
+
 		const discordId = interaction.user.id;
 		const username = interaction.options.getString('username');
 		const email = interaction.options.getString('email');
 		const plainPassword = interaction.options.getString('password');
 
 		const user = await Users.findOne({ discordId: interaction.user.id });
-        if (user) return interaction.reply({ content: "You are already registered!", ephemeral: true });
+        if (user) return interaction.editReply({ content: "You are already registered!", ephemeral: true });
 
 		await functions.registerUser(discordId, username, email, plainPassword).then(async (res) => {
-			const publicembed = new EmbedBuilder()
-				.setTitle("Thank you!")
-				.setDescription("Thank you for registering at Momentum! As a reward you have been granted 500 vBucks you can use in the shop.")
-				.addFields(
-					{
-						name: "Username",
-						value: username,
-					},
-					{
-						name: "Email",
-						value: email,
-					},
-				)
-				.setColor("#2b2d31")
-				.setFooter({
-					text: "Momentum",
-					iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-				})
-				.setTimestamp();
-
 
 			const embed = new EmbedBuilder()
 				.setTitle("Account created")
@@ -77,7 +59,7 @@ module.exports = {
 				})
 				.setTimestamp();
 
-				await interaction.reply({ content: res.message, ephemeral: true });
+				await interaction.editReply({ content: res.message, ephemeral: true });
 
 				const publicEmbed = new EmbedBuilder()
 					.setTitle("New registration")

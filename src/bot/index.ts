@@ -1,5 +1,3 @@
-import { ReactionCollector } from "discord.js";
-
 export { }
 
 const dotenv = require("dotenv");
@@ -7,9 +5,6 @@ const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import logger from '../structs/log';
 import safety from "../utilities/safety";
-
-const kvjs = require('@heyputer/kv.js');
-const kv = new kvjs();
 
 const refreshCommands = require('./deploy-commands');
 
