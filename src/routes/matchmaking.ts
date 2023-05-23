@@ -26,8 +26,6 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
 
-    console.log("GET /fortnite/api/game/v2/matchmakingservice/ticket/player/*")
-
     const queryString = req.query;
     const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
     const playerCustomKey = parsedQuery['player.option.customKey'];
@@ -37,10 +35,7 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
         log.debug("Custom key is defined");
         const codeDocument = await MMCode.findOne({ code_lower: playerCustomKey.toLowerCase() });
 
-        console.log("Got document: " + codeDocument);
-
         if (!codeDocument) {
-            console.log("Code document not found");
             return error.createError(
                 "errors.com.epicgames.common.matchmaking.code.not_found",
                 "Your matchmaking code does not exist, please create it using the Discord bot",
@@ -48,12 +43,8 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
             );
         }
 
-        console.log("Setting KV")
-
         await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
     }
-
-    console.log("{} is over")
 
     if (typeof req.query.bucketId != "string") return res.status(400).end();
     if (req.query.bucketId.split(":").length != 4) return res.status(400).end();
@@ -61,8 +52,6 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
     buildUniqueId[req.user.accountId] = req.query.bucketId.split(":")[0];
 
     const matchmakerIP = safety.env.MATCHMAKER_IP !== undefined ? safety.env.MATCHMAKER_IP : "127.0.0.1:80";
-
-    console.log("Sending response")
 
     res.json({
         "serviceUrl": `ws://${matchmakerIP}`,
@@ -83,18 +72,12 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 });
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
-    console.log("GET /fortnite/api/matchmaking/session/:sessionId")
 
     const user: iUser = await decode.decodeAuth(req)
 
-    console.log("User: " + user)
-
     let codeKV: any = await kv.get(`playerCustomKey:${user.accountId}`);
-    console.log("CodeKV: " + codeKV)
     if (codeKV === undefined || codeKV === null) {
-        console.log("CodeKV is undefined or null")
         const gameServers = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split("_") : "127.0.0.1:7777_192.168.178.1:7777";
-        log.debug("CodeKV is undefined or null");
         const randomServer = gameServers[Math.floor(Math.random() * gameServers.length)];
         const [ip, port] = randomServer.split(":");
         codeKV = {
@@ -102,8 +85,6 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
             port: port
         };
     }
-
-    console.log("CodeKV: " + codeKV)
 
     res.json({
         "id": req.params.sessionId,

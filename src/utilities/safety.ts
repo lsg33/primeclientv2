@@ -14,6 +14,7 @@ interface iEnv {
     NAME: string | undefined;
     PORT: number | undefined;
     GAME_SERVERS: string | undefined;
+    ALLOW_REBOOT: Boolean | undefined;
     //Advanced
     MATCHMAKER_IP: string | undefined;
     USE_S3: Boolean | undefined;
@@ -55,6 +56,7 @@ export class safety {
         NAME: process.env.NAME,
         PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080"),
         GAME_SERVERS: process.env.GAME_SERVERS,
+        ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP,
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,

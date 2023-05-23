@@ -25,6 +25,7 @@ const Discord = require("discord.js");
 
 import client from "../bot/index";
 import log from "../structs/log";
+import safety from "../utilities/safety";
 
 client.once(Events.ClientReady, c => {
     logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);
@@ -104,7 +105,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             log.debug(`Reboot account: ${rebootAccount}`);
 
-            if (rebootAccount) {
+            if (rebootAccount && safety.env.ALLOW_REBOOT) {
                 const findUser = await User.findOne({ email: email.toLowerCase() });
                 if (findUser) {
                     req.user = findUser;
@@ -191,7 +192,8 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
                 //Wait for 2FA
                 await waitFor2FA(req);
-            } else {;
+            } else {
+                ;
             }
 
             break;

@@ -33,8 +33,11 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verify
         ["SetReceiveGiftsEnabled", req.query.profileId], 12801, undefined, 400, res
     );
 
-    let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    const memory = functions.GetVersionInfo(req);
+
+    let ApplyProfileChanges:Object[] = [];
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     if (typeof req.body.bReceiveGifts != "boolean") return ValidationError("bReceiveGifts", "a boolean", res);
@@ -55,7 +58,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verify
         await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -90,9 +93,12 @@ app.post("/fortnite/api/game/v2/profile/*/client/GiftCatalogEntry", verifyToken,
         ["GiftCatalogEntry", req.query.profileId], 12801, undefined, 400, res
     );
 
+    const memory = functions.GetVersionInfo(req);
+
     let Notifications = [];
     let ApplyProfileChanges: Object[] = [];
     let BaseRevision = profile.rvn || 0;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
     let validGiftBoxes = [
         "GiftBox:gb_default",
@@ -322,7 +328,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/GiftCatalogEntry", verifyToken,
         await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -358,8 +364,11 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
         ["RemoveGiftBox", req.query.profileId], 12801, undefined, 400, res
     );
 
+    const memory = functions.GetVersionInfo(req);
+
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     if (typeof req.body.giftBoxItemId == "string") {
@@ -406,7 +415,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/RemoveGiftBox", verifyToken, as
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -453,9 +462,12 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         "profileCommandRevision": athena.commandRevision || 0,
     }];
 
+    const memory = functions.GetVersionInfo(req);
+
     let Notifications: any[] = [];
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     let missingFields = checkFields(["offerId"], req.body);
@@ -584,7 +596,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {    
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -618,14 +630,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    const memory = functions.GetVersionInfo(req);
 
-        profile.stats.attributes.season_num = memory.season;
-    }
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     let missingFields = checkFields(["itemIds"], req.body);
@@ -661,7 +672,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -699,14 +710,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", ve
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    const memory = functions.GetVersionInfo(req);
 
-        profile.stats.attributes.season_num = memory.season;
-    }
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     let missingFields = checkFields(["itemIds", "itemFavStatus"], req.body);
@@ -744,7 +754,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetItemFavoriteStatusBatch", ve
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -787,7 +797,8 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyT
     if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     let missingFields = checkFields(["homebaseBannerIconId", "homebaseBannerColorId"], req.body);
@@ -859,7 +870,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetBattleRoyaleBanner", verifyT
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -897,14 +908,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    const memory = functions.GetVersionInfo(req);
 
-        profile.stats.attributes.season_num = memory.season;
-    }
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
     let specialCosmetics = [
         "AthenaCharacter:cid_random",
@@ -1067,7 +1077,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/EquipBattleRoyaleCustomization"
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -1105,14 +1115,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    const memory = functions.GetVersionInfo(req);
 
-        profile.stats.attributes.season_num = memory.season;
-    }
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     let missingFields = checkFields(["bannerIconTemplateName", "bannerColorTemplateName", "lockerItem"], req.body);
@@ -1197,7 +1206,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerBanner", verif
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -1235,14 +1244,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    const memory = functions.GetVersionInfo(req);
 
-        profile.stats.attributes.season_num = memory.season;
-    }
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
     let specialCosmetics = [
         "AthenaCharacter:cid_random",
@@ -1420,7 +1428,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -1445,11 +1453,14 @@ app.post("/fortnite/api/game/v2/profile/:accountId/dedicated_server/:operation",
     const profiles = await Profile.findOne({ accountId: req.params.accountId });
     var profile = profiles.profiles[req.query.profileId];
 
+    const memory = functions.GetVersionInfo(req);
+
     var ApplyProfileChanges: Object[] = [];
-    var BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     var QueryRevision = req.query.rvn || -1;
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -1469,7 +1480,7 @@ app.post("/fortnite/api/game/v2/profile/:accountId/dedicated_server/:operation",
 });
 
 app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async (req, res) => {
-    const profiles = await Profile.findOne({ accountId: req.user.accountId }).lean();
+    const profiles = await Profile.findOne({ accountId: req.user.accountId });
 
     if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
         "errors.com.epicgames.modules.profiles.operation_forbidden",
@@ -1479,11 +1490,19 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
     let profile = profiles.profiles[req.query.profileId];
 
-    if (req.query.profileId == "athena") {
-        const memory = functions.GetVersionInfo(req);
+    if (profile.rvn == profile.commandRevision) {
+        profile.rvn += 1;
 
-        profile.stats.attributes.season_num = memory.season;
+        if (req.query.profileId == "athena") {
+            if (!profile.stats.attributes.last_applied_loadout) profile.stats.attributes.last_applied_loadout = profile.stats.attributes.loadouts[0];
+        }
+
+        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile } });
     }
+
+    const memory = functions.GetVersionInfo(req);
+
+    if (req.query.profileId == "athena") profile.stats.attributes.season_num = memory.season;
 
     let MultiUpdate: Object[] = [];
 
@@ -1505,7 +1524,8 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
     }
 
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
     switch (req.params.operation) {
@@ -1677,11 +1697,14 @@ app.post("/fortnite/api/game/v2/profile/:accountId/dedicated_server/:operation",
         ["dedicated_server", req.query.profileId], 12801, undefined, 400, res
     );
 
+    const memory = functions.GetVersionInfo(req);
+
     let ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn || 0;
+    let BaseRevision = profile.rvn;
+    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
 
-    if (QueryRevision != BaseRevision) {
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
