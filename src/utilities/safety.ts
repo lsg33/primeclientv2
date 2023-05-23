@@ -52,7 +52,7 @@ export class safety {
         BOT_TOKEN: process.env.BOT_TOKEN,
         CLIENT_ID: process.env.CLIENT_ID,
         GUILD_ID: process.env.GUILD_ID,
-        GLOBALCHAT_ENABLED: this.convertToBool(process.env.GLOBAL_CHATENABLED, "GLOBAL_CHATENABLED"),
+        GLOBALCHAT_ENABLED: this.convertToBool(process.env.GLOBALCHAT_ENABLED, "GLOBALCHAT_ENABLED"),
         NAME: process.env.NAME,
         PORT: parseInt(process.env.PORT !== undefined ? process.env.PORT : "8080"),
         GAME_SERVERS: process.env.GAME_SERVERS,
