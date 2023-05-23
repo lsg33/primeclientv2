@@ -20,7 +20,11 @@ app.post("/fortnite/api/game/v2/toxicity/account/:reporter/report/:reportedPlaye
     const details = req.body.details || 'No details provided';
     const markedasknown = req.body.bUserMarkedAsKnown ? 'Yes' : 'No';
 
-    const user = await User.findOneAndUpdate({ accountId: reportedPlayer } , { $inc: { reports: 1 } }, { new: true });
+    try {
+        const user = await User.findOneAndUpdate({ accountId: reportedPlayer } , { $inc: { reports: 1 } }, { new: true });
+    } catch (err) {
+        console.log(err);
+    }
 
     res.status(200).send({ "success": true });
 
