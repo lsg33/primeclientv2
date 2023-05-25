@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Build and deploy arm
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push-images:
+  build-and-push-images-arm:
     runs-on: ubuntu-latest
     permissions:
       contents: read
