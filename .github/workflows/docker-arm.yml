@@ -1,4 +1,4 @@
-name: Build and deploy arm
+name: Build and deploy
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push-images-arm:
+  build-and-push-images:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -40,19 +40,34 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build and push Docker images
+      - name: Build and push Docker image (x64)
         uses: docker/build-push-action@v2
         with:
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/.buildx-cache-x64
+          cache-to: type=local,dest=/tmp/.buildx-cache-x64-new
           context: .
+          dockerfile: Dockerfile
           push: true
-          tags: |
-            ${{ steps.meta.outputs.tags }}
-            ${{ steps.meta.outputs.tags }}-arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64
+
+      - name: Build and push Docker image (arm64)
+        uses: docker/build-push-action@v2
+        with:
+          cache-from: type=local,src=/tmp/.buildx-cache-arm64
+          cache-to: type=local,dest=/tmp/.buildx-cache-arm64-new
+          context: .
+          dockerfile: dockerfilearm
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
           platforms: linux/arm64
-          
-      - name: Move cache
+
+      - name: Move cache (x64)
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/.buildx-cache-x64
+          mv /tmp/.buildx-cache-x64-new /tmp/.buildx-cache-x64
+
+      - name: Move cache (arm64)
+        run: |
+          rm -rf /tmp/.buildx-cache-arm64
+          mv /tmp/.buildx-cache-arm64-new /tmp/.buildx-cache-arm64
