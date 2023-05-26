@@ -1,17 +1,8 @@
-import mongoose, { Document } from "mongoose";
+export { };
 
-export interface iFriends extends Document {
-    created: Date,
-    accountId: string,
-    list: {
-        accepted: string[],
-        incoming: string[],
-        outgoing: string[],
-        blocked: string[]
-    }
-}
+const mongoose = require("mongoose");
 
-const FriendsSchema = new mongoose.Schema<iFriends>(
+const FriendsSchema = new mongoose.Schema(
     {
         created: { type: Date, required: true },
         accountId: { type: String, required: true, unique: true },
@@ -20,8 +11,8 @@ const FriendsSchema = new mongoose.Schema<iFriends>(
     {
         collection: "friends"
     }
-);
+)
 
-const FriendsModel = mongoose.model<iFriends>('Friends', FriendsSchema);
+const model = mongoose.model('FriendsSchema', FriendsSchema);
 
-export default FriendsModel;
+module.exports = model;

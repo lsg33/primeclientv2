@@ -1,4 +1,3 @@
-import { iProfile } from "../model/profiles";
 import log from "../structs/log";
 import safety from "../utilities/safety";
 
@@ -16,7 +15,7 @@ app.get("/api/profile/accountId/:value", verifyApikey, (req, res) => {
     const query = {};
     query["accountId"] = value;
 
-    let profile: iProfile = null as any;
+    let profile = null as any;
 
     if (safety.env.DATABASE === "mongodb") {
         Profile.findOne(query, { password: 0, _id: 0 }, (err, profile) => {

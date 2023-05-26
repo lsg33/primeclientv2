@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request } from 'express';
-import User from '../model/user';
+const User = require("../model/user");
 const { DateAddHours } = require("../structs/functions.js")
 
 class decode {

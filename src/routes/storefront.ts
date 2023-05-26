@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import Profile from "../model/profiles.js";
-import Friends from "../model/friends.js";
+const Profile = require("../model/profiles.js");
+const Friends = require("../model/friends.js");
 const functions = require("../structs/functions.js")
 import { verifyToken } from "../tokenManager/tokenVerify.js";
 const keychain = require ("../../responses/keychain.json");
