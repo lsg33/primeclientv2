@@ -58,4 +58,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}-x64
           labels: ${{ steps.meta.outputs.labels }}
-          platform: linux/amd64
+          platform: linux/amd64,linux/arm64
