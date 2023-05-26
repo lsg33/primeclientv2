@@ -1,15 +1,15 @@
-export {  }
+export { }
 
-const dotenv = require("dotenv");
 const path = require("path");
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
 
+import client from ".";
 import log from "../structs/log";
 import logger from "../structs/log";
 import safety from "../utilities/safety";
+const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
+const Discord = require("discord.js");
 
 const { REST, Routes } = require('discord.js');
-const clientId = safety.env.CLIENT_ID;
 const guildId = safety.env.GUILD_ID;
 const token = safety.env.BOT_TOKEN;
 
@@ -25,7 +25,7 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
-        //@ts-ignore
+		//@ts-ignore
 		commands.push(command.data.toJSON());
 	}
 }
@@ -33,17 +33,20 @@ for (const folder of commandFolders) {
 const rest = new REST().setToken(token);
 
 (async () => {
+
 	try {
 		logger.debug(`Started refreshing ${commands.length} application (/) commands.`);
-		let data;
-		if(safety.isDev === true) {
+		let data: string | any[];
+		if (safety.isDev === true) {
 			log.warn("In dev mode, deploying to guild");
-		data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
-			{ body: commands },
-		)} else {
 			data = await rest.put(
-				Routes.applicationCommands(clientId),
+				Routes.applicationGuildCommands(global.clientId, guildId),
+				{ body: commands },
+			)
+		} else {
+			log.bot("In prod mode, deploying globally");
+			data = await rest.put(
+				Routes.applicationCommands(global.clientId),
 				{ body: commands },
 			);
 		}

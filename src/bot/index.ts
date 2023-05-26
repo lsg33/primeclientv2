@@ -6,8 +6,6 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import logger from '../structs/log';
 import safety from "../utilities/safety";
 
-const refreshCommands = require('./deploy-commands');
-
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const fs = require('node:fs');
 const token = safety.env.BOT_TOKEN;
@@ -52,8 +50,10 @@ for (const folder of commandFolders) {
 	}
 };
 
-
-client.once(Events.ClientReady, c => {
+client.once(Events.ClientReady, async c => {
+	let clientId = await client.application?.id;
+	global.clientId = clientId;
+	const refreshCommands = require('./deploy-commands');
 	logger.bot(`Ready! Logged in as ${c.user.tag}`);
 });
 
