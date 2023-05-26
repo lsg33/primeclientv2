@@ -1,5 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import sequelize from '../utilities/db';
+
+
+import sequelize from '../../index';
 
 const FriendsSchema = sequelize.define('friends', {
     created: { type: DataTypes.DATE, allowNull: false },

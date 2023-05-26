@@ -15,6 +15,28 @@ import log from './structs/log';
 import safety from './utilities/safety';
 import update from './utilities/update';
 import process from 'node:process';
+import { GeneratedAlways, Kysely } from "kysely"
+import { NeonDialect } from "kysely-neon"
+import ws from "ws"
+
+interface Database {
+    users: UserTable
+}
+
+interface UserTable {
+    created: Date,
+    banned: Boolean,
+    discordId: String,
+    accountId: String,
+    username: String,
+    username_lower: String,
+    email: String,
+    password: String,
+    mfa: Boolean,
+    gameserver: String
+    canCreateCodes: Boolean
+    isServer: Boolean
+}
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 

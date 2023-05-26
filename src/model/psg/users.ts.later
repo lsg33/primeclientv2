@@ -1,5 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import sequelize from '../utilities/db';
+import sequelize from '../../index';
+const mmcodes = require("../mmcodes");
 
 const User = sequelize.define('User', {
     created: { type: DataTypes.DATE, allowNull: false },
@@ -15,10 +16,12 @@ const User = sequelize.define('User', {
     canCreateCodes: { type: DataTypes.BOOLEAN, defaultValue: false },
     isServer: { type: DataTypes.BOOLEAN, defaultValue: false }
 },
-{
-    schema: 'server',
-}
+    {
+        schema: 'server',
+    }
 );
+
+User.hasMany(mmcodes), { foreignKey: 'mmcodes' };
 
 sequelize.sync();
 

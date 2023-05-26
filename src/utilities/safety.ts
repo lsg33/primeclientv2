@@ -80,7 +80,7 @@ export class safety {
 
     public async airbag(): Promise<boolean> {
 
-        this.changeEnvValue("MATCHMAKER_IP", `${await unfähig.getIp()}:80`);
+        //this.changeEnvValue("MATCHMAKER_IP", `${await unfähig.getIp()}:80`);
 
         const fileBuffer = fs.readFileSync(path.join(__dirname, '../../responses/contentpages.json'));
         const hashSum = crypto.createHash('sha256');
