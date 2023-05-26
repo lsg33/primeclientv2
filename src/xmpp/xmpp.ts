@@ -61,16 +61,16 @@ wss.on('connection', async (ws, req) => {
     // Start matchmaker if it's not connecting for xmpp.
     if (ws.protocol.toLowerCase() != "xmpp") return matchmaker.server(ws, req);
 
-    let joinedMUCs = [];
-    let accountId = "";
-    let displayName = "";
-    let token = "";
-    let jid = "";
-    let resource = "";
-    let ID = functions.MakeID();
-    let Authenticated = false;
-    let clientExists = false;
-    let connectionClosed = false;
+    let joinedMUCs: [] = [];
+    let accountId: string = "";
+    let displayName: string = "";
+    let token: string = "";
+    let jid: string = "";
+    let resource: string = "";
+    let ID: string = functions.MakeID();
+    let Authenticated: boolean = false;
+    let clientExists: boolean = false;
+    let connectionClosed: boolean = false;
 
     ws.on('message', async (message) => {
         if (Buffer.isBuffer(message)) message = message.toString();

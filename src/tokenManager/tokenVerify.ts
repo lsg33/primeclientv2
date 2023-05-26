@@ -104,7 +104,4 @@ function DateAddHours(pdate, number) {
     return date;
 }
 
-module.exports = {
-    verifyToken,
-    verifyClient
-}
+export { verifyToken, verifyClient };

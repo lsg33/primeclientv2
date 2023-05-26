@@ -24,17 +24,20 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
     res.status(200).end();
 });
 
-app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
+interface iServer {
+    ip: string
+    port: number;
+}
 
-    const queryString = req.query;
-    const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
-    const playerCustomKey = parsedQuery['player.option.customKey'];
+const codeCache = new Map<string, typeof MMCode>();
+
+app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
+    const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'];
     log.debug("Custom key is: " + playerCustomKey);
 
-    if (playerCustomKey !== undefined) {
-        log.debug("Custom key is defined");
-        const codeDocument = await MMCode.findOne({ code_lower: playerCustomKey.toLowerCase() });
-
+    let codeDocument: iMMCodes = codeCache.get(playerCustomKey);
+    if (!codeDocument) {
+        codeDocument = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
         if (!codeDocument) {
             return error.createError(
                 "errors.com.epicgames.common.matchmaking.code.not_found",
@@ -42,16 +45,18 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
                 [], 1013, "invalid_code", 404, res
             );
         }
-
-        await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
+        codeCache.set(playerCustomKey, codeDocument);
     }
 
-    if (typeof req.query.bucketId != "string") return res.status(400).end();
-    if (req.query.bucketId.split(":").length != 4) return res.status(400).end();
+    await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
+
+    if (typeof req.query.bucketId !== "string" || req.query.bucketId.split(":").length !== 4) {
+        return res.status(400).end();
+    }
 
     buildUniqueId[req.user.accountId] = req.query.bucketId.split(":")[0];
 
-    const matchmakerIP = safety.env.MATCHMAKER_IP !== undefined ? safety.env.MATCHMAKER_IP : "127.0.0.1:80";
+    const matchmakerIP = safety.env.MATCHMAKER_IP;
 
     res.json({
         "serviceUrl": `ws://${matchmakerIP}`,
@@ -59,7 +64,6 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
         "payload": "69=",
         "signature": "420="
     });
-    res.end();
 });
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
@@ -73,16 +77,16 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const user: iUser = await decode.decodeAuth(req)
+    const user: iUser = await decode.decodeAuth(req) as iUser;
 
-    let codeKV: any = await kv.get(`playerCustomKey:${user.accountId}`);
+    let codeKV: iServer = await kv.get(`playerCustomKey:${user.accountId}`);
     if (codeKV === undefined || codeKV === null) {
-        const gameServers = safety.env.GAME_SERVERS !== undefined ? safety.env.GAME_SERVERS.split("_") : "127.0.0.1:7777_192.168.178.1:7777";
+        const gameServers = safety.env.GAME_SERVERS
         const randomServer = gameServers[Math.floor(Math.random() * gameServers.length)];
         const [ip, port] = randomServer.split(":");
         codeKV = {
             ip: ip,
-            port: port
+            port: parseInt(port)
         };
     }
 

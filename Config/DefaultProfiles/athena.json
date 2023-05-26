@@ -108,7 +108,7 @@
       },
       "quantity": 1
     },
-    "lawin0-loadout": {
+    "momentum0-loadout": {
       "templateId": "CosmeticLocker:cosmeticlocker_athena",
       "attributes": {
         "locker_slots_data": {
@@ -467,7 +467,7 @@
       "season_match_boost": 0,
       "loadouts": [
         "sandbox_loadout",
-        "lawin0-loadout"
+        "momentum0-loadout"
       ],
       "rested_xp_overflow": 0,
       "mfa_reward_claimed": true,

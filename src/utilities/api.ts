@@ -1,26 +1,30 @@
-const Api = require("../model/api.js");
-import path from "path";
+const Api = require("../model/api");
 import kv from "./kv";
-const dotenv = require("dotenv");
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') })
+import { Request, Response, NextFunction } from "express";
 
-async function verifyApikey(req, res, next) {
-
+async function verifyApikey(req: Request, res: Response, next: NextFunction) {
     const apikey = req.headers["x-api-key"];
-    if (!apikey) return res.status(401).json({ error: "No api key provided" });
+    if (!apikey) {
+        return res.status(401).json({ error: "No api key provided" });
+    }
 
     const cachedApi = await kv.get(apikey);
     if (cachedApi) {
         return next();
     }
 
-    Api.findOne({ apikey: apikey }, (err, api) => {
-        if (err) return res.status(500).json({ error: "Internal server error" });
-        if (!api) return res.status(401).json({ error: "Invalid api key" });
+    try {
+        const api = await Api.findOne({ apikey });
+        if (!api) {
+            return res.status(401).json({ error: "Invalid api key" });
+        }
 
         kv.set(apikey, JSON.stringify(api));
         next();
-    });
-};
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 export { verifyApikey };

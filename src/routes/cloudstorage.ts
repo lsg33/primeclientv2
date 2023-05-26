@@ -13,27 +13,30 @@ const functions = require("../structs/functions.js");
 import { AWSError } from 'aws-sdk/lib/error';
 import log from '../structs/log';
 import safety from './../utilities/safety';
+import { createReadStream, createWriteStream } from 'fs';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
+
+const NodeCache = require("node-cache")
+const cache = new NodeCache();
 
 const operatingSystem = os.platform();
 
 let pathToClientSettings: string = "";
-if (operatingSystem == "win32") {
+if (operatingSystem === "win32") {
     pathToClientSettings = path.join(__dirname, "../ClientSettings");
     if (!fs.existsSync(pathToClientSettings)) {
-        log.warn("ClientSettings folder for Windows not found, creating...");
         fs.mkdirSync(pathToClientSettings);
+        log.debug("ClientSettings folder for Windows created successfully.");
     }
-} else if (operatingSystem == "linux") {
+} else if (operatingSystem === "linux") {
     pathToClientSettings = path.join(__dirname, "../ClientSettings");
-    if (!fs.existsSync(path.join(pathToClientSettings))) {
-        log.warn("ClientSettings folder for Linux not found, creating...");
-        fs.mkdirSync(path.join(pathToClientSettings));
-        fs.chmodSync(path.join(pathToClientSettings), 0o700);
+    if (!fs.existsSync(pathToClientSettings)) {
+        fs.mkdirSync(pathToClientSettings);
+        fs.chmodSync(pathToClientSettings, 0o700);
+        log.debug("ClientSettings folder for Linux created successfully.");
     }
 }
-
-const dotenv = require("dotenv");
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 let s3: S3;
 
@@ -41,7 +44,7 @@ if (safety.env.USE_S3 == true) {
     log.debug("USE S3 TRUE");
     s3 = new S3({
         apiVersion: 'latest',
-        endpoint: safety.env.S3_ENDPOINT || "",
+        endpoint: safety.env.S3_ENDPOINT,
         credentials: {
             accessKeyId: safety.env.S3_ACCESS_KEY_ID || "",
             secretAccessKey: safety.env.S3_SECRET_ACCESS_KEY || "",
@@ -65,62 +68,51 @@ app.use((req, res, next) => {
 })
 
 const getCloudFile = async (objectName: string) => {
+    const params: S3.GetObjectRequest = {
+        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
+        Key: objectName,
+    };
     try {
-        const params: S3.GetObjectRequest = {
-            Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
-            Key: objectName,
-        };
         const data: S3.GetObjectOutput = await s3.getObject(params).promise();
         return data.Body;
     } catch (err: any) {
         if (err.code === "NoSuchKey") {
-            // create empty .ini file
-            const params: S3.PutObjectRequest = {
-                Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
-                Key: objectName,
+            await s3.putObject({
+                ...params,
                 Body: "",
                 ContentType: "text/plain",
-            };
-            await s3.putObject(params).promise();
+            }).promise();
             return Buffer.from("");
         }
         throw err;
     }
 };
-
 const listCloudFiles = async (prefix: string) => {
-    const objectsList: Array<S3.Object> = [];
+    const objectsList: S3.Object[] = [];
 
-    const listObjects = (ContinuationToken?: string) => {
-        return new Promise((resolve, reject) => {
-            const params: S3.ListObjectsV2Request = {
-                Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
-                Prefix: prefix,
-                ContinuationToken: ContinuationToken
-            };
-            s3.listObjectsV2(params, (err: AWSError, data: S3.ListObjectsV2Output) => {
-                if (err) reject(err);
-                else resolve(data);
-            });
-        });
+    const listObjects = async (ContinuationToken?: string) => {
+        const params: S3.ListObjectsV2Request = {
+            Bucket: safety.env.S3_BUCKET_NAME,
+            Prefix: prefix,
+            ContinuationToken,
+        };
+        const data = await s3.listObjectsV2(params).promise();
+        objectsList.push(...data.Contents || []);
+        if (data.IsTruncated) {
+            await listObjects(data.NextContinuationToken);
+        }
     };
 
-    let data: any;
-    do {
-        data = await listObjects(data?.NextContinuationToken);
-        if (data.Contents) {
-            objectsList.push(...data.Contents);
-        }
-    } while (data.IsTruncated);
+    await listObjects();
 
     return objectsList;
 };
 
 const createCloudStorageFolder = async (uid: string) => {
-    const folderName = `CloudStorage/${uid}`;
+    const folderName = `CloudStorage/${uid}/`;
     const params: S3.PutObjectRequest = {
-        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
-        Key: `${folderName}/`,
+        Bucket: safety.env.S3_BUCKET_NAME,
+        Key: folderName,
         Body: "",
         ContentType: "application/x-directory",
     };
@@ -129,39 +121,34 @@ const createCloudStorageFolder = async (uid: string) => {
 
 //.Ini Stuff
 app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
-    if (safety.env.USE_S3 == true) {
+    if(safety.env.USE_S3) {
         try {
-            const uid: string | undefined = safety.env.NAME;
+            const uid = safety.env.NAME;
             const folderName = `CloudStorage/${uid}`;
-
+    
             const folderObjects = await listCloudFiles(`${folderName}/`);
             if (folderObjects.length === 0) {
-                await createCloudStorageFolder(uid || "");
+                await createCloudStorageFolder(uid!);
             }
-
-            const CloudFiles: Array<Object> = [];
-
-            folderObjects.forEach((object: any) => {
-                if (object.Key!.toLowerCase().endsWith(".ini")) {
-                    CloudFiles.push({
-                        "uniqueFilename": object.Key.split("/").pop(),
-                        "filename": object.Key.split("/").pop(),
-                        "hash": crypto.createHash('sha1').update("w").digest('hex'),
-                        "hash256": crypto.createHash('sha256').update("w").digest('hex'),
-                        "length": object.Size,
-                        "contentType": "application/octet-stream",
-                        "uploaded": new Date(),
-                        "storageType": "S3",
-                        "storageIds": {},
-                        "doNotCache": true
-                    });
-                }
-            });
-
-
+    
+            const CloudFiles = folderObjects
+                .filter(object => object.Key!.toLowerCase().endsWith(".ini"))
+                .map(object => ({
+                    uniqueFilename: object.Key!.split("/").pop(),
+                    filename: object.Key!.split("/").pop(),
+                    hash: crypto.createHash('sha1').update("w").digest('hex'),
+                    hash256: crypto.createHash('sha256').update("w").digest('hex'),
+                    length: object.Size,
+                    contentType: "application/octet-stream",
+                    uploaded: new Date(),
+                    storageType: "S3",
+                    storageIds: {},
+                    doNotCache: true
+                }));
+    
             const localFiles = fs.readdirSync(path.join(__dirname, "../../", "CloudStorage"));
-            localFiles.forEach((file) => {
-                const key = `CloudStorage/${safety.env.NAME || ""}/${file}`;
+            for (const file of localFiles) {
+                const key = `CloudStorage/${uid}/${file}`;
                 const object = folderObjects.find(obj => obj.Key === key);
                 if (!object) {
                     const fileData = fs.readFileSync(path.join(__dirname, "../../", "CloudStorage", file));
@@ -171,24 +158,22 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
                         Body: fileData,
                         ContentType: "application/octet-stream",
                     };
-                    s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
-                        if (err) console.error(err);
-                    });
+                    await s3.putObject(params).promise();
                     CloudFiles.push({
-                        "uniqueFilename": file,
-                        "filename": file,
-                        "hash": "",
-                        "hash256": "",
-                        "length": fileData.length,
-                        "contentType": "application/octet-stream",
-                        "uploaded": new Date(),
-                        "storageType": "S3",
-                        "storageIds": {},
-                        "doNotCache": true
+                        uniqueFilename: file,
+                        filename: file,
+                        hash: "",
+                        hash256: "",
+                        length: fileData.length,
+                        contentType: "application/octet-stream",
+                        uploaded: new Date(),
+                        storageType: "S3",
+                        storageIds: {},
+                        doNotCache: true
                     });
                 }
-            });
-
+            }
+    
             res.json(CloudFiles);
         } catch (err) {
             console.error(err);
@@ -226,7 +211,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
 
 app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
-    if (safety.env.USE_S3 == true) {
+    if (safety.env.USE_S3) {
         const fileName = req.params.file;
         const key = `CloudStorage/${safety.env.NAME || ""}/${fileName}`;
 
@@ -253,12 +238,11 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 });
 
 //Settings stuff
+
 app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
     if (safety.env.USE_S3 == true) {
         const userid = req.params[0];
-
-        res.set("Content-Type", "application/octet-stream")
 
         if (req.params.file.toLowerCase() !== "clientsettings.sav") {
             return res.status(404).json({
@@ -287,113 +271,8 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
         const buffer = Buffer.from(s3Object.toString(), "latin1");
 
-        const memory = functions.GetVersionInfo(req);
-
         return res.status(200).send(buffer).end();
-        //return res.status(200).send(s3Object.toString()).end();
     } else {
-        const userid = req.params[0];
-        try {
-            const dirPath = path.join(pathToClientSettings);
-        } catch (err) { }
-        res.set("Content-Type", "application/octet-stream");
-        if (req.params.file.toLowerCase() === "clientsettings.sav") {
-            const filePath = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
-            log.debug(`Settings file path: ${filePath}`)
-            if (fs.existsSync(filePath)) {
-                const fileContent = fs.readFileSync(filePath);
-                return res.status(200).send(fileContent);
-            } else {
-                res.status(200).end();
-            }
-        } else {
-            log.debug("File name is not clientsettings.sav, returning 404");
-        }
-    }
-
-})
-
-app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
-
-    if (safety.env.USE_S3 == true) {
-        const userid = req.params.accountId;
-
-        const key = `CloudStorage/${safety.env.NAME}/${userid}/ClientSettings.Sav`;
-
-        const s3Object = await getCloudFile(key);
-
-        res.set("Content-Type", "application/json")
-
-        const memory = functions.GetVersionInfo(req);
-
-        var currentBuildID = memory.CL;
-
-        if (s3Object) {
-
-            const ParsedFile = s3Object.toString();
-            const mtime = new Date();
-
-            const random: Number = Math.floor(10000 + Math.random() * 90000);
-
-            return res.json([{
-                "uniqueFilename": "ClientSettings.Sav",
-                "filename": "ClientSettings.Sav",
-                "hash": crypto.createHash('sha1').update(random.toString()).digest('hex'),
-                "hash256": crypto.createHash('sha256').update(random.toString()).digest('hex'),
-                "length": s3Object.toString().length,
-                "contentType": "application/octet-stream",
-                "uploaded": mtime,
-                "storageType": "S3",
-                "storageIds": {},
-                "accountId": req.params.accountId,
-                "doNotCache": true
-            }]);
-
-        } else {
-            return res.json([]);
-        }
-    } else {
-        try {
-            const memory = functions.GetVersionInfo(req);
-            const userId = req.params.accountId;
-            res.set("Content-Type", "application/json");
-            const currentBuildID = memory.CL;
-            const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}.Sav`);
-            if (fs.existsSync(filePath)) {
-                log.debug(`Settings file path exists: ${filePath}`)
-                const fileContent = fs.readFileSync(filePath, "latin1");
-                const fileStats = fs.statSync(filePath);
-                const response = {
-                    uniqueFilename: "ClientSettings.Sav",
-                    filename: "ClientSettings.Sav",
-                    hash: crypto.createHash("sha1").update(fileContent).digest("hex"),
-                    hash256: crypto.createHash("sha256").update(fileContent).digest("hex"),
-                    length: Buffer.byteLength(fileContent),
-                    contentType: "application/octet-stream",
-                    uploaded: fileStats.mtime,
-                    storageType: "S3",
-                    storageIds: {},
-                    accountId: req.params.accountId,
-                    doNotCache: true,
-                };
-                return res.json([response]);
-            } else {
-                log.debug(`Settings file path does not exist: ${filePath}`)
-                return res.json([]);
-            }
-        } catch (err) {
-            console.error("Error:", err);
-            return res.status(500).json({ error: "Internal server error" });
-        }
-    }
-
-})
-
-app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
-
-    if (safety.env.USE_S3 == true) {
-        log.debug("PUT /fortnite/api/cloudstorage/user/*/:file");
-
         const userid = req.params[0];
 
         if (req.params.file.toLowerCase() !== "clientsettings.sav") {
@@ -402,10 +281,93 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
             });
         }
 
+        const filePath = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
+        log.debug(`Settings file path: ${filePath}`)
+        if (fs.existsSync(filePath)) {
+            const readStream = createReadStream(filePath);
+            const writeStream = createWriteStream("", { fd: res.socket._handle.fd });
+            const pipelineAsync = promisify(pipeline);
+            await pipelineAsync(readStream, writeStream);
+        } else {
+            res.status(200).end();
+        }
+    }
+
+})
+
+app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
+    const userId = req.params.accountId;
+    const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}.Sav`);
+
+    const cachedFile = cache.get(filePath);
+    if (cachedFile) {
+        return res.json([cachedFile]);
+    }
+
+    if (safety.env.USE_S3) {
+        const key = `CloudStorage/${safety.env.NAME}/${userId}/ClientSettings.Sav`;
+        const s3Object = await getCloudFile(key);
+
+        if (s3Object) {
+            const buffer = Buffer.from(s3Object.toString(), "latin1");
+            const response = {
+                uniqueFilename: "ClientSettings.Sav",
+                filename: "ClientSettings.Sav",
+                hash: crypto.createHash("sha1").update(buffer).digest("hex"),
+                hash256: crypto.createHash("sha256").update(buffer).digest("hex"),
+                length: buffer.length,
+                contentType: "application/octet-stream",
+                uploaded: new Date(),
+                storageType: "S3",
+                storageIds: {},
+                accountId: userId,
+                doNotCache: true,
+            };
+            cache.set(filePath, response);
+            return res.json([response]);
+        } else {
+            return res.json([]);
+        }
+    } else {
+        fs.readFile(filePath, "latin1", (err, fileContent) => {
+            if (err) {
+                console.error("Error:", err);
+                return res.status(500).json({ error: "Internal server error" });
+            }
+
+            const fileStats = fs.statSync(filePath);
+            const response = {
+                uniqueFilename: "ClientSettings.Sav",
+                filename: "ClientSettings.Sav",
+                hash: crypto.createHash("sha1").update(fileContent).digest("hex"),
+                hash256: crypto.createHash("sha256").update(fileContent).digest("hex"),
+                length: Buffer.byteLength(fileContent),
+                contentType: "application/octet-stream",
+                uploaded: fileStats.mtime,
+                storageType: "S3",
+                storageIds: {},
+                accountId: userId,
+                doNotCache: true,
+            };
+            cache.set(filePath, response);
+            const readStream = fs.createReadStream(filePath, "latin1");
+            readStream.pipe(res);
+        });
+    }
+});
+
+app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
+    const userid = req.params[0];
+    const filename = req.params.file.toLowerCase();
+
+    if (filename !== "clientsettings.sav") {
+        return res.status(404).json({ error: "file not found" });
+    }
+
+    if (safety.env.USE_S3) {
         const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
-        console.log(`Uploading Settings to S3`);
         const params: S3.PutObjectRequest = {
-            Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
+            Bucket: safety.env.S3_BUCKET_NAME,
             Key: key,
             Body: req.rawBody,
             ContentType: "application/octet-stream",
@@ -416,37 +378,21 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
         s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
             if (err) console.error(err);
         });
-
-        const memory = functions.GetVersionInfo(req);
-
-        var currentBuildID = memory.CL;
-
-        res.status(204).end();
     } else {
-        log.debug("PUT /fortnite/api/cloudstorage/user/*/:file not using S3");
-        const userid = req.params[0];
         try {
-
             if (!fs.existsSync(path.join(pathToClientSettings))) {
                 fs.mkdirSync(path.join(pathToClientSettings));
-
             }
         } catch (err) {
             log.error(err as string);
         }
 
-        if (req.params.file.toLowerCase() !== "clientsettings.sav") {
-            return res.status(404).json({
-            });
-        }
-
-        const memory = functions.GetVersionInfo(req);
         let file: File;
         file = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
         fs.writeFileSync(file, req.rawBody, 'latin1');
-        res.status(204).end();
     }
 
-})
+    res.status(204).end();
+});
 
 module.exports = app;

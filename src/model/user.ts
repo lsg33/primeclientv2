@@ -1,23 +1,21 @@
-export { };
+import mongoose, { Document } from "mongoose";
 
-const mongoose = require("mongoose");
-
-export interface iUser {
+export interface iUser extends Document {
     created: Date,
-    banned: Boolean,
-    discordId: String,
-    accountId: String,
-    username: String,
-    username_lower: String,
-    email: String,
-    password: String,
-    mfa: Boolean,
-    gameserver: String
-    canCreateCodes: Boolean
-    isServer: Boolean
+    banned: boolean,
+    discordId: string,
+    accountId: string,
+    username: string,
+    username_lower: string,
+    email: string,
+    password: string,
+    mfa: boolean,
+    gameserver: string | null,
+    canCreateCodes: boolean,
+    isServer: boolean
 }
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema<iUser>(
     {
         created: { type: Date, required: true },
         banned: { type: Boolean, default: false },
@@ -35,8 +33,8 @@ const UserSchema = new mongoose.Schema(
     {
         collection: "users"
     }
-)
+);
 
-const model = mongoose.model('UserSchema', UserSchema);
+const UserModel = mongoose.model<iUser>('User', UserSchema);
 
-module.exports = model;
+export default UserModel;

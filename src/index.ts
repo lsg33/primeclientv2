@@ -10,8 +10,6 @@ const rateLimit = require("express-rate-limit");
 const jwt = require("jsonwebtoken");
 const error = require("./structs/error.js");
 const functions = require("./structs/functions.js");
-const dotenv = require("dotenv");
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import kv from './utilities/kv';
 import log from './structs/log';
 import safety from './utilities/safety';
@@ -20,39 +18,24 @@ import process from 'node:process';
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
-process.once('SIGTERM', async function (code) {
-    console.log('SIGTERM received...');
-    await app.close();
-    log.warn("SIGTERM received, exiting...");
-    process.exit(0);
-});
-
 async function main() {
 
-    safety.airbag();
-    
+    await safety.airbag();
+
     try {
         await update.checkForUpdate(packageJson.version);
     } catch (err) {
         log.error("Failed to check for updates");
     }
 
-
-    if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
-
     global.JWT_SECRET = functions.MakeID();
     const PORT = safety.env.PORT;
 
-    let redisTokens;
-    let tokens;
-
-    log.backend(`Using ${safety.env.USE_REDIS == true ? "Redis" : "File"} for tokens`)
-    log.backend(`Using ${safety.env.USE_S3 == true ? "S3" : "File"} for cloud and settings storage`)
+    let redisTokens: any;
+    let tokens: any;
 
     if (safety.env.USE_REDIS == true) {
-        console.log(safety.env.USE_REDIS);
         redisTokens = JSON.parse(JSON.stringify(await kv.get('tokens')));
-        logger.debug("REDIS TOKENS");
         try {
             tokens = JSON.parse(JSON.stringify(redisTokens))
         } catch (err) {
@@ -60,7 +43,6 @@ async function main() {
             log.error("Redis tokens error, resetting tokens.json");
         }
     } else {
-        logger.debug("FILE TOKENS");
         tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
     };
 
@@ -89,23 +71,27 @@ async function main() {
 
     global.exchangeCodes = [];
 
-    mongoose.set("strictQuery", true);
+    if (safety.env.DATABASE === "mongodb") {
+        mongoose.set("strictQuery", true);
 
-    mongoose
-        .connect(safety.env.MONGO_URI)
-        .then(() => {
-            logger.backend("Connected to MongoDB");
-        })
-        .catch((error) => {
-            console.error("Error connecting to MongoDB: ", error);
+        mongoose
+            .connect(safety.env.MONGO_URI)
+            .then(() => {
+                logger.backend("Connected to MongoDB");
+            })
+            .catch((error) => {
+                console.error("Error connecting to MongoDB: ", error);
+            });
+
+        mongoose.connection.on("error", (err) => {
+            logger.error(
+                "MongoDB failed to connect, please make sure you have MongoDB installed and running."
+            );
+            throw err;
         });
-
-    mongoose.connection.on("error", (err) => {
-        logger.error(
-            "MongoDB failed to connect, please make sure you have MongoDB installed and running."
-        );
-        throw err;
-    });
+    } else {
+        logger.backend("Using PostgreSQL");
+    }
 
     app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
     app.use(express.json());

@@ -9,7 +9,7 @@ const app = express.Router();
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
-    let resp = safety.env.GLOBALCHAT_ENABLED == true ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
+    let resp = { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] }
 
     res.json(resp);
 });

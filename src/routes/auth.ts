@@ -1,11 +1,11 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, Message } from "discord.js";
 
 export { };
 
 const express = require("express");
 const app = express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 
 import logger from '../structs/log';
 
@@ -26,6 +26,7 @@ const Discord = require("discord.js");
 import client from "../bot/index";
 import log from "../structs/log";
 import safety from "../utilities/safety";
+import { iUser } from "../model/user";
 
 client.once(Events.ClientReady, c => {
     logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);
@@ -61,24 +62,16 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
         );
     }
 
-    switch (req.body.grant_type) {
-        case "client_credentials":
-            let ip: string = req.ip;
-            /*         
-                        if (!global.clientTokens) {
-                            global.clientTokens = await redis.get('tokens');
-                            logger.backend("Client tokens array was empty, created new one.");
-                        } */
-
-            let clientToken = global.clientTokens.findIndex((i: { ip: any; }) => i.ip == ip);
-            if (clientToken != -1) global.clientTokens.splice(clientToken, 1);
-
-            const token = tokenCreation.createClient(clientId, req.body.grant_type, ip, 4); // expires in 4 hours
-
+    const grantTypeFunctions = {
+        client_credentials: async (req, res) => {
+            const ip = req.ip;
+            const clientTokenIndex = global.clientTokens.findIndex(i => i.ip === ip);
+            if (clientTokenIndex !== -1) {
+                global.clientTokens.splice(clientTokenIndex, 1);
+            }
+            const token = tokenCreation.createClient(clientId, req.body.grant_type, ip, 4);
             functions.UpdateTokens();
-
             const decodedClient = jwt.decode(token);
-
             res.json({
                 access_token: `eg1~${token}`,
                 expires_in: Math.round(((DateAddHours(new Date(decodedClient.creation_date), decodedClient.hours_expire).getTime()) - (new Date().getTime())) / 1000),
@@ -88,25 +81,15 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 internal_client: true,
                 client_service: "fortnite"
             });
-            return;
-
-        case "password":
-
-            if (!req.body.username || !req.body.password) return error.createError(
-                "errors.com.epicgames.common.oauth.invalid_request",
-                "Username/password is required.",
-                [], 1013, "invalid_request", 400, res
-            );
-            const { username: email, password: password } = req.body;
-
+        },
+        password: async (req, res) => {
+            const { username: email, password } = req.body;
             const regex = /@projectreboot\.dev$/;
-
-            rebootAccount = regex.test(email);
-
+            const rebootAccoun: boolean = regex.test(email);
             log.debug(`Reboot account: ${rebootAccount}`);
-
+            let user: iUser = {} as iUser;
             if (rebootAccount && safety.env.ALLOW_REBOOT) {
-                const findUser = await User.findOne({ email: email.toLowerCase() });
+                const findUser: iUser = await User.findOne({ email: email.toLowerCase() });
                 if (findUser) {
                     req.user = findUser;
                 } else {
@@ -115,29 +98,26 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                     req.user = await User.findOne({ email: email.toLowerCase() });
                 }
             } else {
-                req.user = await User.findOne({ email: email.toLowerCase() }).lean();
+                user = await User.findOne({ email: email.toLowerCase() }).lean();
             }
-
-            let err = () => error.createError(
-                "errors.com.epicgames.account.invalid_account_credentials",
-                "Your e-mail and/or password are incorrect. Please check them and try again.",
-                [], 18031, "invalid_grant", 400, res
-            );
-
-            if (!req.user) return err();
-            else {
-                if (!rebootAccount) {
-                    if (!await bcrypt.compare(password, req.user.password)) return err();
-                }
+            if (!user) {
+                return error.createError(
+                    "errors.com.epicgames.account.invalid_account_credentials",
+                    "Your e-mail and/or password are incorrect. Please check them and try again.",
+                    [], 18031, "invalid_grant", 400, res
+                );
             }
-
+            if (!rebootAccount && !(await bcrypt.compare(password, user.password))) {
+                return error.createError(
+                    "errors.com.epicgames.account.invalid_account_credentials",
+                    "Your e-mail and/or password are incorrect. Please check them and try again.",
+                    [], 18031, "invalid_grant", 400, res
+                );
+            }
             if (req.user.mfa) {
-
                 const discordId = req.user.discordId || null;
-
                 await kv.set(req.user.discordId, "false");
-
-                const embed = new EmbedBuilder()
+                const embed:EmbedBuilder = new EmbedBuilder()
                     .setColor('#2b2d31')
                     .setTitle('New Login')
                     .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
@@ -151,29 +131,23 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                         text: 'Momentum',
                         iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
                     });
-
-
-                const discordUser = await client.users.fetch(discordId);
-                const sentMessage = await discordUser.send({ embeds: [embed] });
-
-                await sentMessage.react('✅').then(() => sentMessage.react('❌'));
-
+                    const discordUser = await client.users.fetch(discordId);
+                    const sentMessage: Message = await discordUser.send({ embeds: [embed] });
+                    await sentMessage.react('✅').then(() => sentMessage.react('❌'));
                 const collectorFilter = (reaction, user) => {
                     logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
                     return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
                 };
-
                 await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
                     .then(async collected => {
                         const reaction = collected.first();
-
-                        if (reaction.emoji.name === '✅') {
+                        if (reaction!.emoji.name === '✅') {
                             await kv.set(req.user.discordId, "true");
                             await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
                         } else {
                             await kv.set(req.user.discordId, "false");
                             error.createError(
-                                "errors.com.epicgames.account.oauth.user_denied",
+                                "errors.com.epicgames.account.mfa.user_denied",
                                 "User denied the request.",
                                 [], 18058, "access_denied", 400, res
                             );
@@ -189,103 +163,74 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                         }, 10000);
                         sentMessage.reply('Your reaction was not detected in time, please try again.');
                     });
-
-                //Wait for 2FA
                 await waitFor2FA(req);
-            } else {
-                ;
             }
-
-            break;
-
-        case "refresh_token":
-            if (!req.body.refresh_token) return error.createError(
-                "errors.com.epicgames.common.oauth.invalid_request",
-                "Refresh token is required.",
-                [], 1013, "invalid_request", 400, res
-            );
-
+        },
+        refresh_token: async (req, res) => {
             const refresh_token = req.body.refresh_token;
-
-            let refreshToken = global.refreshTokens.findIndex((i: { token: any; }) => i.token == refresh_token);
-            let object = global.refreshTokens[refreshToken];
-
-            try {
-                if (refreshToken == -1) throw new Error("Refresh token invalid.");
-                let decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", ""));
-
-                if (DateAddHours(new Date(decodedRefreshToken.creation_date), decodedRefreshToken.hours_expire).getTime() <= new Date().getTime()) {
-                    throw new Error("Expired refresh token.");
-                }
-            } catch {
-                if (refreshToken != -1) {
-                    global.refreshTokens.splice(refreshToken, 1);
-
-                    functions.UpdateTokens();
-                }
-
-                error.createError(
+            const refreshTokenIndex = global.refreshTokens.findIndex(i => i.token === refresh_token);
+            if (refreshTokenIndex === -1) {
+                return error.createError(
                     "errors.com.epicgames.account.auth_token.invalid_refresh_token",
                     `Sorry the refresh token '${refresh_token}' is invalid`,
                     [refresh_token], 18036, "invalid_grant", 400, res
                 );
-
-                return;
             }
-
+            const decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", ""));
+            if (DateAddHours(new Date(decodedRefreshToken.creation_date), decodedRefreshToken.hours_expire)?.getTime() <= new Date().getTime()) {
+                global.refreshTokens.splice(refreshTokenIndex, 1);
+                functions.UpdateTokens();
+                return error.createError(
+                    "errors.com.epicgames.account.auth_token.invalid_refresh_token",
+                    `Sorry the refresh token '${refresh_token}' is invalid`,
+                    [refresh_token], 18036, "invalid_grant", 400, res
+                );
+            }
+            const object = global.refreshTokens[refreshTokenIndex];
             req.user = await User.findOne({ accountId: object.accountId }).lean();
-            break;
-
-        case "exchange_code":
-            if (!req.body.exchange_code) return error.createError(
-                "errors.com.epicgames.common.oauth.invalid_request",
-                "Exchange code is required.",
-                [], 1013, "invalid_request", 400, res
-            );
-
-            const { exchange_code } = req.body;
-
-            let index = global.exchangeCodes.findIndex((i: { exchange_code: any; }) => i.exchange_code == exchange_code);
-            let exchange = global.exchangeCodes[index];
-
-            if (index == -1) return error.createError(
-                "errors.com.epicgames.account.oauth.exchange_code_not_found",
-                "Sorry the exchange code you supplied was not found. It is possible that it was no longer valid",
-                [], 18057, "invalid_grant", 400, res
-            );
-
+        },
+        exchange_code: async (req, res) => {
+            const exchange_code = req.body.exchange_code;
+            const index = global.exchangeCodes.findIndex(i => i.exchange_code === exchange_code);
+            if (index === -1) {
+                return error.createError(
+                    "errors.com.epicgames.account.oauth.exchange_code_not_found",
+                    "Sorry the exchange code you supplied was not found. It is possible that it was no longer valid",
+                    [], 18057, "invalid_grant", 400, res
+                );
+            }
+            const exchange = global.exchangeCodes[index];
             global.exchangeCodes.splice(index, 1);
-
             req.user = await User.findOne({ accountId: exchange.accountId }).lean();
-            break;
+        }
+    };
 
-        default:
-            error.createError(
-                "errors.com.epicgames.common.oauth.unsupported_grant_type",
-                `Unsupported grant type: ${req.body.grant_type}`,
-                [], 1016, "unsupported_grant_type", 400, res
-            );
-            return;
+    const grantTypeFunction = grantTypeFunctions[req.body.grant_type];
+    if (!grantTypeFunction) {
+        return error.createError(
+            "errors.com.epicgames.common.oauth.unsupported_grant_type",
+            `Unsupported grant type: ${req.body.grant_type}`,
+            [], 1016, "unsupported_grant_type", 400, res
+        );
     }
+    await grantTypeFunction(req, res);
 
-    if (req.user.banned === undefined) return error.createError(
-        "errors.com.epicgames.account.oauth.account_not_found",
-        "Sorry the account you are trying to login to does not exist",
-        [], 18056, "invalid_grant", 400, res
-    );
-
-    if (req.user.banned) return error.createError(
-        "errors.com.epicgames.account.account_not_active",
-        "You have been permanently banned from Fortnite.",
-        [], -1, undefined, 400, res
-    );
+    if (req.user.banned) {
+        const errorMessage = "You have been permanently banned from Fortnite.";
+        const statusCode = -1;
+        return error.createError(
+            "errors.com.epicgames.account.account_not_active",
+            errorMessage,
+            [], statusCode, undefined, 400, res
+        );
+    }
 
     let refreshIndex = global.refreshTokens.findIndex((i: { accountId: any; }) => i.accountId == req.user.accountId);
     if (refreshIndex != -1) global.refreshTokens.splice(refreshIndex, 1);
 
     let accessIndex = global.accessTokens.findIndex((i: { accountId: any; }) => i.accountId == req.user.accountId);
     if (accessIndex != -1) {
-        global.accessTokens.splice(accessIndex, 1);
+            global.accessTokens.splice(accessIndex, 1);
 
         let xmppClient = global.Clients.find((i: { accountId: any; }) => i.accountId == req.user.accountId);
         if (xmppClient) xmppClient.client.close();

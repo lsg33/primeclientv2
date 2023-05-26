@@ -1,8 +1,12 @@
-export { };
+import mongoose, { Document } from "mongoose";
 
-const mongoose = require("mongoose");
+export interface iProfile extends Document {
+    created: Date,
+    accountId: string,
+    profiles: object
+}
 
-const ProfilesSchema = new mongoose.Schema(
+const ProfilesSchema = new mongoose.Schema<iProfile>(
     {
         created: { type: Date, required: true },
         accountId: { type: String, required: true, unique: true },
@@ -11,8 +15,8 @@ const ProfilesSchema = new mongoose.Schema(
     {
         collection: "profiles"
     }
-)
+);
 
-const model = mongoose.model('ProfilesSchema', ProfilesSchema);
+const ProfileModel = mongoose.model<iProfile>('Profile', ProfilesSchema);
 
-module.exports = model;
+export default ProfileModel;

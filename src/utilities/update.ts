@@ -1,24 +1,19 @@
 import log from "../structs/log";
 
-class update {
-
+class Update {
     async checkForUpdate(currentVersion: string) {
+        const packageJson = await fetch('https://raw.githubusercontent.com/Nexus-FN/Momentum/main/package.json').then(res => res.json());
 
-        const packageJsonRaw = await fetch('https://raw.githubusercontent.com/Nexus-FN/Momentum/main/package.json');
-        const packageJson = await packageJsonRaw.json();
+        log.debug(`Latest version: ${packageJson.version}`);
+        log.debug(`Current version: ${currentVersion}`);
 
-        log.debug("Latest version: " + packageJson.version);
-
-        log.debug("Current version: " + currentVersion);
-
-        if (packageJson.version !== currentVersion) {
-            log.warn("Update available! " + currentVersion + " -> " + packageJson.version);
-            log.warn("Download it from the GitHub repo or repull the image if you're using Docker");
+        if (parseFloat(packageJson.version) > parseFloat(currentVersion)) {
+            const message = `Update available! ${currentVersion} -> ${packageJson.version}`;
+            log.warn(`${message}\nDownload it from the GitHub repo or repull the image if you're using Docker`);
         } else {
-            log.backend("No update available");
+            log.backend("No update available. Latest version: " + packageJson.version + " Current version: " + currentVersion + "");
         }
     }
-
 }
 
-export default new update();
+export default new Update();

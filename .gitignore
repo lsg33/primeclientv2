@@ -3,3 +3,4 @@ ClientSettings/
 node_modules/
 build
 .env
+package-lock.json
