@@ -8,6 +8,10 @@ jobs:
   build-and-push-images:
     runs-on: ubuntu-latest
 
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+
     strategy:
       matrix:
         os: [ubuntu-latest]
