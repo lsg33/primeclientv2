@@ -1,5 +1,10 @@
 name: Build and deploy
 
+permissions:
+  contents: write
+  packages: write
+  deployments: write
+
 on:
   push:
     branches: ['main']
