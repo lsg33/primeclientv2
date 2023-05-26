@@ -8,6 +8,10 @@ jobs:
   build-and-push-images:
     runs-on: ubuntu-latest
 
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -29,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.os }}-${{ matrix.arch }}
+          tags: ghcr.io/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.arch }}
