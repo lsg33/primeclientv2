@@ -33,4 +33,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/momentum:${{ matrix.arch }}
+          tags: ${{ env.REGISTRY }}/nexus-fn/momentum:${{ matrix.arch }}
