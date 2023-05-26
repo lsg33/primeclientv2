@@ -11,11 +11,11 @@ const redis = safety.env.USE_REDIS ? new Redis({
 
 class KV {
     async get(key: string): Promise<any> {
-        return safety.env.USE_REDIS ? redis?.get(key) : kvjs.get(key);
+        return safety.env.USE_REDIS ? redis?.get(key) : memkv.get(key);
     }
 
     async set(key: string, value: any): Promise<boolean> {
-        const set = safety.env.USE_REDIS ? await redis?.set(key, value) : kvjs.set(key, value);
+        const set = safety.env.USE_REDIS ? await redis?.set(key, value) : memkv.set(key, value);
         return set === 'OK';
     }
 }
