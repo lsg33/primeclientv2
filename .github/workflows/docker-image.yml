@@ -24,7 +24,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.arch }
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.arch }}
 
     - name: Checkout repository
       uses: actions/checkout@v2
