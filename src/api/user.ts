@@ -44,9 +44,7 @@ app.post("/api/user/:key/:value", verifyApikey, (req, res) => {
 
     const update = {};
     update[fieldToUpdate] = newValue;
-
-    if(fieldToUpdate != "password" || fieldToUpdate != "email" || fieldToUpdate != "username" || fieldToUpdate != "reports") return res.status(400).json({ error: "Invalid field to update" });
-
+    if (fieldToUpdate !== "password" && fieldToUpdate !== "email" && fieldToUpdate !== "username" && fieldToUpdate !== "reports" && fieldToUpdate !== "gameserver") return res.status(400).json({ error: "Invalid field to update" });
     User.findOneAndUpdate(query, update, { new: true }, (err, user) => {
         if (err) return res.status(500).json({ error: "Internal server error" });
         if (!user) return res.status(404).json({ error: "User not found" });

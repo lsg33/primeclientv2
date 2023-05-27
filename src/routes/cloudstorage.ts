@@ -22,15 +22,17 @@ const cache = new NodeCache();
 
 const operatingSystem = os.platform();
 
+let seasons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
 let pathToClientSettings: string = "";
 if (operatingSystem === "win32") {
-    pathToClientSettings = path.join(__dirname, "../ClientSettings");
+    pathToClientSettings = path.join(__dirname, "../../ClientSettings");
     if (!fs.existsSync(pathToClientSettings)) {
         fs.mkdirSync(pathToClientSettings);
         log.debug("ClientSettings folder for Windows created successfully.");
     }
 } else if (operatingSystem === "linux") {
-    pathToClientSettings = path.join(__dirname, "../ClientSettings");
+    pathToClientSettings = path.join(__dirname, "../../ClientSettings");
     if (!fs.existsSync(pathToClientSettings)) {
         fs.mkdirSync(pathToClientSettings);
         fs.chmodSync(pathToClientSettings, 0o700);
@@ -121,16 +123,16 @@ const createCloudStorageFolder = async (uid: string) => {
 
 //.Ini Stuff
 app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
-    if(safety.env.USE_S3) {
+    if (safety.env.USE_S3) {
         try {
             const uid = safety.env.NAME;
             const folderName = `CloudStorage/${uid}`;
-    
+
             const folderObjects = await listCloudFiles(`${folderName}/`);
             if (folderObjects.length === 0) {
                 await createCloudStorageFolder(uid!);
             }
-    
+
             const CloudFiles = folderObjects
                 .filter(object => object.Key!.toLowerCase().endsWith(".ini"))
                 .map(object => ({
@@ -145,7 +147,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
                     storageIds: {},
                     doNotCache: true
                 }));
-    
+
             const localFiles = fs.readdirSync(path.join(__dirname, "../../", "CloudStorage"));
             for (const file of localFiles) {
                 const key = `CloudStorage/${uid}/${file}`;
@@ -173,7 +175,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
                     });
                 }
             }
-    
+
             res.json(CloudFiles);
         } catch (err) {
             console.error(err);
@@ -209,7 +211,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
     }
 });
 
-app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
+app.get("/fortnite/api/cloudstorage/system/:file", verifyClient, async (req, res) => {
 
     if (safety.env.USE_S3) {
         const fileName = req.params.file;
@@ -239,7 +241,8 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
 //Settings stuff
 
-app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
+app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
+    console.log("GET /fortnite/api/cloudstorage/user/*/:file");
 
     if (safety.env.USE_S3 == true) {
         const userid = req.params[0];
@@ -273,29 +276,22 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
 
         return res.status(200).send(buffer).end();
     } else {
-        const userid = req.params[0];
+        if (req.params.file.toLowerCase() != "clientsettings.sav") return res.status(200).end();
 
-        if (req.params.file.toLowerCase() !== "clientsettings.sav") {
-            return res.status(404).json({
-                "error": "file not found"
-            });
-        }
+        const memory = functions.GetVersionInfo(req);
+        if (!seasons.includes(memory.season)) return res.status(200).end();
 
-        const filePath = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
-        log.debug(`Settings file path: ${filePath}`)
-        if (fs.existsSync(filePath)) {
-            const readStream = createReadStream(filePath);
-            const writeStream = createWriteStream("", { fd: res.socket._handle.fd });
-            const pipelineAsync = promisify(pipeline);
-            await pipelineAsync(readStream, writeStream);
-        } else {
-            res.status(200).end();
-        }
+        let file = path.join(pathToClientSettings, `ClientSettings-${memory.season}.Sav`);
+
+        if (fs.existsSync(file)) return res.status(200).send(fs.readFileSync(file));
+
+        res.status(200).end();
     }
 
 })
 
-app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
+app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, res) => {
+    console.log("Getting user cloud files GET /fortnite/api/cloudstorage/user/:accountId");
     const userId = req.params.accountId;
     const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}.Sav`);
 
@@ -329,34 +325,37 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", async (req, res) => {
             return res.json([]);
         }
     } else {
-        fs.readFile(filePath, "latin1", (err, fileContent) => {
-            if (err) {
-                console.error("Error:", err);
-                return res.status(500).json({ error: "Internal server error" });
-            }
 
-            const fileStats = fs.statSync(filePath);
-            const response = {
-                uniqueFilename: "ClientSettings.Sav",
-                filename: "ClientSettings.Sav",
-                hash: crypto.createHash("sha1").update(fileContent).digest("hex"),
-                hash256: crypto.createHash("sha256").update(fileContent).digest("hex"),
-                length: Buffer.byteLength(fileContent),
-                contentType: "application/octet-stream",
-                uploaded: fileStats.mtime,
-                storageType: "S3",
-                storageIds: {},
-                accountId: userId,
-                doNotCache: true,
-            };
-            cache.set(filePath, response);
-            const readStream = fs.createReadStream(filePath, "latin1");
-            readStream.pipe(res);
-        });
+        const memory = functions.GetVersionInfo(req);
+        if (!seasons.includes(memory.season)) return res.json([]);
+
+        let file = path.join(filePath, `ClientSettings-${memory.season}.Sav`);
+
+        if (fs.existsSync(file)) {
+            const ParsedFile = fs.readFileSync(file, 'latin1');
+            const ParsedStats = fs.statSync(file);
+
+            return res.json([{
+                "uniqueFilename": "ClientSettings.Sav",
+                "filename": "ClientSettings.Sav",
+                "hash": crypto.createHash('sha1').update(ParsedFile).digest('hex'),
+                "hash256": crypto.createHash('sha256').update(ParsedFile).digest('hex'),
+                "length": Buffer.byteLength(ParsedFile),
+                "contentType": "application/octet-stream",
+                "uploaded": ParsedStats.mtime,
+                "storageType": "S3",
+                "storageIds": {},
+                "accountId": req.user.accountId,
+                "doNotCache": false
+            }]);
+        }
+
+        res.json([]);
     }
 });
 
-app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
+app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
+    console.log("PUT /fortnite/api/cloudstorage/user/*/:file");
     const userid = req.params[0];
     const filename = req.params.file.toLowerCase();
 
@@ -365,6 +364,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
     }
 
     if (safety.env.USE_S3) {
+        console.log("Using S3 for cloud storage put");
         const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
         const params: S3.PutObjectRequest = {
             Bucket: safety.env.S3_BUCKET_NAME,
@@ -379,17 +379,23 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", async (req, res) => {
             if (err) console.error(err);
         });
     } else {
-        try {
-            if (!fs.existsSync(path.join(pathToClientSettings))) {
-                fs.mkdirSync(path.join(pathToClientSettings));
-            }
-        } catch (err) {
-            log.error(err as string);
-        }
+        console.log("Using local storage for cloud storage put");
+        if (Buffer.byteLength(req.rawBody) >= 400000) return res.status(403).json({ "error": "File size must be less than 400kb." });
 
-        let file: File;
-        file = path.join(pathToClientSettings, `ClientSettings-${userid}.Sav`);
+        console.log("Checkign if file to lower case is clientsettings.sav");
+
+        if (req.params.file.toLowerCase() != "clientsettings.sav") return res.status(204).end();
+
+        console.log("Getting version info");
+
+        const memory = functions.GetVersionInfo(req);
+        if (!seasons.includes(memory.season)) return res.status(204).end();
+
+        console.log("Writing file to disk");
+
+        let file = path.join(pathToClientSettings, `ClientSettings-${memory.season}.Sav`);
         fs.writeFileSync(file, req.rawBody, 'latin1');
+        console.log("Wrote file to disk");
     }
 
     res.status(204).end();

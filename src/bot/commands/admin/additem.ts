@@ -40,20 +40,21 @@ module.exports = {
         const user = await Users.findOne({ discordId: selectedUserId });
         const profile = await Profiles.findOne({ accountId: user.accountId });
         if (!user) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
+        if(!profile) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
 
         const cosmeticname: string = interaction.options.getString('cosmeticname');
 
-        //check if user already has the cosmetic
         const cosmeticCheck = await asteria.getCosmetic("name", cosmeticname, false);
 
-        if(cosmeticname.toLowerCase() === cosmeticname) return interaction.reply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
+        const regex = /^(?:[A-Z][a-z]*\b\s*)+$/;
+
+        if(!regex.test(cosmeticname)) return interaction.reply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
 
         let cosmetic: any = {};
 
         try {
             cosmetic = await asteria.getCosmetic("name", cosmeticname, false);
         } catch (err) {
-            console.log(err);
             return await interaction.reply({ content: "That cosmetic does not exist", ephemeral: true });
         } finally {
             if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return interaction.reply({ content: "That user already has that cosmetic", ephemeral: true });
@@ -77,7 +78,6 @@ module.exports = {
             { new: true },
         )
             .catch((err) => {
-                console.log(err)
             })
 
         const embed = new EmbedBuilder()

@@ -23,7 +23,6 @@ app.post("/fortnite/api/game/v2/toxicity/account/:reporter/report/:reportedPlaye
     try {
         const user = await User.findOneAndUpdate({ accountId: reportedPlayer } , { $inc: { reports: 1 } }, { new: true });
     } catch (err) {
-        console.log(err);
     }
 
     res.status(200).send({ "success": true });

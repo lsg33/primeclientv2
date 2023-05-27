@@ -24,31 +24,27 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
     res.status(200).end();
 });
 
-interface iServer {
-    ip: string
-    port: number;
-}
-
 const codeCache = new Map<string, typeof MMCode>();
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
     const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'];
-    log.debug("Custom key is: " + playerCustomKey);
 
-    let codeDocument: iMMCodes = codeCache.get(playerCustomKey);
-    if (!codeDocument) {
-        codeDocument = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
+    let codeDocument: iMMCodes | null = null;
+    if (playerCustomKey) {
+        codeDocument = codeCache.get(playerCustomKey);
         if (!codeDocument) {
-            return error.createError(
-                "errors.com.epicgames.common.matchmaking.code.not_found",
-                "Your matchmaking code does not exist, please create it using the Discord bot",
-                [], 1013, "invalid_code", 404, res
-            );
+            codeDocument = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
+            if (!codeDocument) {
+                return error.createError(
+                    "errors.com.epicgames.common.matchmaking.code.not_found",
+                    "Your matchmaking code does not exist, please create it using the Discord bot",
+                    [], 1013, "invalid_code", 404, res
+                );
+            }
+            codeCache.set(playerCustomKey, codeDocument);
         }
-        codeCache.set(playerCustomKey, codeDocument);
+        await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
     }
-
-    await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
 
     if (typeof req.query.bucketId !== "string" || req.query.bucketId.split(":").length !== 4) {
         return res.status(400).end();
@@ -67,7 +63,6 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 });
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
-    console.log("GET /fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId")
     res.json({
         "accountId": req.params.accountId,
         "sessionId": req.params.sessionId,
@@ -79,8 +74,8 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
 
     const user: iUser = await decode.decodeAuth(req) as iUser;
 
-    let codeKV: iServer = await kv.get(`playerCustomKey:${user.accountId}`);
-    if (codeKV === undefined || codeKV === null) {
+    let codeKV = await kv.get(`playerCustomKey:${user.accountId}`);
+    if (typeof(codeKV) == "undefined") {
         const gameServers = safety.env.GAME_SERVERS
         const randomServer = gameServers[Math.floor(Math.random() * gameServers.length)];
         const [ip, port] = randomServer.split(":");

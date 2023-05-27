@@ -29,7 +29,7 @@ module.exports = {
 			apiKey: result,
 			access: "user",
 		}, async (err, api) => {
-			if (err) return console.log(err);
+			if (err) return null;
 		});
 
 		newKey.save()

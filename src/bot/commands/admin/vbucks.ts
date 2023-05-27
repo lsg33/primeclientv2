@@ -32,10 +32,9 @@ module.exports = {
         const user = await Users.findOne({ discordId:  selectedUserId });
         if (!user) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
 
-		const vbucks:number = interaction.options.getString('vbucks');
+		const vbucks:number = parseInt(interaction.options.getString('vbucks'));
         
-        //@ts-ignore
-        await Profiles.updateOne( { accountId: user.accountId }, { $inc: { 'profiles.common_core.items.Currency:MtxPurchased.quantity' : parseInt(vbucks || 0) } });
+        await Profiles.updateOne( { accountId: user.accountId }, { $inc: { 'profiles.common_core.items.Currency:MtxPurchased.quantity' : vbucks } });
 
 		const embed = new EmbedBuilder()
 			.setTitle("vBucks changed")

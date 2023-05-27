@@ -34,6 +34,10 @@ class logger {
         console.log(`\x1b[37m[\x1b[33mWARN\x1b[0m\x1b[37m] ${message}`);
     }
 
+    public api = (message: string) => {
+        console.log(`\x1b[37m[\x1b[36mAPI\x1b[0m\x1b[37m] ${message}`);
+    }
+
 }
 
 export default new logger();
