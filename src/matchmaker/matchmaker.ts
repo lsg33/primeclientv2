@@ -41,14 +41,16 @@ class matchmaker {
 
         function Queued() {
             ws.send(JSON.stringify({
+                "name": "StatusUpdate",
                 "payload": {
-                    "ticketId": ticketId,
-                    "queuedPlayers": 0,
                     "estimatedWaitSec": 0,
-                    "status": {},
-                    "state": "Queued"
-                },
-                "name": "StatusUpdate"
+                    "queuedPlayers": 0,
+                    "state": "Queued",
+                    "ticketId": ticketId,
+                    "status": {
+                        //ticeket.status.creativeIslandCode=0007-2048-2784?v=138 or for normal creative playlist_playgroundv2
+                    },
+                }
             }));
         }
 

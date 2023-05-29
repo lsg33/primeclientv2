@@ -4,6 +4,7 @@ const express = require("express");
 const app = express.Router();
 
 const functions = require("../structs/functions.js");
+const error = require("../structs/error.js");
 
 const Friends = require("../model/friends.js");
 const friendManager = require("../structs/friend.js");
@@ -23,7 +24,7 @@ app.get("/friends/api/public/list/fortnite/*/recentPlayers", (req, res) => {
 });
 
 app.get("/friends/api/public/friends/:accountId", verifyToken, async (req, res) => {
-    let response:Object[] = [];
+    let response: Object[] = [];
 
     const friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
 
@@ -77,6 +78,16 @@ app.post("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) =>
     res.status(204).end();
 });
 
+app.put("/friends/api/v1/:senderId/friends/:receiverId/alias/", verifyToken, async (req:Request, res) => {
+
+    error.createError(
+        "errors.com.epicgames.friends.alias.set_failed",
+        "This will work soon, don't worry!",
+        [], 1, "alias_set_failed", 404, res
+    );
+
+});
+
 app.delete("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) => {
     let sender = await Friends.findOne({ accountId: req.user.accountId });
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
@@ -114,7 +125,7 @@ app.delete("/friends/api/*/blocklist*/:receiverId", verifyToken, async (req, res
 });
 
 app.get("/friends/api/v1/:accountId/summary", verifyToken, async (req, res) => {
-    let response:any = {
+    let response: any = {
         "friends": [],
         "incoming": [],
         "outgoing": [],

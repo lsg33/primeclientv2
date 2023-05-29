@@ -35,7 +35,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verify
 
     const memory = functions.GetVersionInfo(req);
 
-    let ApplyProfileChanges:Object[] = [];
+    let ApplyProfileChanges: Object[] = [];
     let BaseRevision = profile.rvn;
     let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
     let QueryRevision = req.query.rvn || -1;
@@ -596,7 +596,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/PurchaseCatalogEntry", verifyTo
         //        await profiles.updateOne({ $set: { [`profiles.${req.query.profileId}`]: profile, [`profiles.athena`]: athena } });
     }
 
-    if (QueryRevision != ProfileRevisionCheck) {    
+    if (QueryRevision != ProfileRevisionCheck) {
         ApplyProfileChanges = [{
             "changeType": "fullProfileUpdate",
             "profile": profile
@@ -1529,7 +1529,10 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
     let QueryRevision = req.query.rvn || -1;
 
     switch (req.params.operation) {
-        case "QueryProfile": break;
+        case "QueryProfile":
+            res.json({});
+            return;
+            break;
         case "ClientQuestLogin": break;
         case "RefreshExpeditions": break;
         case "GetMcpTimeForLogin": break;
@@ -1546,6 +1549,13 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
             break;
         case "CopyCosmeticLoadout":
 
+
+            return error.createError(
+                "errors.com.epicgames.modules.profiles.operation_forbidden",
+                `This operation is temporarily disabled`,
+                [req.query.profileId], 12813, undefined, 403, res
+            );
+
             try {
                 if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                     "errors.com.epicgames.modules.profiles.operation_forbidden",
@@ -1557,7 +1567,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
                 profile = profileDocument.profiles[req.query.profileId];
 
-                let item;
+                let item: { attributes: { [x: string]: any; }; };
 
                 if (req.body.sourceIndex == 0) {
                     item = profile.items[`lawin${req.body.targetIndex}-loadout`];
@@ -1583,12 +1593,18 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
                 profile.commandRevision = profileDocument.profiles[req.query.profileId].commandRevision += 1;
 
                 await Profile.findOneAndUpdate({ accountId: req.user.accountId }, { $set: profiles }, { upsert: true });
-            } catch (err:any) {
+            } catch (err: any) {
                 log.error(err.toString());
             }
 
             break;
         case "DeleteCosmeticLoadout":
+
+            return error.createError(
+                "errors.com.epicgames.modules.profiles.operation_forbidden",
+                `This operation is temporarily disabled`,
+                [req.query.profileId], 12813, undefined, 403, res
+            );
 
             if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                 "errors.com.epicgames.modules.profiles.operation_forbidden",
@@ -1607,6 +1623,12 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
             break;
         case "SetCosmeticLockerName":
+
+            return error.createError(
+                "errors.com.epicgames.modules.profiles.operation_forbidden",
+                `This operation is temporarily disabled`,
+                [req.query.profileId], 12813, undefined, 403, res
+            );
 
             if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                 "errors.com.epicgames.modules.profiles.operation_forbidden",

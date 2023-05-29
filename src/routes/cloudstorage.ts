@@ -243,9 +243,9 @@ app.get("/fortnite/api/cloudstorage/system/:file", verifyClient, async (req, res
 
 app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
     console.log("GET /fortnite/api/cloudstorage/user/*/:file");
+    const userid = req.params[0];
 
     if (safety.env.USE_S3 == true) {
-        const userid = req.params[0];
 
         if (req.params.file.toLowerCase() !== "clientsettings.sav") {
             return res.status(404).json({
@@ -281,7 +281,7 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
         const memory = functions.GetVersionInfo(req);
         if (!seasons.includes(memory.season)) return res.status(200).end();
 
-        let file = path.join(pathToClientSettings, `ClientSettings-${memory.season}.Sav`);
+        let file = path.join(pathToClientSettings, `ClientSettings-${userid}-${memory.season}.Sav`);
 
         if (fs.existsSync(file)) return res.status(200).send(fs.readFileSync(file));
 
@@ -292,8 +292,12 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
 
 app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, res) => {
     console.log("Getting user cloud files GET /fortnite/api/cloudstorage/user/:accountId");
+
+    const memory = functions.GetVersionInfo(req);
+    if (!seasons.includes(memory.season)) return res.json([])
+
     const userId = req.params.accountId;
-    const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}.Sav`);
+    const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}-${memory.season}.Sav`);
 
     const cachedFile = cache.get(filePath);
     if (cachedFile) {
@@ -324,16 +328,11 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, 
         } else {
             return res.json([]);
         }
-    } else {
+    } else {;
 
-        const memory = functions.GetVersionInfo(req);
-        if (!seasons.includes(memory.season)) return res.json([]);
-
-        let file = path.join(filePath, `ClientSettings-${memory.season}.Sav`);
-
-        if (fs.existsSync(file)) {
-            const ParsedFile = fs.readFileSync(file, 'latin1');
-            const ParsedStats = fs.statSync(file);
+        if (fs.existsSync(filePath)) {
+            const ParsedFile = fs.readFileSync(filePath, 'latin1');
+            const ParsedStats = fs.statSync(filePath);
 
             return res.json([{
                 "uniqueFilename": "ClientSettings.Sav",
@@ -356,7 +355,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, 
 
 app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
     console.log("PUT /fortnite/api/cloudstorage/user/*/:file");
-    const userid = req.params[0];
+    const userId = req.params[0];
     const filename = req.params.file.toLowerCase();
 
     if (filename !== "clientsettings.sav") {
@@ -365,7 +364,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
 
     if (safety.env.USE_S3) {
         console.log("Using S3 for cloud storage put");
-        const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userid}/ClientSettings.Sav`;
+        const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userId}/ClientSettings.Sav`;
         const params: S3.PutObjectRequest = {
             Bucket: safety.env.S3_BUCKET_NAME,
             Key: key,
@@ -393,7 +392,7 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
 
         console.log("Writing file to disk");
 
-        let file = path.join(pathToClientSettings, `ClientSettings-${memory.season}.Sav`);
+        const file = path.join(pathToClientSettings, `ClientSettings-${userId}-${memory.season}.Sav`);
         fs.writeFileSync(file, req.rawBody, 'latin1');
         console.log("Wrote file to disk");
     }
