@@ -126,10 +126,6 @@ export class safety {
                     this.env[key] = typeof value === "string" ? value.replace(/ /g, "_") : value;
                 }
             }
-            if (key === "USE_REDIS") {
-                this.env.USE_REDIS = false;
-                log.warn("USE_REDIS has been disabled as using Redis is currently unstable and error prone. Stay tuned for updates.");
-            }
             if(key === "DATABASE") {
                 if(value !== "mongodb" && value !== "postgres") {
                     throw new TypeError(`The environment variable ${key} is not mongodb or postgres, please declare it in the .env file.`);

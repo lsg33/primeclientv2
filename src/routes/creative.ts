@@ -33,7 +33,6 @@ app.get("/links/api/fn/mnemonic/:islandCode", async (req, res) => {
         res.json(island);
 
     }).catch((err) => {
-        console.log(err)
     });
 
 });

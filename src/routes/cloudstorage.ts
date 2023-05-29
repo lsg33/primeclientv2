@@ -242,7 +242,6 @@ app.get("/fortnite/api/cloudstorage/system/:file", verifyClient, async (req, res
 //Settings stuff
 
 app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
-    console.log("GET /fortnite/api/cloudstorage/user/*/:file");
     const userid = req.params[0];
 
     if (safety.env.USE_S3 == true) {
@@ -291,7 +290,6 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
 })
 
 app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, res) => {
-    console.log("Getting user cloud files GET /fortnite/api/cloudstorage/user/:accountId");
 
     const memory = functions.GetVersionInfo(req);
     if (!seasons.includes(memory.season)) return res.json([])
@@ -354,7 +352,6 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, 
 });
 
 app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
-    console.log("PUT /fortnite/api/cloudstorage/user/*/:file");
     const userId = req.params[0];
     const filename = req.params.file.toLowerCase();
 
@@ -363,7 +360,6 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
     }
 
     if (safety.env.USE_S3) {
-        console.log("Using S3 for cloud storage put");
         const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userId}/ClientSettings.Sav`;
         const params: S3.PutObjectRequest = {
             Bucket: safety.env.S3_BUCKET_NAME,
@@ -378,23 +374,15 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
             if (err) console.error(err);
         });
     } else {
-        console.log("Using local storage for cloud storage put");
         if (Buffer.byteLength(req.rawBody) >= 400000) return res.status(403).json({ "error": "File size must be less than 400kb." });
 
-        console.log("Checkign if file to lower case is clientsettings.sav");
-
         if (req.params.file.toLowerCase() != "clientsettings.sav") return res.status(204).end();
-
-        console.log("Getting version info");
 
         const memory = functions.GetVersionInfo(req);
         if (!seasons.includes(memory.season)) return res.status(204).end();
 
-        console.log("Writing file to disk");
-
         const file = path.join(pathToClientSettings, `ClientSettings-${userId}-${memory.season}.Sav`);
         fs.writeFileSync(file, req.rawBody, 'latin1');
-        console.log("Wrote file to disk");
     }
 
     res.status(204).end();
