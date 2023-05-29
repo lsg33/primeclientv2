@@ -1,6 +1,6 @@
 export { };
 
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 const jwt = require("jsonwebtoken");
 
 function createClient(clientId, grant_type, ip, expiresIn) {

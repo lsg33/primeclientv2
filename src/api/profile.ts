@@ -1,4 +1,4 @@
-import log from "../structs/log";
+import log from "../utilities/structs/log";
 import safety from "../utilities/safety";
 
 export { };

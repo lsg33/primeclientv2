@@ -1,13 +1,7 @@
 export { }
 
-import { Hash } from "crypto";
-import { Attachment, AttachmentBuilder, CommandInteraction, EmbedBuilder, Interaction, PermissionFlagsBits } from "discord.js";
-import Asteria from "asteriasdk";
-import path from "path";
-import fs from "fs";
-
+import { CommandInteraction, PermissionFlagsBits } from "discord.js";
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
 const Users = require('../../../model/user');
 const Profiles = require('../../../model/profiles');
 

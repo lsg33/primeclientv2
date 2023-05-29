@@ -1,5 +1,5 @@
 import path from "path";
-import log from "./log";
+import log from "../utilities/structs/log";
 
 export { };
 

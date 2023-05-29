@@ -3,7 +3,7 @@ export { }
 const dotenv = require("dotenv");
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-import logger from '../structs/log';
+import logger from '../utilities/structs/log';
 import safety from "../utilities/safety";
 
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');

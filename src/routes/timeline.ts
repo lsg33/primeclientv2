@@ -3,8 +3,7 @@ export { };
 const express = require("express");
 const app = express.Router();
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 
 app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
     const memory = functions.GetVersionInfo(req);

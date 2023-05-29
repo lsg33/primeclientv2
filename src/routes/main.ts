@@ -1,12 +1,7 @@
-import safety from "../utilities/safety";
-
 export { };
 
 const express = require("express");
-const fs = require("fs");
 const app = express.Router();
-
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
     let resp = { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] }

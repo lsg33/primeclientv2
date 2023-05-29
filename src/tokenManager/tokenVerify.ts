@@ -3,12 +3,8 @@ export { };
 const jwt = require("jsonwebtoken");
 
 const User = require("../model/user.js");
-const functions = require("../structs/functions.js");
-const error = require("../structs/error.js");
-
-const { Redis } = require('@upstash/redis')
-
-import logger from '../structs/log';
+import functions from "../utilities/structs/functions";
+import error from "../utilities/structs/error";
 
 async function verifyToken(req, res, next) {
     let authErr = () => error.createError(

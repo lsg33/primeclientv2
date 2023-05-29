@@ -1,14 +1,15 @@
-import express, { Request, Response } from "express";
+const express = require("express");
 const Profile = require("../model/profiles.js");
 const Friends = require("../model/friends.js");
-const functions = require("../structs/functions.js")
+import functions from "../utilities/structs/functions.js";
 import { verifyToken } from "../tokenManager/tokenVerify.js";
-const keychain = require ("../../responses/keychain.json");
-const error = require("../structs/error.js")
+const keychain = require("../../responses/keychain.json");
+import error from "../utilities/structs/error.js";
 
 const app = express.Router();
 
-app.get("/fortnite/api/storefront/v2/catalog", (req: Request, res: Response) => {
+app.get("/fortnite/api/storefront/v2/catalog", (req, res) => {
+    if (req.headers["user-agent"] == undefined) return;
     if (req.headers["user-agent"].includes("2870186")) {
         return res.status(404).end();
     }
@@ -16,7 +17,7 @@ app.get("/fortnite/api/storefront/v2/catalog", (req: Request, res: Response) => 
     res.json(functions.getItemShop());
 });
 
-app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipientId/offer/:offerId", verifyToken, async (req: Request, res: Response) => {
+app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipientId/offer/:offerId", verifyToken, async (req, res) => {
     const findOfferId = functions.getOfferID(req.params.offerId);
     if (!findOfferId) {
         return error.createError(
@@ -56,11 +57,11 @@ app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipient
     });
 });
 
-app.get("/fortnite/api/storefront/v2/keychain", (req: Request, res: Response) => {
+app.get("/fortnite/api/storefront/v2/keychain", (req, res) => {
     res.json(keychain);
 });
 
-app.get("/catalog/api/shared/bulk/offers", (req: Request, res: Response) => {
+app.get("/catalog/api/shared/bulk/offers", (req, res) => {
     res.json({});
 });
 

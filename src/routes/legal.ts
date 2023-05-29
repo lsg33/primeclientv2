@@ -3,15 +3,26 @@ export { };
 const express = require("express");
 const app = express.Router();
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-const error = require("../structs/error.js");
+//Dont know the response for this yet
 
-app.get("/eulatracking/api/shared/agreements/fn", async (req, res) => {
+/* app.get("/eulatracking/api/shared/agreements/fn", async (req, res) => {
+
+    const locale = req.query.locale;
 
     console.log("Requested EULA")
 
     res.send("Hello eula lol")
 
 });
+
+app.get("/eulatracking/api/public/agreements/fn/account/:accountId", async (req, res) => {
+
+    const locale = req.query.locale;
+
+    console.log("Requested EULA")
+
+    res.send("Hello eula lol")
+
+}); */
 
 module.exports = app;

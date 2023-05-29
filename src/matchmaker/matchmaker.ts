@@ -1,6 +1,6 @@
 export { };
 
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 
 class matchmaker {
 

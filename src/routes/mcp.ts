@@ -1,5 +1,5 @@
-import log from "../structs/log";
-import fs from "fs";
+import log from "../utilities/structs/log";
+import error from "../utilities/structs/error";
 
 export { };
 
@@ -7,14 +7,46 @@ const express = require("express");
 const app = express.Router();
 
 const Profile = require("../model/profiles.js");
+const User = require("../model/user.js");
 const profileManager = require("../structs/profile.js");
 const Friends = require("../model/friends");
-const error = require("../structs/error.js");
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+import { verifyClient, verifyToken } from "../tokenManager/tokenVerify";
 
-global.giftReceived = {};
+global.giftReceived = {}; +
+
+app.get("/affiliate/api/public/affiliates/slug/:slug", verifyToken, async (req, res) => {
+
+    error.createError(
+        "errors.com.epicgames.route.disabled",
+        `This route is disabled.`,
+        [], 1032, undefined, 404, res
+    );
+
+    console.log(req)
+
+    await User.findOne({ accountId: req.user.accountId }, async (err, doc) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).end();
+        } else {
+            console.log("Found user");
+        }
+    });
+
+    await Profile.findOneAndUpdate({ accountId: req.user.accountId }, { $set: { "profiles.common_core.stats.attributes.mtx_affiliate": req.params.slug } }, { new: true }, (err, doc) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).end();
+        }
+
+        if (!doc) return res.status(404).end();
+
+        res.status(200).end();
+    });
+
+});
 
 app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verifyToken, async (req, res) => {
     const profiles = await Profile.findOne({ accountId: req.user.accountId });
@@ -1529,10 +1561,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
     let QueryRevision = req.query.rvn || -1;
 
     switch (req.params.operation) {
-        case "QueryProfile":
-            res.json({});
-            return;
-            break;
+        case "QueryProfile": break;
         case "ClientQuestLogin": break;
         case "RefreshExpeditions": break;
         case "GetMcpTimeForLogin": break;
@@ -1683,6 +1712,12 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
             return;
     }
 
+    if (QueryRevision != ProfileRevisionCheck) {
+        ApplyProfileChanges = [{
+            "changeType": "fullProfileUpdate",
+            "profile": profile
+        }];
+    }
 
     ApplyProfileChanges = [{
         "changeType": "fullProfileUpdate",

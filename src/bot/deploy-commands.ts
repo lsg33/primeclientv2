@@ -3,8 +3,8 @@ export { }
 const path = require("path");
 
 import client from ".";
-import log from "../structs/log";
-import logger from "../structs/log";
+import log from "../utilities/structs/log";
+import logger from "../utilities/structs/log";
 import safety from "../utilities/safety";
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const Discord = require("discord.js");

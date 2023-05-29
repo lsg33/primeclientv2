@@ -4,7 +4,6 @@ import { EmbedBuilder } from "discord.js";
 export { }
 
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
 const Users = require('../../../model/user');
 const bcrypt = require('bcrypt');
 

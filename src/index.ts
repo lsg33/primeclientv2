@@ -5,38 +5,15 @@ const app = express();
 const mongoose = require("mongoose");
 const fs = require("fs");
 import path from 'path';
-import logger from './structs/log';
+import logger from './utilities/structs/log';
 const rateLimit = require("express-rate-limit");
-const jwt = require("jsonwebtoken");
-const error = require("./structs/error.js");
-const functions = require("./structs/functions.js");
+import jwt from 'jsonwebtoken';
+import error from "./utilities/structs/error";
+import functions from "./utilities/structs/functions";
 import kv from './utilities/kv';
-import log from './structs/log';
+import log from './utilities/structs/log';
 import safety from './utilities/safety';
 import update from './utilities/update';
-import process from 'node:process';
-import { GeneratedAlways, Kysely } from "kysely"
-import { NeonDialect } from "kysely-neon"
-import ws from "ws"
-
-interface Database {
-    users: UserTable
-}
-
-interface UserTable {
-    created: Date,
-    banned: Boolean,
-    discordId: String,
-    accountId: String,
-    username: String,
-    username_lower: String,
-    email: String,
-    password: String,
-    mfa: Boolean,
-    gameserver: String
-    canCreateCodes: Boolean
-    isServer: Boolean
-}
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
@@ -90,6 +67,7 @@ async function main() {
     global.accessTokens = tokens.accessTokens;
     global.refreshTokens = tokens.refreshTokens;
     global.clientTokens = tokens.clientTokens;
+    global.smartXMPP = false;
 
     global.exchangeCodes = [];
 
@@ -131,7 +109,6 @@ async function main() {
 
     app.listen(PORT, () => {
         logger.backend(`App started listening on port ${PORT}`);
-
         require("./xmpp/xmpp");
         require("./bot/index");
     }).on("error", async (err) => {
@@ -142,9 +119,50 @@ async function main() {
         } else throw err;
     });
 
-    // if endpoint not found, return this error
+    const loggedUrls = new Set<string>();
+
     app.use((req, res, next) => {
-        logger.debug(`Missing endpoint: ${req.method} ${req.originalUrl}`);
+        const url = req.originalUrl;
+        if (loggedUrls.has(url)) {
+            return next();
+        }
+
+        logger.debug(`Missing endpoint: ${req.method} ${url}`);
+
+        const data = {
+            url,
+            method: req.method,
+            time: new Date().toISOString(),
+            request: {
+                body: req.body,
+                headers: req.headers,
+                query: req.query,
+            },
+            response: {
+                body: res.body,
+                headers: res.getHeaders(),
+                params: res.params,
+            },
+        };
+
+        loggedUrls.add(url);
+
+        fs.access("missing-endpoints.json", (err) => {
+            if (err) {
+                fs.writeFile("missing-endpoints.json", "", (err) => {
+                    if (err) {
+                        logger.error(`Error creating file: ${err}`);
+                    }
+                });
+            }
+
+            fs.appendFile("missing-endpoints.json", JSON.stringify(data) + "\n", (err) => {
+                if (err) {
+                    logger.error(`Error writing to file: ${err}`);
+                }
+            });
+        });
+
         error.createError(
             "errors.com.epicgames.common.not_found",
             "Sorry the resource you were trying to find could not be found",

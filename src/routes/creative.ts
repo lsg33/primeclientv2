@@ -6,7 +6,7 @@ const app = express.Router();
 import Island, { IslandInterface } from "../model/island";
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-const error = require("../structs/error.js");
+import error from "../utilities/structs/error";
 
 //Thanks milxnor
 app.get("/links/api/fn/mnemonic/:islandCode", async (req, res) => {
@@ -20,7 +20,7 @@ app.get("/links/api/fn/mnemonic/:islandCode", async (req, res) => {
         return res.sendStatus(400)
     }
 
-    const islandData: IslandInterface = await Island.findOne({ menmonic: islandCode }).then((island) => {
+    const islandData = await Island.findOne({ menmonic: islandCode }).then((island) => {
 
         if (!island) {
             return error.createError(

@@ -1,9 +1,8 @@
 import path from "path";
-import log from "../structs/log";
+import log from "./structs/log";
 import fs from "fs";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import unfähig from "./unfähig";
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 

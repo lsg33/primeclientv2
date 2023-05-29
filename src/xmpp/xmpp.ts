@@ -6,8 +6,8 @@ const XMLParser = require("xml-parser");
 const express = require("express");
 const app = express();
 
-import logger from "../structs/log.js";
-const functions = require("../structs/functions.js");
+import logger from "../utilities/structs/log.js";
+import functions from "../utilities/structs/functions";
 
 const User = require("../model/user.js");
 const Friends = require("../model/friends.js");
@@ -15,7 +15,6 @@ const Friends = require("../model/friends.js");
 const port = 80;
 const wss = new WebSocket({ server: app.listen(port) });
 import matchmaker from "../matchmaker/matchmaker";
-import log from "../structs/log.js";
 
 let domain = "prod.ol.epicgames.com";
 

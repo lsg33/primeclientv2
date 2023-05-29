@@ -1,0 +1,1658 @@
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:20:11.581Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-Pqa4GH3RjEaKBFOs6LJIvg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:20:11 GMT",
+            "x-ratelimit-reset": 1685373613
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:20:11.588Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-j2w8i35Q6UmgmtcrxOiwpg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 26,
+            "date": "Mon, 29 May 2023 15:20:11 GMT",
+            "x-ratelimit-reset": 1685373613
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:20:18.740Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-cX2OYXRILEmaZgqgBEAeCQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 40,
+            "date": "Mon, 29 May 2023 15:20:18 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.387Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-MK_GGeyVQ0S2MCNnSD4XdA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 34,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.434Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-3oW9NYGBoE_VLQHBWRwW3Q",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 32,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.457Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-EA41F1CF41703D556023A2B596D02880",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 29,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.486Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-PDuI-jrqwEGlfFmPRw2txg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.501Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-3Dt38vZFU0y61EsFoV1R2A",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 26,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:20:19.511Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-JBudZ0xUKUi3aOVE0J2gLw",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImI2M2NhMmNjNmExNzQyYzU5ZjlhZDQ3YzFkMzZiNmU2IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik1qTXpNR1U1TlRjdFpqUmtZUzAwTVdWa0xUZzVPRE10TURNM09HVmxOekZpTlRBMSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYjZlM2JkYTQ5YjAyNDE2ZDgxYzdmYjhiMmE3MmZmOWYiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMDoxMS40MjhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM2MTEsImV4cCI6MTY4NTQwMjQxMX0.rmzE7Nl_sBcVhLCCG716JEN6EX5a7bMURXBF0gooSt4",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 25,
+            "date": "Mon, 29 May 2023 15:20:19 GMT",
+            "x-ratelimit-reset": 1685373643
+        }
+    }
+}
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:21:52.553Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-vO4QfI72lEWqR7GYI8Du7Q",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:21:52 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:21:52.560Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-PDRFrASwMkSDX3N02jGXhQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 26,
+            "date": "Mon, 29 May 2023 15:21:52 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:21:59.501Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-r-ZW234QDkCOfuW3w6zojg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 14,
+            "date": "Mon, 29 May 2023 15:21:59 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:22:00.072Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-Oiz5vlZBhUeh6u3uSvCZZA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 8,
+            "date": "Mon, 29 May 2023 15:22:00 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:22:00.086Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-YDVnTDZdnEGTleFTSPnpEA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 6,
+            "date": "Mon, 29 May 2023 15:22:00 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:22:00.106Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-82205E8E4577273BE2025CB76AB5523F",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 3,
+            "date": "Mon, 29 May 2023 15:22:00 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count",
+    "method": "GET",
+    "time": "2023-05-29T15:22:00.112Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-4_zVgL2x10KfQqmDEx1cEA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 2,
+            "date": "Mon, 29 May 2023 15:22:00 GMT",
+            "x-ratelimit-reset": 1685373724
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:22:30.297Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-6XvjkWzSi0Owvfkhb4Ng7A",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 35,
+            "date": "Mon, 29 May 2023 15:22:30 GMT",
+            "x-ratelimit-reset": 1685373754
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:22:30.304Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-2jOBJq72gEGVN5Vn4qL0EA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA5NTYwZjZiMjliMTRjNTBhYmE5ZmQxMmY2YWM1ZTBkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qUm1ZbVl6TmprdFpHVm1OaTAwWXpJMUxXRmpOR010TURGak16UXhZV0prWTJVMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNGRiMmVkNWMzYTljNGIwYWFhMzlhZTBlNTc3NzBiOGMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyMTo1Mi4zOTBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzM3MTIsImV4cCI6MTY4NTQwMjUxMn0.v6dVorheEJ8GQWOBBghH1fSzddrE70mIUyJaQtNdzy0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 34,
+            "date": "Mon, 29 May 2023 15:22:30 GMT",
+            "x-ratelimit-reset": 1685373754
+        }
+    }
+}
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:29:35.685Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-Zwnwx1KzOEO3Y7TbuZIhRQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 28,
+            "date": "Mon, 29 May 2023 15:29:35 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:29:35.692Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-M8eUywwm8kGZIDIGwJR6JQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:29:35 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.117Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-2T73XAmNrU6758H2SWt-zw",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 15,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.731Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-s2lsiWW2fk6oznKRx_SeOQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 8,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.757Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-Sl7xfIqgWUa3bX4G0f-1tw",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 6,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.773Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-3BF11CAF41694F5EDE24A0BBA7104A5A",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 3,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.804Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-kFYN3jF5SEuiQBK7-VYaXA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 1,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:29:43.814Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-P9Vv0BVh9UayxGUa4bBnnQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImQzZTU4NDc4NzkxODQxYjk4OGU0Mzc4NzYyZmI0ZDk3IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXUmlaVFJsTnpJdE5XSmpZUzAwWm1JNExXSTFNVEV0TTJRNFlUa3paVFZsWldFMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOTJlOTlhZmE0ZTg5NDExNDljMTFmZjE5MWRlNDE1ZDUiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNToyOTozNS41MjFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQxNzUsImV4cCI6MTY4NTQwMjk3NX0.Bbl1SjlR1FCQZSFoLfXaYz4C9cxXIqBvEdeGZ2zhqZc",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 0,
+            "date": "Mon, 29 May 2023 15:29:43 GMT",
+            "x-ratelimit-reset": 1685374194
+        }
+    }
+}
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:34:07.228Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-yD1Ue-V_cEO-7YD5KobvBg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 28,
+            "date": "Mon, 29 May 2023 15:34:07 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:34:07.232Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-M7eOsOFPh0WJyTI2P_yd-A",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:34:07 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:34:14.471Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-TeFzQVtXj0ehQRMBFqhLnA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 15,
+            "date": "Mon, 29 May 2023 15:34:14 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.001Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-j2DguW9dJ0yVnTiEifLeuw",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 9,
+            "date": "Mon, 29 May 2023 15:34:14 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.014Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-vs1EbXdonkOth2aWht5NTg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 7,
+            "date": "Mon, 29 May 2023 15:34:15 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.033Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-8481F29142D459F599A6A0ABA2A0C15F",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 5,
+            "date": "Mon, 29 May 2023 15:34:15 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.041Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-6b5oD0t_Xk6bq0NV4BXKjQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 4,
+            "date": "Mon, 29 May 2023 15:34:15 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.072Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-qg_CO3eR6Ear1fbNCjp_OA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 1,
+            "date": "Mon, 29 May 2023 15:34:15 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:34:15.081Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-Aa48dymIE0u0b14fOyOJ5A",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImM3YzMwNTNlYTBkODQzZDZiY2Y0YjBkNDlkYWJjYTEyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik9UTTJPVE0wTm1JdE5qVmpOUzAwTjJGakxUa3daVE10WWpKa1pUVmxaakF3WTJJdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMTBkYzg2OThhNGMxNDYzYmExOThiMWU0YTFiYzE3MDIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozNDowNy4wNzVaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ0NDcsImV4cCI6MTY4NTQwMzI0N30.vzRrcdPlRZvg3qikftDszBsVA6DRDcLfBhCWKRWVTM0",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 0,
+            "date": "Mon, 29 May 2023 15:34:15 GMT",
+            "x-ratelimit-reset": 1685374470
+        }
+    }
+}
+{
+    "url": "/fortnite/api/feedback/log-snapshot/LogoutError-2023.05.29-15.34.48-NetworkErrors_McpErrorFmt-PrimaryPlayer.log.gz?platform=pc&machineId=a1f08ae341c287d4d390918f489adb7b&osId=7c4842f5-b212-43ad-b077-02c5e821aa29&deviceId=",
+    "method": "PUT",
+    "time": "2023-05-29T15:34:48.730Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-gzip",
+            "x-epic-correlation-id": "FORT-DCBE80D444A68A5B980E20B22DA927E9",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA0MzFiOTliNjcwNjQ2NGU4Y2U1ZTdjYTIwOGU1MDIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InJlZnJlc2hfdG9rZW4iLCJwIjoiTldaaVlUVXlNR1F0T0dFMVpTMDBNVEkzTFRoa01tSXRNVFppT0dZNFlUQTNPV0kzIiwiaWFpIjoiODI2ZTI3YjNjZTgwNGM3NzlkNTNmODQ2YjQ5YzNmMzUiLCJzZWMiOjEsImNsc3ZjIjoiZm9ydG5pdGUiLCJ0IjoicyIsImljIjp0cnVlLCJqdGkiOiI4YzA3NDY2YzhmZGQ0YjM3YTA1M2YwZTY1OTI2NDE4NSIsImNyZWF0aW9uX2RhdGUiOiIyMDIzLTA1LTI5VDE1OjM0OjQ1LjcxOFoiLCJob3Vyc19leHBpcmUiOjgsImlhdCI6MTY4NTM3NDQ4NSwiZXhwIjoxNjg1NDAzMjg1fQ.8_4jWUNnviYL_faj2wXzTKVKuM7sv6p-PuqoQRP-yek",
+            "content-length": "39640"
+        },
+        "query": {
+            "platform": "pc",
+            "machineId": "a1f08ae341c287d4d390918f489adb7b",
+            "osId": "7c4842f5-b212-43ad-b077-02c5e821aa29",
+            "deviceId": ""
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 37,
+            "date": "Mon, 29 May 2023 15:34:48 GMT",
+            "x-ratelimit-reset": 1685374500
+        }
+    }
+}
+{
+    "url": "/api/v1/access/fortnite/client-logs%2FFortnite%2Fuser%2F826e27b3ce804c779d53f846b49c3f35%2FLogoutError-2023.05.29-15.34.48-NetworkErrors_McpErrorFmt-PrimaryPlayer.log.gz",
+    "method": "GET",
+    "time": "2023-05-29T15:34:48.736Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-2VuqlcufuEW2OtLNOG47ng",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjA0MzFiOTliNjcwNjQ2NGU4Y2U1ZTdjYTIwOGU1MDIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InJlZnJlc2hfdG9rZW4iLCJwIjoiTldaaVlUVXlNR1F0T0dFMVpTMDBNVEkzTFRoa01tSXRNVFppT0dZNFlUQTNPV0kzIiwiaWFpIjoiODI2ZTI3YjNjZTgwNGM3NzlkNTNmODQ2YjQ5YzNmMzUiLCJzZWMiOjEsImNsc3ZjIjoiZm9ydG5pdGUiLCJ0IjoicyIsImljIjp0cnVlLCJqdGkiOiI4YzA3NDY2YzhmZGQ0YjM3YTA1M2YwZTY1OTI2NDE4NSIsImNyZWF0aW9uX2RhdGUiOiIyMDIzLTA1LTI5VDE1OjM0OjQ1LjcxOFoiLCJob3Vyc19leHBpcmUiOjgsImlhdCI6MTY4NTM3NDQ4NSwiZXhwIjoxNjg1NDAzMjg1fQ.8_4jWUNnviYL_faj2wXzTKVKuM7sv6p-PuqoQRP-yek",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 36,
+            "date": "Mon, 29 May 2023 15:34:48 GMT",
+            "x-ratelimit-reset": 1685374500
+        }
+    }
+}
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:38:00.664Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-Wwx3R-8FSECvMtBzqpFv7w",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 28,
+            "date": "Mon, 29 May 2023 15:38:00 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:38:00.675Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-i1LEsNscxUSXpQNXPWyixQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:38:00 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:38:07.809Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-xYEe0MSB70__nUUzKULI0g",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 15,
+            "date": "Mon, 29 May 2023 15:38:07 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.415Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-BBgj0_s_60KM7ZpmGiZt_w",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 9,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.427Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-cnRkhHTpJUGh1TDeiaQmrA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 7,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.447Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-B7E1A8034D98F0B567AE1A90B5B5D131",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 4,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.453Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-pvsLrAW66UeoMWI423-jFA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 3,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.514Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-Tt-WqsiyJ06z1fzNPsBf0Q",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 1,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:38:08.525Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-6GVfK6qGHk2tuz-198nvbA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 0,
+            "date": "Mon, 29 May 2023 15:38:08 GMT",
+            "x-ratelimit-reset": 1685374701
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/Fortnite/826e27b3ce804c779d53f846b49c3f35/subscriptions/broadcast",
+    "method": "POST",
+    "time": "2023-05-29T15:38:44.127Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-IhCLz76DFkOj8MVnA5iNJg",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjUwMjc2MjgzNWI3MjQwNDRhZGEyOTk4NjE4NjkxMDIzIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlptTXdOVEUzWkRndFpUUmtOUzAwWkdGaExXRTNOekl0TURKaU5qRTBZV0l6TkRBMyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiN2RmZWI0MWZmOGFkNDdmMjliODIwZjY2ZGUzMGNjZWQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTozODowMC40ODBaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ2ODAsImV4cCI6MTY4NTQwMzQ4MH0.jKo6j6mVlAkxYPU1BPtmjtjVqeOMu7BzG9vKn8tusIk",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 36,
+            "date": "Mon, 29 May 2023 15:38:44 GMT",
+            "x-ratelimit-reset": 1685374732
+        }
+    }
+}
+{
+    "url": "/api/v1/user/setting",
+    "method": "POST",
+    "time": "2023-05-29T15:42:52.575Z",
+    "request": {
+        "body": {
+            "accountId": "826e27b3ce804c779d53f846b49c3f35",
+            "settingKey": [
+                "avatar",
+                "avatarBackground",
+                "appInstalled"
+            ]
+        },
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-epic-correlation-id": "FN-4qDvhcN1FEi1ChvdFAFegA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "112"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 28,
+            "date": "Mon, 29 May 2023 15:42:52 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en",
+    "method": "GET",
+    "time": "2023-05-29T15:42:52.581Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-p9zWBWWp6UGoDptBAaCk3w",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {
+            "locale": "en"
+        }
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 27,
+            "date": "Mon, 29 May 2023 15:42:52 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:42:59.804Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-25n2b9OzKUqD5mEg2MrmKA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 15,
+            "date": "Mon, 29 May 2023 15:42:59 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.403Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FN-yrrK7EYvFU2SXGfHuyexjQ",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 9,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.424Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-uSLOp_9hgUiMCBYabWyrDA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 7,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.452Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "x-epic-correlation-id": "FORT-0E0A19DF4A59F250230AF4A4092276BD",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 4,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.462Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept-encoding": "deflate, gzip",
+            "accept": "application/json",
+            "x-epic-correlation-id": "FN-7T1Wd48fJEmnu5RgNRLJsw",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 3,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.521Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-38I9B6N0a0Og-oVs0hK2nA",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 1,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}
+{
+    "url": "/api/v1/Fortnite/get",
+    "method": "GET",
+    "time": "2023-05-29T15:43:00.528Z",
+    "request": {
+        "body": {},
+        "headers": {
+            "host": "127.0.0.1:3551",
+            "accept": "*/*",
+            "accept-encoding": "deflate, gzip",
+            "content-type": "application/json",
+            "x-epic-correlation-id": "FN-fTinB5JLyEGkkTMJXYUX7g",
+            "user-agent": "Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit",
+            "authorization": "bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMwMWI3NmJhZDQ1NDQzM2Q5YTk1YzVlMTkzNzY3OTdiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yTXlaVFUxWXpJdE1UZzFNeTAwTnpKaUxUZ3hOVGt0TTJZM05ESmtPREk0WkdKaiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNWM3ZWM3YjYyZTgxNGM5MWFhZWM0MDNjNzU4ZDM4ODEiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0Mjo1Mi40MTFaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzQ5NzIsImV4cCI6MTY4NTQwMzc3Mn0.sAHrZ7fluhqJ---yld-uQF6ropLjmef1AOndCn1Fugo",
+            "content-length": "0"
+        },
+        "query": {}
+    },
+    "response": {
+        "headers": {
+            "x-powered-by": "Express",
+            "x-ratelimit-limit": 45,
+            "x-ratelimit-remaining": 0,
+            "date": "Mon, 29 May 2023 15:43:00 GMT",
+            "x-ratelimit-reset": 1685374989
+        }
+    }
+}{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T15:45:14.443Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-uYOYx4pAKEGym9CZosj4FQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 15:45:14 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T15:45:14.453Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-cyJcF4ogDE2XZGKyMQUJcQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 15:45:14 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:45:21.352Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-JdeAgZ8u9EW_bFIcAINRcw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":15,"date":"Mon, 29 May 2023 15:45:21 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T15:45:21.926Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-zs0gLIer10G-Hxjwq4J-Qg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":9,"date":"Mon, 29 May 2023 15:45:21 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T15:45:21.936Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-yiQ3zhAsYkmFJFCx_Aq_eQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":7,"date":"Mon, 29 May 2023 15:45:21 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:45:21.955Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-A916B1C74DA288A71982779087A2619F","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":4,"date":"Mon, 29 May 2023 15:45:21 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count","method":"GET","time":"2023-05-29T15:45:21.963Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-TLK3Gzqkn0up5BdCoCZGrg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":3,"date":"Mon, 29 May 2023 15:45:21 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T15:45:22.021Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-5V76MMHjyUiVHr6A_Y2saw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":1,"date":"Mon, 29 May 2023 15:45:22 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T15:45:22.025Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-8Xs6elHWuUykFLO-giCJHQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":0,"date":"Mon, 29 May 2023 15:45:22 GMT","x-ratelimit-reset":1685375138}}}
+{"url":"/api/v1/events/Fortnite/EraTournament/history/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:47:02.870Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-OeoKkSvlEUeFAdLqnHUTkA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":39,"date":"Mon, 29 May 2023 15:47:02 GMT","x-ratelimit-reset":1685375228}}}
+{"url":"/api/v1/events/Fortnite/EraTournament/history/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:50:12.591Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-R_8qQzivN0KV8bJQR6u32Q","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImY5NzZhNWZkNWQ0ZjRkZGZiOGZjYWY0NWEyZGYwZjIyIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik5qazBOR1poTXpVdE9XTm1ZeTAwWkRrMkxXRmxNbVl0WmpGa1l6VmtORGcyTUdZeCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiZmNmNzAyNzlkMTAzNDY2NmIxZDJlNzIyY2FiYjRkOTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo0NToxNC4yOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzUxMTQsImV4cCI6MTY4NTQwMzkxNH0.Ity9tH4v0k1EpZ4sv-HzYocoLGVKVYNF39XYQPq5BMY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":43,"date":"Mon, 29 May 2023 15:50:12 GMT","x-ratelimit-reset":1685375437}}}
+{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T15:51:00.678Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-xmz5X5bkXUyeOERRQDek8Q","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 15:51:00 GMT","x-ratelimit-reset":1685375467}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T15:51:00.683Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-hGNWYGvME0SnFfHHqpv9hg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":26,"date":"Mon, 29 May 2023 15:51:00 GMT","x-ratelimit-reset":1685375467}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:51:07.679Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-07L-P2YE7kq4gJ-Z46i3JA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":42,"date":"Mon, 29 May 2023 15:51:07 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T15:51:08.247Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-8xfu6G5dPkyRabgMuHzHjw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":36,"date":"Mon, 29 May 2023 15:51:08 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T15:51:08.257Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-4Ns5wW78fUyJ7s-hn_wloQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":34,"date":"Mon, 29 May 2023 15:51:08 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:51:08.275Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-4D68A5B64DAF75BA6F0C1785B2D798E5","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":32,"date":"Mon, 29 May 2023 15:51:08 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count","method":"GET","time":"2023-05-29T15:51:08.278Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-yUKX8g2Gi0KA3Z04rnBbVg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":31,"date":"Mon, 29 May 2023 15:51:08 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T15:51:09.298Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-BdySiW_jnkK3bLfPQJptyQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 15:51:09 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T15:51:09.300Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-kVKckjj8pkeQBe8jNbd2TQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjI4OTcwZmIyZTQ0ZjRjZDhhNTFiZmI2MmFhNzI1NjdkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllqZGtOMk00TXpjdFlUbGhOQzAwTXpVM0xXSXpOMkV0WldJMU4yUXlZVEZtWWprdyIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiMWY3MDAzMWU0YjkwNGMxODlhNjFmZmIyMmIxZDA0ZDciLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1MTowMC41MzRaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU0NjAsImV4cCI6MTY4NTQwNDI2MH0.DvC4rysyaWC7yoIPiMAqr49uoCRSnx1O_TlY5nOFVdA","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 15:51:09 GMT","x-ratelimit-reset":1685375497}}}
+{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T15:55:07.154Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-9tiH66jZ4EOnYIFSoicd6Q","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 15:55:07 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T15:55:07.159Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-mNBLWroeEUiZHTBPK8VnkA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 15:55:07 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:55:13.936Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-8dGpIAbc-UGTVCLeOg6OjQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":15,"date":"Mon, 29 May 2023 15:55:13 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T15:55:14.591Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-wn4fnsbX0UmBESwNJTQdsQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":9,"date":"Mon, 29 May 2023 15:55:14 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T15:55:14.614Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-gtvrUzRxBUCJ6Own8uNQ3A","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":7,"date":"Mon, 29 May 2023 15:55:14 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T15:55:14.632Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-B32EA8D4484A25FC6F3095960E267EBB","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":4,"date":"Mon, 29 May 2023 15:55:14 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count","method":"GET","time":"2023-05-29T15:55:14.636Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-G_TVt_vEs0CfAUROPOhjrA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":3,"date":"Mon, 29 May 2023 15:55:14 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T15:55:14.669Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-DMaO4qu52EOyNnAWJ84wIg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":0,"date":"Mon, 29 May 2023 15:55:14 GMT","x-ratelimit-reset":1685375730}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T15:55:44.733Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-TK0k-Fg2WUm_erfVnrkxaw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6ImRlZjZmMzY2NTFjOTRhNTJhY2EyZTVmMjUzZGYxNTBiIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IllUUXdOekpqWWpndE1XSmtNeTAwTkdKakxUbGpaR010WldWaFlqWTRPREprT0dFeiIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNjVmYTg1NGU5YzI5NDI4MGIyNTdhNmE3OTdjMDJjM2IiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNTo1NTowNi45NzhaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzU3MDYsImV4cCI6MTY4NTQwNDUwNn0.LnmwIXite6cILo_DuT2c6oQrFBx069bpCvdtlsiJCzY","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":43,"date":"Mon, 29 May 2023 15:55:44 GMT","x-ratelimit-reset":1685375760}}}
+{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T16:13:14.388Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-ZooUz56LJ062-FzxIDvApA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 16:13:14 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T16:13:14.397Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-54p-CtsQjEuNlu_9TODrSQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 16:13:14 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:13:21.715Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-_ggfi8zEw0u-497lZ6cLXQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":15,"date":"Mon, 29 May 2023 16:13:21 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T16:13:22.295Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-0VV6YVnBzkuJV9KC7p8wVw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":9,"date":"Mon, 29 May 2023 16:13:22 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T16:13:22.313Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-zslsB3bGqkKAuJ4nRaGgUw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":7,"date":"Mon, 29 May 2023 16:13:22 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:13:22.332Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-1B55B70845A9BCE1464AD2954C081234","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":5,"date":"Mon, 29 May 2023 16:13:22 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T16:13:22.388Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-ytnzAPgNbkiNJvkBDMqIDQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":2,"date":"Mon, 29 May 2023 16:13:22 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T16:13:22.396Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-BpO_KKUaa0i-ly6IPNBi3w","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":1,"date":"Mon, 29 May 2023 16:13:22 GMT","x-ratelimit-reset":1685376817}}}
+{"url":"/presence/api/v1/Fortnite/826e27b3ce804c779d53f846b49c3f35/subscriptions/broadcast","method":"POST","time":"2023-05-29T16:14:01.673Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-LzqN-Ca6X0W07ByBrQ02EA","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjRiNGU5YzAzNjlmYzQ3MzhhMTQyZmEyZDAyNmIwOWE1IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6Ik4yVTRPV0UzWkRFdE9URXlZUzAwTUdSa0xUZzVaRFF0WkRSallqa3lZbVZqWVdGbSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiOGQ4MWJhYzliMDRkNGMwOWE3ODBhODIzOTU2ZjVmNTQiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxMzoxNC4xOTZaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzY3OTQsImV4cCI6MTY4NTQwNTU5NH0.B-30iGWqAYAAvLQlAiV3-pAnMS8pFjd0GjyQ72MCJ20","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":36,"date":"Mon, 29 May 2023 16:14:01 GMT","x-ratelimit-reset":1685376847}}}
+{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T16:17:35.778Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-tZ077D4nZky_FVKM7iBv0Q","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 16:17:35 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T16:17:35.784Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-saSNff0cGUm7VBc_KxULCQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 16:17:35 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:17:42.993Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-3PfBHz2zQUCH4X0avtXWhw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":15,"date":"Mon, 29 May 2023 16:17:42 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T16:17:43.569Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN-NLB1UUUvsE_XEwtKX1Y6oQ","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":9,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T16:17:43.591Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-I3dZoOkLOE2kv1Gocurh6g","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":7,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:17:43.615Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-42A6E03E443EC7AEA347D28CBF22CD24","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":4,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count","method":"GET","time":"2023-05-29T16:17:43.621Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-ltQ1XtHZL0WdIY13pvxJwg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":3,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T16:17:43.683Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-lWLyIT9ysUqeMrgwhVvM7A","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":1,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T16:17:43.692Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-jcqdmpQkj0yrij9t-JHHJg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjJjZWY5MTVhOTk2MzRkZmFiMWRiZGUzZDhlMjQwOTU5IiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpHTXhNelpqTUdNdE56QmhOQzAwT0RNekxXSmhPV010Tm1ReU1HSTFNemt4T1RnMCIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiYTYxYTIyYTNkYTIxNDU0NTg1OGY5MTVhMDA3ZmVkOTIiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoxNzozNS42MjJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzcwNTUsImV4cCI6MTY4NTQwNTg1NX0.HJmy19WQcdA1gVoEQ2xmKOx3ZjmfWcdvexJYlUc-6T0","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":0,"date":"Mon, 29 May 2023 16:17:43 GMT","x-ratelimit-reset":1685377080}}}
+{"url":"/api/v1/user/setting","method":"POST","time":"2023-05-29T16:23:20.400Z","request":{"body":{"accountId":"826e27b3ce804c779d53f846b49c3f35","settingKey":["avatar","avatarBackground","appInstalled"]},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/x-www-form-urlencoded","x-epic-correlation-id":"FN-f9CNx9i9rE__H9Tb5WsoJg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"112"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":28,"date":"Mon, 29 May 2023 16:23:20 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/eulatracking/api/public/agreements/fn/account/826e27b3ce804c779d53f846b49c3f35?locale=en","method":"GET","time":"2023-05-29T16:23:20.407Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-DcKcIAH6AUOYvSb8lAqaug","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{"locale":"en"}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":27,"date":"Mon, 29 May 2023 16:23:20 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:23:27.386Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-I-FtWz9dhkew8PEEF8rcmg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":15,"date":"Mon, 29 May 2023 16:23:27 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/friends/api/v1/826e27b3ce804c779d53f846b49c3f35/recent/fortnite","method":"GET","time":"2023-05-29T16:23:27.956Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FN--llpISNyCkmgGuiIhsUh7w","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":9,"date":"Mon, 29 May 2023 16:23:27 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/settings/subscriptions","method":"GET","time":"2023-05-29T16:23:27.974Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-tz01LBXP00eirkiNH5K1Zg","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":7,"date":"Mon, 29 May 2023 16:23:27 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/fortnite/api/game/v2/privacy/account/826e27b3ce804c779d53f846b49c3f35","method":"GET","time":"2023-05-29T16:23:27.998Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","x-epic-correlation-id":"FORT-80223D0E4C7E30E6300A38B1ED3BC8A9","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":4,"date":"Mon, 29 May 2023 16:23:27 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/party/api/v1/Fortnite/user/826e27b3ce804c779d53f846b49c3f35/notifications/undelivered/count","method":"GET","time":"2023-05-29T16:23:28.003Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept-encoding":"deflate, gzip","accept":"application/json","x-epic-correlation-id":"FN-ckP4kZqkuUq_-eZQHE-Ldw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":3,"date":"Mon, 29 May 2023 16:23:27 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/presence/api/v1/_/826e27b3ce804c779d53f846b49c3f35/last-online","method":"GET","time":"2023-05-29T16:23:28.064Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-uNFgACm6GkOwJkc3R63llw","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":1,"date":"Mon, 29 May 2023 16:23:28 GMT","x-ratelimit-reset":1685377418}}}
+{"url":"/api/v1/Fortnite/get","method":"GET","time":"2023-05-29T16:23:28.073Z","request":{"body":{},"headers":{"host":"127.0.0.1:3551","accept":"*/*","accept-encoding":"deflate, gzip","content-type":"application/json","x-epic-correlation-id":"FN-FmMESfU6ckugI3nE7XiW5w","user-agent":"Fortnite/++Fortnite+Release-14.60-CL-14786821 Windows/10.0.22621.1.256.64bit","authorization":"bearer eg1~eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHAiOiJmb3J0bml0ZSIsInN1YiI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1IiwiZHZpZCI6IjMxZDkxYWU1ZmE1ZTRjZDZiYmY5ZTFmNzNhNzczNDFkIiwibXZlciI6ZmFsc2UsImNsaWQiOiJlYzY4NGI4YzY4N2Y0NzlmYWRlYTNjYjJhZDgzZjVjNiIsImRuIjoiWmV0YXgiLCJhbSI6InBhc3N3b3JkIiwicCI6IlpXTmxZVFJrTmpndFpqTmpPUzAwWXpjNExXRTBORGt0WmpobVlUSTFZbVV3WTJabSIsImlhaSI6IjgyNmUyN2IzY2U4MDRjNzc5ZDUzZjg0NmI0OWMzZjM1Iiwic2VjIjoxLCJjbHN2YyI6ImZvcnRuaXRlIiwidCI6InMiLCJpYyI6dHJ1ZSwianRpIjoiNzY5MWFiMTU4MDM5NDNjNWFjOGViNTkxNjQwNTQ5MDMiLCJjcmVhdGlvbl9kYXRlIjoiMjAyMy0wNS0yOVQxNjoyMzoyMC4yNDJaIiwiaG91cnNfZXhwaXJlIjo4LCJpYXQiOjE2ODUzNzc0MDAsImV4cCI6MTY4NTQwNjIwMH0.QKVmuJ7wULZjzFjY9lUa-WaQKAw7bMbsVRWTepHlWjk","content-length":"0"},"query":{}},"response":{"headers":{"x-powered-by":"Express","x-ratelimit-limit":45,"x-ratelimit-remaining":0,"date":"Mon, 29 May 2023 16:23:28 GMT","x-ratelimit-reset":1685377418}}}

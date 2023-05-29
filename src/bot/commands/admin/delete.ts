@@ -5,7 +5,6 @@ const Users = require('../../../model/user');
 const Profiles = require('../../../model/profiles');
 
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -36,7 +35,7 @@ module.exports = {
 			return;
 		}
 
-        const deleteProfile = await Profiles.deleteOne({ accountId: deleteAccount.discordId })
+        await Profiles.deleteOne({ accountId: deleteAccount.discordId })
         .lean();
 
 		const embed = new EmbedBuilder()

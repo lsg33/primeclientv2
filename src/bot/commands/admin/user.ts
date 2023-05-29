@@ -1,11 +1,9 @@
 export { }
 
-import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { PermissionFlagsBits } from "discord.js";
 const User = require('../../../model/user');
-const Profiles = require('../../../model/profiles');
 
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
 
 module.exports = {
     data: new SlashCommandBuilder()

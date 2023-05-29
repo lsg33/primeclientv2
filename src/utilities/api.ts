@@ -3,7 +3,7 @@ import kv from "./kv";
 import { Request, Response, NextFunction } from "express";
 
 async function verifyApikey(req: Request, res: Response, next: NextFunction) {
-    const apikey = req.headers["x-api-key"];
+    const apikey = req.headers["x-api-key"] as string;
     if (!apikey) {
         return res.status(401).json({ error: "No api key provided" });
     }

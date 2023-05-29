@@ -1,6 +1,6 @@
 export { }
 
-import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { PermissionFlagsBits } from "discord.js";
 const Api = require('../../../model/api');
 
 const { SlashCommandBuilder } = require('discord.js');

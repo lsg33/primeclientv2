@@ -3,9 +3,9 @@ export { };
 const express = require("express");
 const app = express.Router();
 
-const error = require("../structs/error.js");
+import error from "../utilities/structs/error";
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+const { verifyToken } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user.js");
 
 app.get("/account/api/public/account", async (req, res) => {

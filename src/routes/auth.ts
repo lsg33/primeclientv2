@@ -6,26 +6,19 @@ const express = require("express");
 const app = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
-import logger from '../structs/log';
-
-const error = require("../structs/error.js");
-const functions = require("../structs/functions.js");
+import kv from "../utilities/kv";
+import logger from '../utilities/structs/log';
+import error from "../utilities/structs/error";
+import functions from "../utilities/structs/functions";
+import client from "../bot/index";
+import log from "../utilities/structs/log";
+import safety from "../utilities/safety";
 
 const tokenCreation = require("../tokenManager/tokenCreation.js");
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+const { verifyToken } = require("../tokenManager/tokenVerify.js");
 const User = require("../model/user");
 
-const kvjs = require('@heyputer/kv.js');
-
-const kv = new kvjs();
-
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
-const Discord = require("discord.js");
-
-import client from "../bot/index";
-import log from "../structs/log";
-import safety from "../utilities/safety";
+const { Events } = require('discord.js');
 
 client.once(Events.ClientReady, c => {
     logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);

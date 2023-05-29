@@ -2,7 +2,7 @@ export { };
 
 const express = require("express");
 const app = express.Router();
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 import fs from "fs";
 import path from "path";
 

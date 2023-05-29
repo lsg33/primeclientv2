@@ -1,6 +1,5 @@
 import { iMMCodes } from "../model/mmcodes";
 import { iUser } from "../model/user";
-import log from "../structs/log";
 import decode from "../utilities/decode";
 import kv from "../utilities/kv";
 import safety from "../utilities/safety";
@@ -9,13 +8,11 @@ export { };
 
 const express = require("express");
 const app = express.Router();
-const fs = require("fs");
-const functions = require("../structs/functions");
-const User = require("../model/user");
+import functions from "../utilities/structs/functions";
 const MMCode = require("../model/mmcodes");
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify");
+const { verifyToken } = require("../tokenManager/tokenVerify");
 const qs = require('qs');
-const error = require("../structs/error");
+import error from "../utilities/structs/error";
 
 let buildUniqueId = {};
 
@@ -74,16 +71,10 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
 
     const user: iUser = await decode.decodeAuth(req) as iUser;
 
-    let codeKV = await kv.get(`playerCustomKey:${user.accountId}`);
-    if (typeof (codeKV) == "undefined") {
-        const gameServers = safety.env.GAME_SERVERS
-        const randomServer = gameServers[Math.floor(Math.random() * gameServers.length)];
-        const [ip, port] = randomServer.split(":");
-        codeKV = {
-            ip: ip,
-            port: parseInt(port)
-        };
-    }
+    let codeKV = await kv.get(`playerCustomKey:${user.accountId}`) ?? {
+        ip: safety.env.GAME_SERVERS[Math.floor(Math.random() * safety.env.GAME_SERVERS.length)].split(":")[0],
+        port: parseInt(safety.env.GAME_SERVERS[Math.floor(Math.random() * safety.env.GAME_SERVERS.length)].split(":")[1])
+    };
 
     res.json({
         "id": req.params.sessionId,

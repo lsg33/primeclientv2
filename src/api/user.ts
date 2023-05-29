@@ -2,11 +2,9 @@ export { };
 
 const express = require("express");
 const app = express.Router();
-const functions = require("../structs/functions.js");
 
 const { verifyApikey } = require("../utilities/api.js");
 const User = require("../model/user.js");
-const Api = require("../model/api.js");
 
 
 

@@ -1,22 +1,12 @@
 export { }
 
-import { Hash } from "crypto";
-import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import Asteria from "asteriasdk";
+import { PermissionFlagsBits } from "discord.js";
 import path from "path";
 import fs from "fs";
 
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
 const Users = require('../../../model/user');
 const Profiles = require('../../../model/profiles');
-
-const asteria = new Asteria({
-    collectAnonStats: true,
-    throwErrors: true,
-});
-
-let id: string;
 
 module.exports = {
     data: new SlashCommandBuilder()

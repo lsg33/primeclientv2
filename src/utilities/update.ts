@@ -1,4 +1,4 @@
-import log from "../structs/log";
+import log from "./structs/log";
 
 class Update {
     async checkForUpdate(currentVersion: string) {

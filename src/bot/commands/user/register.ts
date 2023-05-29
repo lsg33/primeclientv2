@@ -1,11 +1,11 @@
 import { EmbedBuilder } from "discord.js";
-import log from "../../../structs/log";
+import log from "../../../utilities/structs/log";
 const Users = require('../../../model/user');
 
 export { }
 
 const { SlashCommandBuilder } = require('discord.js');
-const functions = require('../../../structs/functions.js');
+import functions from "../../../utilities/structs/functions";
 
 module.exports = {
 	data: new SlashCommandBuilder()

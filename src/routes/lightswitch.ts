@@ -3,8 +3,6 @@ export { };
 const express = require("express");
 const app = express.Router();
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-
 app.get("/lightswitch/api/service/Fortnite/status", async (req, res) => {
     res.json({
         "serviceInstanceId": "fortnite",

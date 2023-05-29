@@ -9,13 +9,10 @@ import S3 from 'aws-sdk/clients/s3';
 const limit = require("express-limit").limit;
 import os from 'os';
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-const functions = require("../structs/functions.js");
+import functions from "../utilities/structs/functions";
 import { AWSError } from 'aws-sdk/lib/error';
-import log from '../structs/log';
+import log from '../utilities/structs/log';
 import safety from './../utilities/safety';
-import { createReadStream, createWriteStream } from 'fs';
-import { pipeline } from 'stream';
-import { promisify } from 'util';
 
 const NodeCache = require("node-cache")
 const cache = new NodeCache();
@@ -122,7 +119,7 @@ const createCloudStorageFolder = async (uid: string) => {
 };
 
 //.Ini Stuff
-app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, period: 60 * 1000 }), async (req, res) => {
+app.get("/fortnite/api/cloudstorage/system", async (req, res) => {
     if (safety.env.USE_S3) {
         try {
             const uid = safety.env.NAME;
@@ -211,7 +208,7 @@ app.get("/fortnite/api/cloudstorage/system", verifyClient, limit({ max: 5, perio
     }
 });
 
-app.get("/fortnite/api/cloudstorage/system/:file", verifyClient, async (req, res) => {
+app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
     if (safety.env.USE_S3) {
         const fileName = req.params.file;
@@ -241,7 +238,7 @@ app.get("/fortnite/api/cloudstorage/system/:file", verifyClient, async (req, res
 
 //Settings stuff
 
-app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
+app.get("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res) => {
     const userid = req.params[0];
 
     if (safety.env.USE_S3 == true) {
@@ -289,12 +286,12 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res
 
 })
 
-app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, res) => {
+app.get("/fortnite/api/cloudstorage/user/:accountId", verifyToken, async (req, res) => {
 
     const memory = functions.GetVersionInfo(req);
     if (!seasons.includes(memory.season)) return res.json([])
 
-    const userId = req.params.accountId;
+    const userId = req.user.accountId;
     const filePath = path.join(pathToClientSettings, `ClientSettings-${userId}-${memory.season}.Sav`);
 
     const cachedFile = cache.get(filePath);
@@ -351,7 +348,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyClient, async (req, 
     }
 });
 
-app.put("/fortnite/api/cloudstorage/user/*/:file", verifyClient, async (req, res) => {
+app.put("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res) => {
     const userId = req.params[0];
     const filename = req.params.file.toLowerCase();
 
