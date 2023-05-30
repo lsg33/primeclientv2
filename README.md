@@ -6,6 +6,8 @@
 
 Momentum is a fork and partial rewrite of the Fortnite Backend LawinServerV2. It is designed to enhance stability, offer production-ready features, and provide blazingly fast performance. 🔥
 
+Join our discord at https://discord.gg/7njfwrAqTd
+
 ## Features
 
 - [x] Super fast and lightweight
