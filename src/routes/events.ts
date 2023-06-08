@@ -20,14 +20,6 @@ app.get("/api/v1/leaderboards/Fortnite/:eventId/:eventWindowId/:accountId", asyn
     res.json({})
 });
 
-app.get("/api/v1/leaderboards/Fortnite/:eventId/:eventWindowId/:accountId", async (req, res) => {
-    res.json({})
-});
-
-app.get("/api/v1/leaderboards/Fortnite/:eventId/:eventWindowId/:accountId", async (req, res) => {
-    res.json({})
-});
-
 app.get("/api/v1/events/Fortnite/data/", async (req, res) => {
     res.json({})
 });

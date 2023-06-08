@@ -4,6 +4,11 @@ import fs from "fs";
 import dotenv from "dotenv";
 import crypto from "crypto";
 
+if (!fs.existsSync(path.resolve(__dirname, "../../.env"))) {
+    log.error("You didn't follow the tutorial, rename .env.example to .env and fill in the values.")
+    process.exit(1);
+}
+
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 type iDatabase = "mongodb" | "postgres";
@@ -86,12 +91,12 @@ export class safety {
         hashSum.update(fileBuffer);
         const sha256 = hashSum.digest('hex');
 
-        if(sha256 !== "7ce650ab0fc33275ac24e77f1a51d3ba6dad8176a5176821a7041192d3ee8caa") {
+        if (sha256 !== "7ce650ab0fc33275ac24e77f1a51d3ba6dad8176a5176821a7041192d3ee8caa") {
             await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json")
-            .then(res => res.json())
-            .then(json => {
-                fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
-            });
+                .then(res => res.json())
+                .then(json => {
+                    fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
+                });
         }
 
         if (parseInt(process.version.slice(1)) < 18) {
@@ -112,7 +117,7 @@ export class safety {
 
         for (const [key, value] of Object.entries(this.env)) {
             if (value === undefined) {
-                if(key == "CLIENT_ID" || key == "GUILD_ID") {
+                if (key == "CLIENT_ID" || key == "GUILD_ID") {
                     continue;
                 } else {
                     missingVariables.push(key);
@@ -125,10 +130,10 @@ export class safety {
                     this.env[key] = typeof value === "string" ? value.replace(/ /g, "_") : value;
                 }
             }
-            if(key === "DATABASE") {
-                if(value !== "mongodb" && value !== "postgres") {
+            if (key === "DATABASE") {
+                if (value !== "mongodb" && value !== "postgres") {
                     throw new TypeError(`The environment variable ${key} is not mongodb or postgres, please declare it in the .env file.`);
-                } else if(value === "postgres") {
+                } else if (value === "postgres") {
                     this.env.DATABASE = "mongodb";
                     log.warn("PostgreSQL has been disabled. This feature will be added in the future. Stay tuned for updates.")
                 }
