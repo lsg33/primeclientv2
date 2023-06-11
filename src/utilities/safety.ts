@@ -86,17 +86,21 @@ export class safety {
 
         //this.changeEnvValue("MATCHMAKER_IP", `${await unfähig.getIp()}:80`);
 
-        const fileBuffer = fs.readFileSync(path.join(__dirname, '../../responses/contentpages.json'));
-        const hashSum = crypto.createHash('sha256');
-        hashSum.update(fileBuffer);
-        const sha256 = hashSum.digest('hex');
-
-        if (sha256 !== "7ce650ab0fc33275ac24e77f1a51d3ba6dad8176a5176821a7041192d3ee8caa") {
-            await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json")
-                .then(res => res.json())
-                .then(json => {
-                    fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
-                });
+        try {
+            const fileBuffer = fs.readFileSync(path.join(__dirname, '../../responses/contentpages.json'));
+            const hashSum = crypto.createHash('sha256');
+            hashSum.update(fileBuffer);
+            const sha256 = hashSum.digest('hex');
+    
+            if (sha256 !== "7ce650ab0fc33275ac24e77f1a51d3ba6dad8176a5176821a7041192d3ee8caa") {
+                await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json")
+                    .then(res => res.json())
+                    .then(json => {
+                        fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
+                    });
+            }
+        } catch(e:any) {
+            console.log("An error occured, but the program will continue.");
         }
 
         if (parseInt(process.version.slice(1)) < 18) {
