@@ -1,4 +1,4 @@
-![Banner](https://nexusassets.zetax.workers.dev/665e7b6eedc70530e191702dd79be04cb5b9ffccbd88b5583ca30e1d7735da1e.png)
+![Banner](https://i.ibb.co/bgZWZT0/B07-DF3-FC-D2-E7-4-AD5-9935-04-C441-BDFEBD.png)
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/) 
 ![Size](https://img.shields.io/github/repo-size/Nexus-FN/Momentum?label=Size&style=for-the-badge)
