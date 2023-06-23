@@ -31,7 +31,6 @@ interface iEnv {
     S3_ACCESS_KEY_ID: string;
     S3_SECRET_ACCESS_KEY: string;
     USE_REDIS: boolean;
-    REDIS_TOKEN: string;
     REDIS_URL: string;
 }
 
@@ -74,7 +73,6 @@ export class safety {
         S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID as string,
         S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY as string,
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
-        REDIS_TOKEN: process.env.REDIS_TOKEN as string,
         REDIS_URL: process.env.REDIS_URL as string,
     };
 
@@ -83,8 +81,6 @@ export class safety {
     }
 
     public async airbag(): Promise<boolean> {
-
-        //this.changeEnvValue("MATCHMAKER_IP", `${await unfähig.getIp()}:80`);
 
         try {
             const fileBuffer = fs.readFileSync(path.join(__dirname, '../../responses/contentpages.json'));

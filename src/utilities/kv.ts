@@ -1,13 +1,10 @@
 import kvjs from '@heyputer/kv.js';
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import safety from './safety';
 
 const memkv = new kvjs();
 
-const redis = safety.env.USE_REDIS ? new Redis({
-    url: safety.env.REDIS_URL || 'redis://localhost:6379',
-    token: safety.env.REDIS_TOKEN || 'token',
-}) : null;
+const redis = safety.env.USE_REDIS ? new Redis(safety.env.REDIS_URL) : null;
 
 class KV {
     async get(key: string): Promise<any> {

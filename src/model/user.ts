@@ -12,7 +12,7 @@ export interface iUser {
     email: String,
     password: String,
     mfa: Boolean,
-    gameserver: String
+    matchmakingId: String,
     canCreateCodes: Boolean
     isServer: Boolean
 }
@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         mfa: { type: Boolean, default: false },
-        gameserver: { type: String, default: null },
+        matchmakingId: { type: String, default: null },
         canCreateCodes: { type: Boolean, default: false },
         isServer: { type: Boolean, default: false }
     },

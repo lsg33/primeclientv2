@@ -303,7 +303,7 @@ class functions {
     
         try {
             log.debug(`Creating account with the username ${username} and email ${email}`);
-            await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer}).then(async (i) => {
+            await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer, matchmakingId: this.MakeID()}).then(async (i) => {
                 log.debug(`Created user with the username ${username} and email ${email}`);
                 await Profile.create({ created: i.created, accountId: i.accountId, profiles: await profileManager.createProfiles(i.accountId) });
                 log.debug(`Created profile for the user with the username ${username} and email ${email}`);

@@ -34,16 +34,16 @@ async function main() {
     let tokens: any;
 
     if (safety.env.USE_REDIS == true) {
-        redisTokens = JSON.parse(JSON.stringify(await kv.get('tokens')));
+        redisTokens = await kv.get('tokens');
         try {
-            tokens = JSON.parse(JSON.stringify(redisTokens))
+            tokens = JSON.parse(redisTokens);
         } catch (err) {
             await kv.set('tokens', fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
             log.error("Redis tokens error, resetting tokens.json");
         }
     } else {
         tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
-    };
+    }
 
     for (let tokenType in tokens) {
         for (let tokenIndex in tokens[tokenType]) {
@@ -62,7 +62,13 @@ async function main() {
     } else {
         logger.debug("File SET TOKENS");
         fs.writeFileSync(path.join(__dirname, "../tokens.json"), JSON.stringify(tokens, null, 2) || "");
-    };
+    }
+
+    if (!tokens || !tokens.accessTokens) {
+        console.log("No access tokens found, resetting tokens.json");
+        await kv.set('tokens', fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
+        tokens = JSON.parse(fs.readFileSync(path.join(__dirname, "../tokens.json")).toString());
+    }
 
     global.accessTokens = tokens.accessTokens;
     global.refreshTokens = tokens.refreshTokens;
@@ -71,7 +77,6 @@ async function main() {
 
     global.exchangeCodes = [];
 
-    if (safety.env.DATABASE === "mongodb") {
         mongoose.set("strictQuery", true);
 
         mongoose
@@ -89,9 +94,22 @@ async function main() {
             );
             throw err;
         });
-    } else {
-        logger.backend("Using PostgreSQL");
-    }
+
+    app.get("/unknown", (req, res) => {
+
+        res.status(200).json({
+            status: "ok",
+            version: packageJson.version,
+            uptime: process.uptime(),
+            memoryUsage: process.memoryUsage(),
+            nodeVersion: process.version,
+            platform: process.platform,
+            arch: process.arch,
+            cpuUsage: process.cpuUsage(),
+            environment: process.env.NODE_ENV,
+        });
+
+    });
 
     app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
     app.use(express.json());

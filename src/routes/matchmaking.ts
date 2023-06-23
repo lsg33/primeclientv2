@@ -24,7 +24,11 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
 const codeCache = new Map<string, typeof MMCode>();
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
+    console.log(req.query);
     const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'];
+    const bucketId = qs.parse(req.query, { ignoreQueryPrefix: true })['bucketId'];
+    const region = bucketId.split(":")[2];
+    const playlist = bucketId.split(":")[3];
 
     let codeDocument: iMMCodes | null = null;
     if (playerCustomKey) {
@@ -54,9 +58,10 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
     res.json({
         "serviceUrl": `ws://${matchmakerIP}`,
         "ticketType": "mms-player",
-        "payload": "69=",
-        "signature": "420="
+        "payload": "account",
+        "signature": `${req.user.matchmakingId} ${playlist}`
     });
+
 });
 
 app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId", (req, res) => {
