@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 
 const User = require("../model/user");
 
-const bote = "dhl";
+const bote = safety.env.NAME;
 
 type Client = {
     matchmakingId: string,
