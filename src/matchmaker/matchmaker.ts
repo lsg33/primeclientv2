@@ -1,6 +1,5 @@
 export { };
 
-import Redis from "ioredis";
 import functions from "../utilities/structs/functions";
 import kv from "../utilities/kv";
 import safety from "../utilities/safety";
