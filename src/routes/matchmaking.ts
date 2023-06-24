@@ -24,7 +24,6 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
 const codeCache = new Map<string, typeof MMCode>();
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
-    console.log(req.query);
     const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'];
     const bucketId = qs.parse(req.query, { ignoreQueryPrefix: true })['bucketId'];
     const region = bucketId.split(":")[2];

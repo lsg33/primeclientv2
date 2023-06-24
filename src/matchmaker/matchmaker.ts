@@ -6,19 +6,24 @@ import kv from "../utilities/kv";
 import safety from "../utilities/safety";
 import { WebSocket } from "ws";
 import { Request } from "express";
+import { io } from "socket.io-client";
 
 const User = require("../model/user");
 
-const sub = new Redis(safety.env.REDIS_URL);
-const pub = new Redis(safety.env.REDIS_URL);
-const redis = new Redis(safety.env.REDIS_URL);
+const bote = "dhl";
 
 type Client = {
     matchmakingId: string,
     playlist: string,
-    position: number,
     socket: Object
 }
+
+const socket = io("http://195.201.96.214:49154/", {
+    transports: ["websocket"],
+    extraHeaders: {
+        "key": safety.env.LINK_SECRET
+    }
+});
 
 class matchmaker {
 
@@ -27,22 +32,24 @@ class matchmaker {
 
     public async server(ws: WebSocket, req: Request) {
 
+        let clients = this.clients;
+
         const auth = req.headers.authorization;
 
-        let clientList = this.clients;
-
-        // Check if the authorization header is undefined
+        // Handle unauthorized connection
         if (auth == undefined) {
-            // Handle unauthorized connection
             return ws.close();
         }
 
         // Destructure the authorization header
         let [_, __, ___, matchmakingId, playlist] = auth.split(" ");
 
+        //console.log(`Playlist: ${playlist} | MatchmakingId: ${matchmakingId}`)
+
         // Check if playlist and matchmakingId are valid
         try {
 
+            // Handle invalid playlist error
             if (typeof (playlist) !== "string") {
                 ws.send(JSON.stringify({
                     payload: {
@@ -51,33 +58,16 @@ class matchmaker {
                         errorMessage: "Invalid playlist",
                     }
                 }));
-                // Handle invalid playlist error
                 return ws.close();
             }
 
-            // Get the number of already queued players
-            let queuedPlayers = await redis.get(`${playlist}-queued`);
-            let position = (queuedPlayers ? parseInt(queuedPlayers) : 0) + 1;
-
-            const clientInfo: Client = {
-                matchmakingId: matchmakingId,
-                playlist: playlist,
-                position: position,
-                socket: ws
-            }
-
-            this.clients.set(matchmakingId, clientInfo);
-
-            sub.subscribe(`${playlist}-status`);
-            sub.subscribe(`${playlist}-queued`);
-
+            // Handle invalid account error
             const account = await User.findOne({ matchmakingId: matchmakingId });
             if (!account) {
-                // Handle invalid account error
                 return ws.close();
             }
-            //console.log('Client connected for playlist ' + playlist + ' with accountId ' + matchmakingId + ' position ' + position);
         } catch (err) {
+            //console.log(err);
             ws.send(JSON.stringify({
                 payload: {
                     state: "Error",
@@ -89,77 +79,98 @@ class matchmaker {
             return ws.close();
         }
 
+        //Connect to socket.io server
+        socket.on("connect", () => {
+            //console.log("Connected to socket.io server");
+        });
+
+        //On error connecting to socket.io server
+        socket.on("connect_error", (err: any) => {
+            //console.log("Error connecting to socket.io server");
+            //console.log(err);
+        });
+
+        socket.emit(`message`, {
+            "type": "queued",
+            "bote": bote,
+            "data": {
+                "matchmakingId": matchmakingId,
+                "playlist": playlist
+            },
+            time: new Date().toISOString()
+        });
+
+        const clientInfo: Client = {
+            matchmakingId: matchmakingId,
+            playlist: playlist,
+            socket: ws
+        }
+
+        this.clients.set(matchmakingId, clientInfo);
+
         ws.on('close', async () => {
-            //console.log(`Client disconnected for playlist ${playlist} with account ID ${matchmakingId} position ${position}`);
             this.clients.delete(matchmakingId);
-
-            // Decrement the number of queued players in Redis
-            const players = await redis.decr(`${playlist}-queued`);
-            await pub.publish(`${playlist}-queued`, players.toString());
-            //console.log(`Closed. Players remaining: ${players}`);
-
-            // Decrease the position of the remaining players in the queue
-            const remainingClients = Array.from(this.clients.values()).filter(client => client.playlist === playlist);
-            remainingClients.forEach(async (client) => {
-                if (client.position > position) {
-                    client.position -= 1;
-                }
+            socket.emit(`message`, {
+                "type": "unqueued",
+                "bote": bote,
+                "data": {
+                    "matchmakingId": matchmakingId,
+                    "playlist": playlist
+                },
+                time: new Date().toISOString()
             });
+            //console.log('Client disconnected');
+            //console.log(this.clients);
         });
 
         const ticketId = functions.MakeID().replace(/-/ig, "");
         const matchId = functions.MakeID().replace(/-/ig, "");
         const sessionId = functions.MakeID().replace(/-/ig, "");
 
-        setTimeout(Connecting, 200);
-        setTimeout(Waiting, 1000);
-        let position = await redis.incr(`${playlist}-queued`);
-        await pub.publish(`${playlist}-queued`, position.toString());
-        setTimeout(async function () {
-            Queued(position);
-        }, 1000);
+        //Listen for "matchmaking" event
+        socket.on(`${bote}-queue`, (message: any) => {
+            //console.log("Received matchmaking queue event");
+            //console.log(message);
+            message = JSON.parse(message);
 
-        sub.on("message", async (channel, message) => {
+            const playlist = message.data.playlist;
 
-            switch (channel) {
-                case `${playlist}-queued`:
-                    Queued(parseInt(message));
-                    break;
-                case `${playlist}-status`:
-                    if (message === "online") {
-                        for (const [key, value] of this.clients.entries()) {
-                            if (value.playlist === playlist && value.position <= 100) {
-                                setTimeout(SessionAssignment, 2000);
-                                setTimeout(Join, 3000);
-                                this.clients.delete(key);
-                                console.log(`Session assigned. Players remaining: ${this.clients.size}`);
-                            }
-                        }
-                        if (this.clients.size > 100) {
-                            const remainingClients = Array.from(this.clients.values()).filter(client => client.playlist === playlist);
-                            remainingClients.forEach(async (client) => {
-                                client.position -= 100;
-                                console.log(`Position decremented by 100. New position: ${client.position} for client ${client.matchmakingId}`);
-                                return;
-                            });
-                        } else {
-                            const remainingClients = Array.from(this.clients.values()).filter(client => client.playlist === playlist);
-                            remainingClients.forEach(async (client) => {
-                                client.position -= (this.clients.size - 1);
-                                console.log(`Position decremented. New position: ${client.position} for client ${client.matchmakingId}`);
-                                return;
-                            });
-                        }
-                        console.log("No more players in queue. Size: " + this.clients.size);
-                    }
-                    break;
-                default:
-                    // Handle unknown channel
-                    break;
+            //console.log(`Playlist: ${playlist}`);
+
+            if (message.type !== "update") {
+                setTimeout(Connecting, 200);
+                setTimeout(Waiting, 1000);
+                if (playlist) {
+                    setTimeout(() => Queued(message.data.queuedAmount, playlist), 2000);
+                }
+            } else {
+                if (playlist) {
+                    Queued(message.data.queuedAmount, playlist);
+                }
             }
         });
 
+        //Listen for "status" event
+        socket.on(`${bote}-status`, (message: any) => {
+
+            //console.log("Received matchmaking status event");
+            //console.log(message);
+            message = JSON.parse(message);
+
+            const playlist = message.data.playlist;
+
+            //console.log(`Playlist: ${playlist}`);
+
+            switch (message.type) {
+                case "update":
+                    SessionAssignment(playlist);
+                    setTimeout(() => Join(playlist), 1000);
+            }
+
+        });
+
         async function Connecting() {
+            //console.log(`Connecting. TicketId: ${ticketId}`);
             // Send a "Connecting" status update to the client
             ws.send(
                 JSON.stringify({
@@ -172,6 +183,7 @@ class matchmaker {
         }
 
         async function Waiting(players: number) {
+            //console.log(`Waiting.`);
             // Send a "Waiting" status update to the client with the total number of players
             ws.send(
                 JSON.stringify({
@@ -185,58 +197,67 @@ class matchmaker {
             );
         }
 
-        async function Queued(players: number) {
-            console.log(`Queued. Players: ${players}. Typeof players: ${typeof players}`);
-            // Send a "Queued" status update to the client with the ticket ID, queued players, and estimated wait time
-
-            //for each player, console log their position in the queue
-
-            for (const [key, value] of clientList.entries()) {
-                if (value.playlist === playlist) {
-                    console.log(`Client ${value.matchmakingId} is in position ${value.position}`);
-                }
+        async function Queued(players: number, playlist: string) {
+            //console.log(`Queued. Players: ${players}. Typeof players: ${typeof players}`);
+            if (typeof players !== "number") {
+                players = 0;
             }
 
-            ws.send(
-                JSON.stringify({
-                    payload: {
-                        ticketId: ticketId,
-                        queuedPlayers: players,
-                        estimatedWaitSec: 3,
-                        status: {},
-                        state: "Queued",
-                    },
-                    name: "StatusUpdate",
-                }),
-            );
+            for (const [key, value] of clients.entries()) {
+                if (value.playlist === playlist) {
+                    //console.log(`Client ${value.matchmakingId} has playlist ${value.playlist}`);
+                    ws.send(
+                        JSON.stringify({
+                            payload: {
+                                ticketId: ticketId,
+                                queuedPlayers: players,
+                                estimatedWaitSec: 3,
+                                status: {},
+                                state: "Queued",
+                            },
+                            name: "StatusUpdate",
+                        }),
+                    );
+                } else {
+                    //console.log(`Client ${value.matchmakingId} has playlist ${value.playlist} but needs ${playlist}`);
+                }
+            }
         }
 
-        async function SessionAssignment() {
-            console.log(`SessionAssignment. MatchId: ${matchId}`);
+        async function SessionAssignment(playlist: string) {
+            //console.log(`SessionAssignment. MatchId: ${matchId}`);
             // Send a "SessionAssignment" status update to the client with the match ID
-            ws.send(
-                JSON.stringify({
-                    payload: {
-                        matchId: matchId,
-                        state: "SessionAssignment",
-                    },
-                    name: "StatusUpdate",
-                }),
-            );
+            for (const [key, value] of clients.entries()) {
+                if (value.playlist === playlist) {
+                    ws.send(
+                        JSON.stringify({
+                            payload: {
+                                matchId: matchId,
+                                state: "SessionAssignment",
+                            },
+                            name: "StatusUpdate",
+                        }),
+                    );
+                }
+            }
         }
 
-        async function Join() {
+        async function Join(playlist: string) {
             // Send a "Play" message to the client with the match ID, session ID, and join delay
-            ws.send(
-                JSON.stringify({
-                    payload: {
-                        matchId: matchId,
-                        sessionId: sessionId,
-                        joinDelaySec: 1,
-                    },
-                    name: "Play",
-                }),
-            );
+            for (const [key, value] of clients.entries()) {
+                if (value.playlist === playlist) {
+                    ws.send(
+                        JSON.stringify({
+                            payload: {
+                                matchId: matchId,
+                                sessionId: sessionId,
+                                joinDelaySec: 1,
+                            },
+                            name: "Play",
+                        }),
+                    );
+                }
+            }
         }
     }
 }

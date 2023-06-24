@@ -11,12 +11,8 @@ if (!fs.existsSync(path.resolve(__dirname, "../../.env"))) {
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-type iDatabase = "mongodb" | "postgres";
-
 interface iEnv {
     MONGO_URI: string;
-    PSG_DATABASE_URL: string
-    DATABASE: iDatabase;
     BOT_TOKEN: string;
     CLIENT_ID: string;
     GUILD_ID: string;
@@ -25,6 +21,7 @@ interface iEnv {
     GAME_SERVERS: string[];
     ALLOW_REBOOT: boolean;
     MATCHMAKER_IP: string;
+    LINK_SECRET: string;
     USE_S3: boolean;
     S3_BUCKET_NAME: string;
     S3_ENDPOINT: string;
@@ -57,8 +54,6 @@ export class safety {
 
     public env: iEnv = {
         MONGO_URI: process.env.MONGO_URI as string,
-        PSG_DATABASE_URL: process.env.PSG_DATABASE_URL as string,
-        DATABASE: process.env.DATABASE as iDatabase,
         BOT_TOKEN: process.env.BOT_TOKEN as string,
         CLIENT_ID: process.env.CLIENT_ID as string,
         GUILD_ID: process.env.GUILD_ID as string,
@@ -67,6 +62,7 @@ export class safety {
         GAME_SERVERS: process.env.GAME_SERVERS?.split("_") as string[],
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
+        LINK_SECRET: process.env.LINK_SECRET as string,
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME as string,
         S3_ENDPOINT: process.env.S3_ENDPOINT as string,
@@ -128,14 +124,6 @@ export class safety {
                     throw new TypeError(`The environment variable ${key} is too long, please declare it in the .env file.`);
                 } else {
                     this.env[key] = typeof value === "string" ? value.replace(/ /g, "_") : value;
-                }
-            }
-            if (key === "DATABASE") {
-                if (value !== "mongodb" && value !== "postgres") {
-                    throw new TypeError(`The environment variable ${key} is not mongodb or postgres, please declare it in the .env file.`);
-                } else if (value === "postgres") {
-                    this.env.DATABASE = "mongodb";
-                    log.warn("PostgreSQL has been disabled. This feature will be added in the future. Stay tuned for updates.")
                 }
             }
         }
