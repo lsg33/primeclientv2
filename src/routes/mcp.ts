@@ -1,6 +1,3 @@
-import log from "../utilities/structs/log";
-import error from "../utilities/structs/error";
-
 export { };
 
 const express = require("express");
@@ -11,8 +8,9 @@ const User = require("../model/user.js");
 const profileManager = require("../structs/profile.js");
 const Friends = require("../model/friends");
 import functions from "../utilities/structs/functions";
-
-import { verifyClient, verifyToken } from "../tokenManager/tokenVerify";
+import log from "../utilities/structs/log";
+import error from "../utilities/structs/error";
+import { verifyToken } from "../tokenManager/tokenVerify";
 
 global.giftReceived = {}; +
 

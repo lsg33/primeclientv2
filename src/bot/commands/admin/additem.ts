@@ -1,6 +1,6 @@
 export { }
 
-import { EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import { CommandInteraction, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import Asteria from "asteriasdk";
 
 const { SlashCommandBuilder } = require('discord.js');
@@ -30,13 +30,15 @@ module.exports = {
 
     async execute(interaction) {
 
+        await interaction.deferReply({ ephemeral: true });
+
         const selectedUser = interaction.options.getUser('user');
-        const selectedUserId: Number = selectedUser.id;
+        const selectedUserId = selectedUser!.id;
 
         const user = await Users.findOne({ discordId: selectedUserId });
         const profile = await Profiles.findOne({ accountId: user.accountId });
-        if (!user) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
-        if(!profile) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
+        if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
+        if (!profile) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
 
         const cosmeticname: string = interaction.options.getString('cosmeticname');
 
@@ -44,16 +46,27 @@ module.exports = {
 
         const regex = /^(?:[A-Z][a-z]*\b\s*)+$/;
 
-        if(!regex.test(cosmeticname)) return interaction.reply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
+        if (!regex.test(cosmeticname)) return await interaction.editReply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
 
         let cosmetic: any = {};
 
         try {
             cosmetic = await asteria.getCosmetic("name", cosmeticname, false);
         } catch (err) {
-            return await interaction.reply({ content: "That cosmetic does not exist", ephemeral: true });
+            return await interaction.editReply({ content: "That cosmetic does not exist" });
         } finally {
-            if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return interaction.reply({ content: "That user already has that cosmetic", ephemeral: true });
+            try {
+                if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return await interaction.editReply({ content: "That user already has that cosmetic", ephemeral: true });
+            } catch (err) {
+                await fetch(`https://fortnite-api.com/v2/cosmetics/br/search?name=${cosmeticname}`).then(res => res.json()).then(async json => {
+                    const cosmeticFromAPI = json.data;
+                    if (profile.profiles.athena.items[`${cosmeticFromAPI.type.backendValue}:${cosmeticFromAPI.id}`]) {
+                        await interaction.editReply({ content: "That user already has that cosmetic", ephemeral: true });
+                        return;
+                    }
+                    cosmetic = cosmeticFromAPI;
+                })
+            }
         }
 
         await Profiles.findOneAndUpdate(
@@ -87,7 +100,7 @@ module.exports = {
             })
             .setTimestamp();
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.editReply({ embeds: [embed] });
 
     },
 };
