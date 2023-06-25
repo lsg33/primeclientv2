@@ -6,6 +6,7 @@ import safety from "../utilities/safety";
 import { WebSocket } from "ws";
 import { Request } from "express";
 import { io } from "socket.io-client";
+import log from "../utilities/structs/log";
 
 const User = require("../model/user");
 
@@ -17,12 +18,24 @@ type Client = {
     socket: Object
 }
 
-const socket = io("http://195.201.96.214:49154/", {
+const socket = io("http://195.201.96.214:3089", {
     transports: ["websocket"],
     extraHeaders: {
         "key": safety.env.LINK_SECRET
     }
 });
+
+//Connect to socket.io server
+socket.on("connect", () => {
+    log.backend("Connected to socket.io server");
+});
+
+//On error connecting to socket.io server
+socket.on("connect_error", (err: any) => {
+    console.log("Error connecting to socket.io server");
+    console.log(err);
+});
+
 
 class matchmaker {
 
@@ -77,17 +90,6 @@ class matchmaker {
             // Handle error in token parsing
             return ws.close();
         }
-
-        //Connect to socket.io server
-        socket.on("connect", () => {
-            //console.log("Connected to socket.io server");
-        });
-
-        //On error connecting to socket.io server
-        socket.on("connect_error", (err: any) => {
-            //console.log("Error connecting to socket.io server");
-            //console.log(err);
-        });
 
         socket.emit(`message`, {
             "type": "queued",
