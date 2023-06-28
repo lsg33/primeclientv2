@@ -1576,13 +1576,6 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
             break;
         case "CopyCosmeticLoadout":
 
-
-            return error.createError(
-                "errors.com.epicgames.modules.profiles.operation_forbidden",
-                `This operation is temporarily disabled`,
-                [req.query.profileId], 12813, undefined, 403, res
-            );
-
             try {
                 if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                     "errors.com.epicgames.modules.profiles.operation_forbidden",
@@ -1627,12 +1620,6 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
             break;
         case "DeleteCosmeticLoadout":
 
-            return error.createError(
-                "errors.com.epicgames.modules.profiles.operation_forbidden",
-                `This operation is temporarily disabled`,
-                [req.query.profileId], 12813, undefined, 403, res
-            );
-
             if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                 "errors.com.epicgames.modules.profiles.operation_forbidden",
                 `Unable to find template configuration for profile ${req.query.profileId}`,
@@ -1650,13 +1637,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
             break;
         case "SetCosmeticLockerName":
-
-            return error.createError(
-                "errors.com.epicgames.modules.profiles.operation_forbidden",
-                `This operation is temporarily disabled`,
-                [req.query.profileId], 12813, undefined, 403, res
-            );
-
+            
             if (!await profileManager.validateProfile(req.query.profileId, profiles)) return error.createError(
                 "errors.com.epicgames.modules.profiles.operation_forbidden",
                 `Unable to find template configuration for profile ${req.query.profileId}`,
