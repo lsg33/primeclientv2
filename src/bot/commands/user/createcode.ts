@@ -11,11 +11,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('createcode')
         .setDescription('Creates a custom matchmaking code')
-        .setDescriptionLocalizations({
-            pl: 'Tworzy niestandardowy kod meczowy',
-            de: 'Erstellt einen benutzerdefinierten Matchmaking-Code',
-            fr: 'Crée un code de matchmaking personnalisé',
-        })
         .addStringOption(option =>
             option.setName('code')
                 .setDescription('Your desired code')

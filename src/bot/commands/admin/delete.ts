@@ -10,11 +10,6 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('delete')
 		.setDescription('Deletes a users account')
-		.setDescriptionLocalizations({
-			pl: 'Usuwa konto użytkownika',
-			de: 'Löscht das Konto eines Benutzers',
-			fr: 'Supprime le compte d\'un utilisateur',
-		})
 		.addUserOption(option =>
 			option.setName('user')
                 .setDescription('The user whose account you want to delete')

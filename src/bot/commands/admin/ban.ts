@@ -10,11 +10,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ban')
         .setDescription('Bans a users account')
-        .setDescriptionLocalizations({
-            pl: 'Banuje konto użytkownika',
-            de: 'Sperrt das Konto eines Benutzers',
-            fr: 'Interdit le compte d\'un utilisateur',     
-        })
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user whose account you want to ban')

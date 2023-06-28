@@ -16,12 +16,7 @@ const Profiles = require('../../../model/profiles');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('account')
-        .setDescription('Shows you your account information')
-        .setDescriptionLocalizations({
-            pl: 'Pokazuje informacje o twoim koncie',
-            de: 'Zeigt dir deine Kontoinformationen an',
-            fr: 'Affiche les informations de votre compte',     
-        }),
+        .setDescription('Shows you your account information'),
 
     async execute(interaction) {
 

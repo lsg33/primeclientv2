@@ -10,12 +10,7 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('createisland')
-		.setDescription('Creates a new island for the discovery (Will take some time because lots of fields)')
-        .setDescriptionLocalizations({
-            pl: 'Tworzy nową wyspę (Potrwa to trochę czasu, ponieważ jest dużo pól)',
-            de: 'Erstellt eine neue Insel in der Fortnite Discovery',
-            fr: 'Crée une nouvelle île pour la découverte (Cela prendra un certain temps car il y a beaucoup de champs)',
-        })
+		.setDescription('Creates a new island (Will take some time because lots of fields)')
 		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .addStringOption(option => option.setName("title").setDescription("Title of the island").setRequired(true))
         .addStringOption(option => option.setName("description").setDescription("Description of the island").setRequired(true))

@@ -10,12 +10,7 @@ const Profiles = require('../../../model/profiles');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('mfa')
-        .setDescription('Toggles the multi factor authentication for your account')
-        .setDescriptionLocalizations({
-            pl: 'Przełącza uwierzytelnianie wieloskładnikowe dla twojego konta',
-            de: 'Aktiviert die Multi-Faktor-Authentifizierung für Ihr Konto',
-            fr: 'Active l\'authentification à facteurs multiples pour votre compte',
-        }),
+        .setDescription('Toggles the multi factor authentication for your account'),
 
     async execute(interaction) {
 

@@ -16,11 +16,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('addcosmetic')
         .setDescription('Allows you to give a user any skin, pickaxe, glider, etc.')
-        .setDescriptionLocalizations({
-            pl: 'Pozwala dać użytkownikowi dowolną skórkę, kilof, lotnię itp.',
-            de: 'Ermöglicht es dir, einem Benutzer jeden Skin, Spitzhacke, Gleiter usw. zu geben.',
-            fr: 'Vous permet de donner à un utilisateur n\'importe quelle skin, pioche, planeur, etc.',
-        })
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user you want to give the cosmetic to')
