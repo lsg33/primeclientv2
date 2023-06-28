@@ -26,7 +26,6 @@ global.MUCs = {};
 app.get("/", (req, res) => {
     res.type("application/json");
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("id", "F5zjBFjE4zv8SSEtraFwQDeYVK4KQ/XbQkQPTBT+dGA=")
 
     let data = JSON.stringify({
         "Clients": {
@@ -40,7 +39,6 @@ app.get("/", (req, res) => {
 
 app.get("/clients", (req, res) => {
     res.type("application/json");
-    res.header("id", "F5zjBFjE4zv8SSEtraFwQDeYVK4KQ/XbQkQPTBT+dGA=")
 
     let data = JSON.stringify({
         "amount": global.Clients.length,

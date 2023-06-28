@@ -95,7 +95,7 @@ async function main() {
             throw err;
         });
 
-    app.get("/unknown", (req, res) => {
+    app.get("/", (req, res) => {
 
         res.status(200).json({
             status: "ok",
@@ -145,41 +145,7 @@ async function main() {
             return next();
         }
 
-        logger.debug(`Missing endpoint: ${req.method} ${url}`);
-
-        const data = {
-            url,
-            method: req.method,
-            time: new Date().toISOString(),
-            request: {
-                body: req.body,
-                headers: req.headers,
-                query: req.query,
-            },
-            response: {
-                body: res.body,
-                headers: res.getHeaders(),
-                params: res.params,
-            },
-        };
-
-        loggedUrls.add(url);
-
-        fs.access("missing-endpoints.json", (err) => {
-            if (err) {
-                fs.writeFile("missing-endpoints.json", "", (err) => {
-                    if (err) {
-                        logger.error(`Error creating file: ${err}`);
-                    }
-                });
-            }
-
-            fs.appendFile("missing-endpoints.json", JSON.stringify(data) + "\n", (err) => {
-                if (err) {
-                    logger.error(`Error writing to file: ${err}`);
-                }
-            });
-        });
+        logger.debug(`Missing endpoint: ${req.method} ${url} request port ${req.socket.localPort}`);
 
         error.createError(
             "errors.com.epicgames.common.not_found",
