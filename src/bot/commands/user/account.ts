@@ -58,6 +58,10 @@ module.exports = {
                     name: "Account ID",
                     value: user.accountId
                 },
+                {
+                    name: "MFA enabled?",
+                    value: user.mfa
+                },
             ])
             .setThumbnail(icon)
             .setFooter({

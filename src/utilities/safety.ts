@@ -4,11 +4,6 @@ import fs from "fs";
 import dotenv from "dotenv";
 import crypto from "crypto";
 
-if (!fs.existsSync(path.resolve(__dirname, "../../.env"))) {
-    log.error("You didn't follow the tutorial, rename .env.example to .env and fill in the values.")
-    process.exit(1);
-}
-
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 interface iEnv {

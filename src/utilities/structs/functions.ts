@@ -325,11 +325,11 @@ class functions {
     }
     
     public UpdateTokens() {
-        fs.writeFileSync("../../../tokens.json", JSON.stringify({
+        /*fs.writeFileSync("../../../tokens.json", JSON.stringify({
             accessTokens: global.accessTokens,
             refreshTokens: global.refreshTokens,
             clientTokens: global.clientTokens
-        }, null, 2));
+        }, null, 2));*/
         kv.set("tokens", JSON.stringify({
             accessTokens: global.accessTokens,
             refreshTokens: global.refreshTokens,
