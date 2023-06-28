@@ -12,6 +12,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('addall')
         .setDescription('Allows you to give a user all cosmetics. Note: This will reset all your lockers to default')
+        .setDescriptionLocalizations({
+            pl: 'Dodaje wszystkie kosmetyki do profilu użytkownika. Uwaga: To zresetuje wszystkie twoje szafki do domyślnych',
+            de: 'Erlaubt es dir, einem Benutzer alle cosmetics zu geben. Hinweis: Dadurch werden alle Locker des Spielers auf die Standardeinstellungen zurückgesetzt',
+            fr: 'Vous permet de donner à un utilisateur tous les cosmétiques. Remarque: cela réinitialisera toutes vos armoires par défaut',
+        })
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user you want to give the cosmetic to')

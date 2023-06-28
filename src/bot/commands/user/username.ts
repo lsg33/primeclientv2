@@ -10,6 +10,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('username')
 		.setDescription('Lets you change your userame')
+		.setDescriptionLocalizations({
+			pl: 'Pozwala zmienić nazwę użytkownika',
+			de: 'Ermöglicht es dir, deinen Benutzernamen zu ändern',
+			fr: 'Vous permet de changer votre nom d\'utilisateur',
+		})
 		.addStringOption(option =>
 			option.setName('username')
 				.setDescription('Your desired username')

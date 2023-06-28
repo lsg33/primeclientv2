@@ -11,6 +11,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('deletecode')
         .setDescription('Deletes a custom matchmaking code')
+        .setDescriptionLocalizations({
+            pl: 'Usuwa niestandardowy kod meczowy',
+            de: 'Löscht einen benutzerdefinierten Matchmaking-Code',
+            fr: 'Supprime un code de matchmaking personnalisé',
+        })
         .addStringOption(option =>
             option.setName('code')
                 .setDescription('The code you want to delete')

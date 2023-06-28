@@ -9,6 +9,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('togglemmc')
         .setDescription('Toggle being able to create custom matchmaking codes for this user')
+        .setDescriptionLocalizations({
+            pl: 'Przełącz możliwość tworzenia niestandardowych kodów meczowych dla tego użytkownika',
+            de: 'Aktiviere, dass dieser Benutzer benutzerdefinierte Matchmaking-Codes erstellen kann',
+            fr: 'Activer la possibilité de créer des codes de matchmaking personnalisés pour cet utilisateur',
+        })
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user whose account you want to select')

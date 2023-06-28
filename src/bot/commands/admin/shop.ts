@@ -10,6 +10,11 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('setshop')
     .setDescription('Sets the item shop')
+    .setDescriptionLocalizations({
+        pl: 'Ustawia sklep',
+        de: 'Legt den Shop fest',
+        fr: 'Définit la boutique',
+    })
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
     async execute(interaction) {

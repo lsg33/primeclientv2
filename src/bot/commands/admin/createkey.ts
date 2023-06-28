@@ -9,6 +9,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('createkey')
 		.setDescription('Creates a new api key')
+		.setDescriptionLocalizations({
+			pl: 'Tworzy nowy klucz api',
+			de: 'Erstellt einen neuen API-Schlüssel',
+			fr: 'Crée une nouvelle clé API',
+		})
 		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
 		.setDMPermission(false),
 

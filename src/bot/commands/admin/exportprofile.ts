@@ -9,6 +9,11 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('exportprofile')
         .setDescription('Sends you your profile as a file so you can import it later. Useful for devs.')
+        .setDescriptionLocalizations({
+            pl: 'Wysyła twój profil jako plik, abyś mógł go później zaimportować. Przydatne dla deweloperów.',
+            de: 'Sendet Ihnen Ihr Profil als Datei, damit Sie es später importieren können. Nützlich für Entwickler.',
+            fr: 'Vous envoie votre profil sous forme de fichier afin que vous puissiez l\'importer plus tard. Utile pour les développeurs.',
+        })
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
 

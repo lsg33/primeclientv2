@@ -11,6 +11,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('password')
 		.setDescription('Allows you to change your password')
+		.setDescriptionLocalizations({
+			pl: 'Pozwala zmienić hasło',
+			de: 'Lässt dich dein Passwort ändern',
+			fr: 'Vous permet de changer votre mot de passe',
+		})
 		.addStringOption(option =>
 			option.setName('password')
 				.setDescription('Your desired password')

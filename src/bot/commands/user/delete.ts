@@ -11,7 +11,12 @@ const Friends = require('../../../model/friends');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('deleteaccount')
-        .setDescription('Deletes your account (irreversible)'),
+        .setDescription('Deletes your account (irreversible)')
+        .setDescriptionLocalizations({
+            pl: 'Usuwa twoje konto (nieodwracalne)',
+            de: 'Löscht Ihr Konto (unumkehrbar)',
+            fr: 'Supprime votre compte (irréversible)',
+        }),
 
     async execute(interaction) {
 

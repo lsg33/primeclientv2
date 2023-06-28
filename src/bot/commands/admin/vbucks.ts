@@ -10,6 +10,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('vbucks')
 		.setDescription('Lets you change a users amount of vbucks')
+		.setDescriptionLocalizations({
+			pl: 'Pozwala zmienić ilość vbucks użytkownika',
+			de: 'Ermöglicht es dir, die Anzahl der vbucks eines Benutzers zu ändern',
+			fr: 'Vous permet de changer la quantité de vbucks d\'un utilisateur',
+		})
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('The user you want to change the vbucks of')

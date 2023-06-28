@@ -11,6 +11,11 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('register')
 		.setDescription('Creates an account for you')
+		.setDescriptionLocalizations({
+			pl: 'Tworzy konto dla ciebie',
+			de: 'Erstelle ein Konto für dich',
+			fr: 'Crée un compte pour toi',
+		})
 		.addStringOption(option =>
 			option.setName('username')
 				.setDescription('The username you want to use')
