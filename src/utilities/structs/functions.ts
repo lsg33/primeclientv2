@@ -22,7 +22,7 @@ class functions {
             setTimeout(resolve, ms);
         })
     }
-    
+
     public GetVersionInfo(req) {
         let memory = {
             season: 0,
@@ -30,40 +30,40 @@ class functions {
             CL: "0",
             lobby: ""
         }
-    
+
         if (req.headers["user-agent"]) {
             let CL = "";
-    
+
             try {
                 let BuildID = req.headers["user-agent"].split("-")[3].split(",")[0];
-    
+
                 if (!Number.isNaN(Number(BuildID))) CL = BuildID;
                 else {
                     BuildID = req.headers["user-agent"].split("-")[3].split(" ")[0];
-    
+
                     if (!Number.isNaN(Number(BuildID))) CL = BuildID;
                 }
             } catch {
                 try {
                     let BuildID = req.headers["user-agent"].split("-")[1].split("+")[0];
-    
+
                     if (!Number.isNaN(Number(BuildID))) CL = BuildID;
-                } catch {}
+                } catch { }
             }
-    
+
             try {
                 let Build = req.headers["user-agent"].split("Release-")[1].split("-")[0];
-    
+
                 if (Build.split(".").length == 3) {
                     let Value = Build.split(".");
                     Build = Value[0] + "." + Value[1] + Value[2];
                 }
-    
+
                 memory.season = Number(Build.split(".")[0]);
                 memory.build = Number(Build);
                 memory.CL = CL;
                 memory.lobby = `LobbySeason${memory.season}`;
-    
+
                 if (Number.isNaN(memory.season)) throw new Error();
             } catch (e) {
                 if (Number.isNaN(memory.CL)) {
@@ -89,17 +89,17 @@ class functions {
                 }
             }
         }
-    
+
         return memory;
     }
-    
+
     public getContentPages(req) {
         const memory = this.GetVersionInfo(req);
-    
+
         const contentpages = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "responses", "contentpages.json")).toString());
-    
+
         let Language = "en";
-    
+
         try {
             if (req.headers["accept-language"]) {
                 if (req.headers["accept-language"].includes("-") && req.headers["accept-language"] != "es-419") {
@@ -108,48 +108,49 @@ class functions {
                     Language = req.headers["accept-language"];
                 }
             }
-        } catch {}
-    
+        } catch { }
+
         const modes = ["saveTheWorldUnowned", "battleRoyale", "creative", "saveTheWorld"];
         const news = ["savetheworldnews", "battleroyalenews"];
-    
+
         try {
             modes.forEach(mode => {
                 contentpages.subgameselectdata[mode].message.title = contentpages.subgameselectdata[mode].message.title[Language]
                 contentpages.subgameselectdata[mode].message.body = contentpages.subgameselectdata[mode].message.body[Language]
             })
-        } catch {}
-    
+        } catch { }
+
         try {
-            if (memory.build < 5.30) { 
+            if (memory.build < 5.30) {
                 news.forEach(mode => {
                     contentpages[mode].news.messages[0].image = "https://cdn.discordapp.com/attachments/927739901540188200/930879507496308736/discord.png";
                     contentpages[mode].news.messages[1].image = "https://cdn.discordapp.com/attachments/927739901540188200/930879519882088508/lawin.png";
                 });
             }
-        } catch {}
-    
+        } catch { }
+
         try {
             contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = `season${memory.season}`;
             contentpages.dynamicbackgrounds.backgrounds.backgrounds[1].stage = `season${memory.season}`;
-    
+            contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn.discordapp.com/attachments/927739901540188200/930880158167085116/t-bp19-lobby-xmas-2048x1024-f85d2684b4af.png";
+
             if (memory.season == 10) {
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = "seasonx";
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[1].stage = "seasonx";
             }
-    
+
             if (memory.build == 11.31 || memory.build == 11.40) {
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = "Winter19";
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[1].stage = "Winter19";
             }
-    
+
             if (memory.build == 19.01) {
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = "winter2021";
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn.discordapp.com/attachments/927739901540188200/930880158167085116/t-bp19-lobby-xmas-2048x1024-f85d2684b4af.png";
                 contentpages.subgameinfo.battleroyale.image = "https://cdn.discordapp.com/attachments/927739901540188200/930880421514846268/19br-wf-subgame-select-512x1024-16d8bb0f218f.jpg";
                 contentpages.specialoffervideo.bSpecialOfferEnabled = "true";
             }
-    
+
             if (memory.season == 20) {
                 if (memory.build == 20.40) {
                     contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn2.unrealengine.com/t-bp20-40-armadillo-glowup-lobby-2048x2048-2048x2048-3b83b887cc7f.jpg"
@@ -157,39 +158,39 @@ class functions {
                     contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn2.unrealengine.com/t-bp20-lobby-2048x1024-d89eb522746c.png";
                 }
             }
-    
+
             if (memory.season == 21) {
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn2.unrealengine.com/s21-lobby-background-2048x1024-2e7112b25dc3.jpg"
             }
-        } catch {}
-    
+        } catch { }
+
         return contentpages;
     }
-    
+
     public getItemShop() {
         const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "responses", "catalog.json")).toString());
         const CatalogConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "Config", "catalog_config.json").toString()));
-    
+
         try {
             for (let value in CatalogConfig) {
                 if (!Array.isArray(CatalogConfig[value].itemGrants)) continue;
                 if (CatalogConfig[value].itemGrants.length == 0) continue;
-                
-                const CatalogEntry:any = {"devName":"","offerId":"","fulfillmentIds":[],"dailyLimit":-1,"weeklyLimit":-1,"monthlyLimit":-1,"categories":[],"prices":[{"currencyType":"MtxCurrency","currencySubType":"","regularPrice":0,"finalPrice":0,"saleExpiration":"9999-12-02T01:12:00Z","basePrice":0}],"matchFilter":"","filterWeight":0,"appStoreId":[],"requirements":[],"offerType":"StaticPrice","giftInfo":{"bIsEnabled":true,"forcedGiftBoxTemplateId":"","purchaseRequirements":[],"giftRecordIds":[]},"refundable":false,"metaInfo":[],"displayAssetPath":"","itemGrants":[],"sortPriority":0,"catalogGroupPriority":0};
+
+                const CatalogEntry: any = { "devName": "", "offerId": "", "fulfillmentIds": [], "dailyLimit": -1, "weeklyLimit": -1, "monthlyLimit": -1, "categories": [], "prices": [{ "currencyType": "MtxCurrency", "currencySubType": "", "regularPrice": 0, "finalPrice": 0, "saleExpiration": "9999-12-02T01:12:00Z", "basePrice": 0 }], "matchFilter": "", "filterWeight": 0, "appStoreId": [], "requirements": [], "offerType": "StaticPrice", "giftInfo": { "bIsEnabled": true, "forcedGiftBoxTemplateId": "", "purchaseRequirements": [], "giftRecordIds": [] }, "refundable": false, "metaInfo": [], "displayAssetPath": "", "itemGrants": [], "sortPriority": 0, "catalogGroupPriority": 0 };
                 let i = catalog.storefronts.findIndex(p => p.name == (value.toLowerCase().startsWith("daily") ? "BRDailyStorefront" : "BRWeeklyStorefront"));
                 if (i == -1) continue;
-    
+
                 for (let itemGrant of CatalogConfig[value].itemGrants) {
                     if (typeof itemGrant != "string") continue;
                     if (itemGrant.length == 0) continue;
-                    
+
                     CatalogEntry.devName = CatalogConfig[value].itemGrants[0];
                     CatalogEntry.offerId = CatalogConfig[value].itemGrants[0];
-    
+
                     CatalogEntry.requirements.push({ "requirementType": "DenyOnItemOwnership", "requiredId": itemGrant, "minQuantity": 1 });
                     CatalogEntry.itemGrants.push({ "templateId": itemGrant, "quantity": 1 });
                 }
-    
+
                 CatalogEntry.prices = [{
                     "currencyType": "MtxCurrency",
                     "currencySubType": "",
@@ -198,132 +199,132 @@ class functions {
                     "saleExpiration": "9999-12-02T01:12:00Z",
                     "basePrice": CatalogConfig[value].price
                 }];
-    
+
                 if (CatalogEntry.itemGrants.length > 0) {
                     let uniqueIdentifier = crypto.createHash("sha1").update(`${JSON.stringify(CatalogConfig[value].itemGrants)}_${CatalogConfig[value].price}`).digest("hex");
-    
+
                     CatalogEntry.devName = uniqueIdentifier;
                     CatalogEntry.offerId = uniqueIdentifier;
-    
+
                     catalog.storefronts[i].catalogEntries.push(CatalogEntry);
                 }
             }
-        } catch {}
-    
+        } catch { }
+
         return catalog;
     }
-    
+
     public getOfferID(offerId) {
         const catalog = this.getItemShop();
-    
+
         for (let storefront of catalog.storefronts) {
             let findOfferId = storefront.catalogEntries.find(i => i.offerId == offerId);
-    
+
             if (findOfferId) return {
                 name: storefront.name,
                 offerId: findOfferId
             };
         }
     }
-    
+
     public MakeID() {
         return uuid.v4();
     }
-    
+
     public sendXmppMessageToAll(body) {
         if (!global.Clients) return;
         if (typeof body == "object") body = JSON.stringify(body);
-    
+
         global.Clients.forEach(ClientData => {
             ClientData.client.send(XMLBuilder.create("message")
-            .attribute("from", "xmpp-admin@prod.ol.epicgames.com")
-            .attribute("xmlns", "jabber:client")
-            .attribute("to", ClientData.jid)
-            .element("body", `${body}`).up().toString());
+                .attribute("from", "xmpp-admin@prod.ol.epicgames.com")
+                .attribute("xmlns", "jabber:client")
+                .attribute("to", ClientData.jid)
+                .element("body", `${body}`).up().toString());
         });
     }
-    
+
     public sendXmppMessageToId(body, toAccountId) {
         if (!global.Clients) return;
         if (typeof body == "object") body = JSON.stringify(body);
-    
+
         let receiver = global.Clients.find(i => i.accountId == toAccountId);
         if (!receiver) return;
-    
+
         receiver.client.send(XMLBuilder.create("message")
-        .attribute("from", "xmpp-admin@prod.ol.epicgames.com")
-        .attribute("to", receiver.jid)
-        .attribute("xmlns", "jabber:client")
-        .element("body", `${body}`).up().toString());
+            .attribute("from", "xmpp-admin@prod.ol.epicgames.com")
+            .attribute("to", receiver.jid)
+            .attribute("xmlns", "jabber:client")
+            .element("body", `${body}`).up().toString());
     }
-    
+
     public getPresenceFromUser(fromId, toId, offline) {
         if (!global.Clients) return;
-    
+
         let SenderData = global.Clients.find(i => i.accountId == fromId);
         let ClientData = global.Clients.find(i => i.accountId == toId);
-    
+
         if (!SenderData || !ClientData) return;
-    
+
         let xml = XMLBuilder.create("presence")
-        .attribute("to", ClientData.jid)
-        .attribute("xmlns", "jabber:client")
-        .attribute("from", SenderData.jid)
-        .attribute("type", offline ? "unavailable" : "available")
-    
+            .attribute("to", ClientData.jid)
+            .attribute("xmlns", "jabber:client")
+            .attribute("from", SenderData.jid)
+            .attribute("type", offline ? "unavailable" : "available")
+
         if (SenderData.lastPresenceUpdate.away) xml = xml.element("show", "away").up().element("status", SenderData.lastPresenceUpdate.status).up();
         else xml = xml.element("status", SenderData.lastPresenceUpdate.status).up();
-    
+
         ClientData.client.send(xml.toString());
     }
-    
+
     public async registerUser(discordId: any, username: string, email: string, plainPassword: string | any[], isServer: boolean) {
         email = email.toLowerCase();
-    
+
         if (!discordId || !username || !email || !plainPassword) return { message: "Username/email/password is required.", status: 400 };
-    
+
         if (await User.findOne({ discordId })) return { message: "You already created an account!", status: 400 };
-    
+
         const accountId = this.MakeID().replace(/-/ig, "");
-    
+
         // filters
         const emailFilter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (!emailFilter.test(email)) return { message: "You did not provide a valid email address!", status: 400 };
         if (username.length >= 25) return { message: "Your username must be less than 25 characters long.", status: 400 };
         if (username.length < 3) return { message: "Your username must be atleast 3 characters long.", status: 400 };
         if (plainPassword.length >= 128) return { message: "Your password must be less than 128 characters long.", status: 400 };
-    
+
         const allowedCharacters = (" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~").split("");
-        
+
         for (let character of username) {
             if (!allowedCharacters.includes(character)) return { message: "Your username has special characters, please remove them and try again.", status: 400 };
         }
-    
+
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
-    
+
         try {
             log.debug(`Creating account with the username ${username} and email ${email}`);
-            await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer, matchmakingId: this.MakeID()}).then(async (i) => {
+            await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer, matchmakingId: this.MakeID() }).then(async (i) => {
                 log.debug(`Created user with the username ${username} and email ${email}`);
                 await Profile.create({ created: i.created, accountId: i.accountId, profiles: await profileManager.createProfiles(i.accountId) });
                 log.debug(`Created profile for the user with the username ${username} and email ${email}`);
                 await Friends.create({ created: i.created, accountId: i.accountId });
                 log.debug(`Created friends for the user with the username ${username} and email ${email}`);
             });
-        } catch (err:any) {
+        } catch (err: any) {
             if (err.code == 11000) return { message: `Username or email is already in use.`, status: 400 };
             console.error(err);
-    
+
             return { message: "An unknown error has occured, please try again later.", status: 400 };
         };
-    
+
         return { message: `Successfully created an account with the username ${username}`, status: 200 };
     }
-    
+
     public DecodeBase64(str) {
         return Buffer.from(str, 'base64').toString();
     }
-    
+
     public UpdateTokens() {
         /*fs.writeFileSync("../../../tokens.json", JSON.stringify({
             accessTokens: global.accessTokens,

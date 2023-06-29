@@ -42,14 +42,24 @@ let s3: S3;
 if (Safety.env.USE_S3 == true) {
     log.debug("USE S3 TRUE");
     s3 = new S3({
-        apiVersion: 'latest',
         endpoint: Safety.env.S3_ENDPOINT,
         credentials: {
             accessKeyId: Safety.env.S3_ACCESS_KEY_ID || "",
             secretAccessKey: Safety.env.S3_SECRET_ACCESS_KEY || "",
         },
-        region: 'auto'
     });
+
+    //check if connection is valid
+    s3.listBuckets((err: AWSError, data: S3.ListBucketsOutput) => {
+        if (err) {
+            log.error("S3 connection failed");
+            log.error(err.toString());
+        } else {
+            log.backend("S3 connection successful");
+            log.debug("S3 buckets: " + JSON.stringify(data.Buckets));
+        }
+    });
+
 } else {
     log.debug("USE S3 FALSE");
 }
@@ -294,6 +304,7 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyToken, async (req, r
 
     const cachedFile = cache.get(filePath);
     if (cachedFile) {
+        console.log("Returning cached file");
         return res.json([cachedFile]);
     }
 
