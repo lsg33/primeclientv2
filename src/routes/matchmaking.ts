@@ -2,7 +2,7 @@ import { iMMCodes } from "../model/mmcodes";
 import { iUser } from "../model/user";
 import decode from "../utilities/decode";
 import kv from "../utilities/kv";
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 
 export { };
 
@@ -52,7 +52,7 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     buildUniqueId[req.user.accountId] = req.query.bucketId.split(":")[0];
 
-    const matchmakerIP = safety.env.MATCHMAKER_IP;
+    const matchmakerIP = Safety.env.MATCHMAKER_IP;
 
     res.json({
         "serviceUrl": `ws://${matchmakerIP}`,
@@ -76,8 +76,8 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
     const user: iUser = await decode.decodeAuth(req) as iUser;
 
     let codeKV = await kv.get(`playerCustomKey:${user.accountId}`) ?? {
-        ip: safety.env.GAME_SERVERS[Math.floor(Math.random() * safety.env.GAME_SERVERS.length)].split(":")[0],
-        port: parseInt(safety.env.GAME_SERVERS[Math.floor(Math.random() * safety.env.GAME_SERVERS.length)].split(":")[1])
+        ip: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[0],
+        port: parseInt(Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[1])
     };
 
     res.json({

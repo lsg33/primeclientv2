@@ -3,6 +3,7 @@ import log from "./structs/log";
 import fs from "fs";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import kv from "./kv";
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
@@ -26,7 +27,7 @@ interface iEnv {
     REDIS_URL: string;
 }
 
-export class safety {
+export class Safety {
     private convertToBool(value: string | undefined | boolean, key: string): boolean {
         if (value === "true") {
             return true;
@@ -78,20 +79,37 @@ export class safety {
             const hashSum = crypto.createHash('sha256');
             hashSum.update(fileBuffer);
             const sha256 = hashSum.digest('hex');
-    
-            if (sha256 !== "7ce650ab0fc33275ac24e77f1a51d3ba6dad8176a5176821a7041192d3ee8caa") {
+
+            if (sha256 !== "487d56b51a3f4b4287cb692916d039b1e8fc4b1d5cb942cc2c8e86f5284f51b1") {
                 await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json")
                     .then(res => res.json())
                     .then(json => {
                         fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
                     });
             }
-        } catch(e:any) {
+        } catch (e: any) {
             console.log("An error occured, but the program will continue.");
         }
 
         if (parseInt(process.version.slice(1)) < 18) {
             throw new Error(`Your node version is too old, please update to at least 18. Your version: ${process.version}`);
+        }
+
+        if (this.env.USE_REDIS) {
+            let redisstate = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../state/redis.json"), "utf-8"));
+            if (!redisstate.knownUrls.includes(this.env.REDIS_URL)) {
+                redisstate.knownUrls.push(this.env.REDIS_URL);
+                fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify(redisstate));
+                log.debug("Redis URL is not known, adding to known URLs.");
+                await kv.set("tokens", JSON.stringify({
+                    "accessTokens": [],
+                    "refreshTokens": [],
+                    "clientTokens": []
+                })
+                );
+            } else {
+                log.debug("Redis URL is already known, skipping.");
+            }
         }
 
         try {
@@ -127,9 +145,8 @@ export class safety {
             throw new TypeError(`The environment ${missingVariables.length > 1 ? "variables" : "variable"} ${missingVariables.join(", ")} ${missingVariables.length > 1 ? "are" : "is"} missing, please declare ${missingVariables.length > 1 ? "them" : "it"} in the .env file.`);
         }
 
-        global.env = this.env;
         return true;
     }
 }
 
-export default new safety();
+export default new Safety();

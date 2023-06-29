@@ -12,7 +12,7 @@ const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 import functions from "../utilities/structs/functions";
 import { AWSError } from 'aws-sdk/lib/error';
 import log from '../utilities/structs/log';
-import safety from './../utilities/safety';
+import Safety from './../utilities/safety';
 
 const NodeCache = require("node-cache")
 const cache = new NodeCache();
@@ -39,14 +39,14 @@ if (operatingSystem === "win32") {
 
 let s3: S3;
 
-if (safety.env.USE_S3 == true) {
+if (Safety.env.USE_S3 == true) {
     log.debug("USE S3 TRUE");
     s3 = new S3({
         apiVersion: 'latest',
-        endpoint: safety.env.S3_ENDPOINT,
+        endpoint: Safety.env.S3_ENDPOINT,
         credentials: {
-            accessKeyId: safety.env.S3_ACCESS_KEY_ID || "",
-            secretAccessKey: safety.env.S3_SECRET_ACCESS_KEY || "",
+            accessKeyId: Safety.env.S3_ACCESS_KEY_ID || "",
+            secretAccessKey: Safety.env.S3_SECRET_ACCESS_KEY || "",
         },
         region: 'auto'
     });
@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 
 const getCloudFile = async (objectName: string) => {
     const params: S3.GetObjectRequest = {
-        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
+        Bucket: Safety.env.S3_BUCKET_NAME || "BucketNotSet",
         Key: objectName,
     };
     try {
@@ -91,7 +91,7 @@ const listCloudFiles = async (prefix: string) => {
 
     const listObjects = async (ContinuationToken?: string) => {
         const params: S3.ListObjectsV2Request = {
-            Bucket: safety.env.S3_BUCKET_NAME,
+            Bucket: Safety.env.S3_BUCKET_NAME,
             Prefix: prefix,
             ContinuationToken,
         };
@@ -110,7 +110,7 @@ const listCloudFiles = async (prefix: string) => {
 const createCloudStorageFolder = async (uid: string) => {
     const folderName = `CloudStorage/${uid}/`;
     const params: S3.PutObjectRequest = {
-        Bucket: safety.env.S3_BUCKET_NAME,
+        Bucket: Safety.env.S3_BUCKET_NAME,
         Key: folderName,
         Body: "",
         ContentType: "application/x-directory",
@@ -120,9 +120,9 @@ const createCloudStorageFolder = async (uid: string) => {
 
 //.Ini Stuff
 app.get("/fortnite/api/cloudstorage/system", async (req, res) => {
-    if (safety.env.USE_S3) {
+    if (Safety.env.USE_S3) {
         try {
-            const uid = safety.env.NAME;
+            const uid = Safety.env.NAME;
             const folderName = `CloudStorage/${uid}`;
 
             const folderObjects = await listCloudFiles(`${folderName}/`);
@@ -152,7 +152,7 @@ app.get("/fortnite/api/cloudstorage/system", async (req, res) => {
                 if (!object) {
                     const fileData = fs.readFileSync(path.join(__dirname, "../../", "CloudStorage", file));
                     const params: S3.PutObjectRequest = {
-                        Bucket: safety.env.S3_BUCKET_NAME || "BucketNotSet",
+                        Bucket: Safety.env.S3_BUCKET_NAME || "BucketNotSet",
                         Key: key,
                         Body: fileData,
                         ContentType: "application/octet-stream",
@@ -210,9 +210,9 @@ app.get("/fortnite/api/cloudstorage/system", async (req, res) => {
 
 app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 
-    if (safety.env.USE_S3) {
+    if (Safety.env.USE_S3) {
         const fileName = req.params.file;
-        const key = `CloudStorage/${safety.env.NAME || ""}/${fileName}`;
+        const key = `CloudStorage/${Safety.env.NAME || ""}/${fileName}`;
 
         const s3Object = await getCloudFile(key);
 
@@ -241,7 +241,7 @@ app.get("/fortnite/api/cloudstorage/system/:file", async (req, res) => {
 app.get("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res) => {
     const userid = req.params[0];
 
-    if (safety.env.USE_S3 == true) {
+    if (Safety.env.USE_S3 == true) {
 
         if (req.params.file.toLowerCase() !== "clientsettings.sav") {
             return res.status(404).json({
@@ -250,16 +250,14 @@ app.get("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res)
         }
 
         const fileName = req.params.file;
-        const key = `CloudStorage/${safety.env.NAME}/${userid}/${fileName}`;
+        const key = `CloudStorage/${Safety.env.NAME}/${userid}/${fileName}`;
 
         const s3Object = await getCloudFile(key);
 
         //if s3 object is 0 bytes, return 404
         if (s3Object && s3Object.toString().length === 0) {
-            log.debug("File is 0 bytes, returning 404");
-            return res.status(404).json({
-                "error": "file not found"
-            });
+            log.debug("File is 0 bytes, returning 204");
+            return res.status(204).end();
         }
 
         if (!s3Object) {
@@ -299,8 +297,8 @@ app.get("/fortnite/api/cloudstorage/user/:accountId", verifyToken, async (req, r
         return res.json([cachedFile]);
     }
 
-    if (safety.env.USE_S3) {
-        const key = `CloudStorage/${safety.env.NAME}/${userId}/ClientSettings.Sav`;
+    if (Safety.env.USE_S3) {
+        const key = `CloudStorage/${Safety.env.NAME}/${userId}/ClientSettings.Sav`;
         const s3Object = await getCloudFile(key);
 
         if (s3Object) {
@@ -356,17 +354,14 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res)
         return res.status(404).json({ error: "file not found" });
     }
 
-    if (safety.env.USE_S3) {
-        const key = `CloudStorage/${safety.env.NAME || "NameNotSet"}/${userId}/ClientSettings.Sav`;
+    if (Safety.env.USE_S3) {
+        const key = `CloudStorage/${Safety.env.NAME || "NameNotSet"}/${userId}/ClientSettings.Sav`;
         const params: S3.PutObjectRequest = {
-            Bucket: safety.env.S3_BUCKET_NAME,
+            Bucket: Safety.env.S3_BUCKET_NAME,
             Key: key,
             Body: req.rawBody,
             ContentType: "application/octet-stream",
         };
-        s3.deleteObject(params, (err: AWSError, data: S3.DeleteObjectOutput) => {
-            if (err) console.error(err);
-        });
         s3.putObject(params, (err: AWSError, data: S3.PutObjectOutput) => {
             if (err) console.error(err);
         });

@@ -5,3 +5,5 @@ build
 .env
 package-lock.json
 missing-endpoints.json
+state
+tokens.json

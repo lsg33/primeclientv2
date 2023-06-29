@@ -4,11 +4,11 @@ const dotenv = require("dotenv");
 const path = require("path");
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 import logger from '../utilities/structs/log';
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const fs = require('node:fs');
-const token = safety.env.BOT_TOKEN;
+const token = Safety.env.BOT_TOKEN;
 
 const client = new Client({
 	partials: ['CHANNEL', "MESSAGE", "REACTION"],

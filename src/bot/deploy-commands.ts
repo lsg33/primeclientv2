@@ -5,13 +5,13 @@ const path = require("path");
 import client from ".";
 import log from "../utilities/structs/log";
 import logger from "../utilities/structs/log";
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
 const Discord = require("discord.js");
 
 const { REST, Routes } = require('discord.js');
-const guildId = safety.env.GUILD_ID;
-const token = safety.env.BOT_TOKEN;
+const guildId = Safety.env.GUILD_ID;
+const token = Safety.env.BOT_TOKEN;
 
 const fs = require('node:fs');
 
@@ -37,7 +37,7 @@ const rest = new REST().setToken(token);
 	try {
 		logger.debug(`Started refreshing ${commands.length} application (/) commands.`);
 		let data: string | any[];
-		if (safety.isDev === true) {
+		if (Safety.isDev === true) {
 			log.warn("In dev mode, deploying to guild");
 			data = await rest.put(
 				Routes.applicationGuildCommands(global.clientId, guildId),

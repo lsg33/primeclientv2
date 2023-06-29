@@ -12,14 +12,14 @@ import error from "./utilities/structs/error";
 import functions from "./utilities/structs/functions";
 import kv from './utilities/kv';
 import log from './utilities/structs/log';
-import safety from './utilities/safety';
+import Safety from './utilities/safety';
 import update from './utilities/update';
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
 async function main() {
 
-    await safety.airbag();
+    await Safety.airbag();
 
     try {
         await update.checkForUpdate(packageJson.version);
@@ -28,12 +28,12 @@ async function main() {
     }
 
     global.JWT_SECRET = functions.MakeID();
-    const PORT = safety.env.PORT;
+    const PORT = Safety.env.PORT;
 
     let redisTokens: any;
     let tokens: any;
 
-    if (safety.env.USE_REDIS == true) {
+    if (Safety.env.USE_REDIS == true) {
         redisTokens = await kv.get('tokens');
         try {
             tokens = JSON.parse(redisTokens);
@@ -80,7 +80,7 @@ async function main() {
         mongoose.set("strictQuery", true);
 
         mongoose
-            .connect(safety.env.MONGO_URI)
+            .connect(Safety.env.MONGO_URI)
             .then(() => {
                 logger.backend("Connected to MongoDB");
             })

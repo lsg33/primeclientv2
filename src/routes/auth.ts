@@ -12,7 +12,7 @@ import error from "../utilities/structs/error";
 import functions from "../utilities/structs/functions";
 import client from "../bot/index";
 import log from "../utilities/structs/log";
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 
 const tokenCreation = require("../tokenManager/tokenCreation.js");
 const { verifyToken } = require("../tokenManager/tokenVerify.js");
@@ -98,7 +98,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             log.debug(`Reboot account: ${rebootAccount}`);
 
-            if (rebootAccount && safety.env.ALLOW_REBOOT) {
+            if (rebootAccount && Safety.env.ALLOW_REBOOT) {
                 const findUser = await User.findOne({ email: email.toLowerCase() });
                 if (findUser) {
                     req.user = findUser;

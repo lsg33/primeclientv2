@@ -2,7 +2,7 @@ export { };
 
 import functions from "../utilities/structs/functions";
 import kv from "../utilities/kv";
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 import { WebSocket } from "ws";
 import { Request } from "express";
 import { io } from "socket.io-client";
@@ -10,7 +10,7 @@ import log from "../utilities/structs/log";
 
 const User = require("../model/user");
 
-const bote = safety.env.NAME;
+const bote = Safety.env.NAME;
 
 type Client = {
     matchmakingId: string,
@@ -21,7 +21,7 @@ type Client = {
 const socket = io("http://195.201.96.214:3089", {
     transports: ["websocket"],
     extraHeaders: {
-        "key": safety.env.LINK_SECRET
+        "key": Safety.env.LINK_SECRET
     }
 });
 

@@ -1,5 +1,5 @@
 import log from "../utilities/structs/log";
-import safety from "../utilities/safety";
+import Safety from "../utilities/safety";
 
 export { };
 
