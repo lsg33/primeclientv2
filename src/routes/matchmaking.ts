@@ -54,12 +54,22 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     const matchmakerIP = Safety.env.MATCHMAKER_IP;
 
-    res.json({
-        "serviceUrl": `ws://${matchmakerIP}`,
-        "ticketType": "mms-player",
-        "payload": "account",
-        "signature": `${req.user.matchmakingId} ${playlist}`
-    });
+    //This annoyed be bc i couldnt easily edit it to ssl when using Docker
+    if (matchmakerIP.includes("ws") || matchmakerIP.includes("wss")) {
+        return res.json({
+            "serviceUrl": matchmakerIP,
+            "ticketType": "mms-player",
+            "payload": "account",
+            "signature": `${req.user.matchmakingId} ${playlist}`
+        });
+    } else {
+        res.json({
+            "serviceUrl": `ws://${matchmakerIP}`,
+            "ticketType": "mms-player",
+            "payload": "account",
+            "signature": `${req.user.matchmakingId} ${playlist}`
+        });
+    }
 
 });
 
