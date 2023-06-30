@@ -6,4 +6,4 @@ build
 package-lock.json
 missing-endpoints.json
 tokens.json
-states/redis.json
+state/redis.json

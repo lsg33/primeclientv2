@@ -7,6 +7,9 @@ class Update {
         log.debug(`Latest version: ${packageJson.version}`);
         log.debug(`Current version: ${currentVersion}`);
 
+        packageJson.version = packageJson.version.replace(".", "").replace(".", "").replace(".", "");
+        currentVersion = currentVersion.replace(".", "").replace(".", "").replace(".", "");
+
         if (parseFloat(packageJson.version) > parseFloat(currentVersion)) {
             const message = `Update available! ${currentVersion} -> ${packageJson.version}`;
             log.warn(`${message}\nDownload it from the GitHub repo or repull the image if you're using Docker`);
