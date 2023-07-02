@@ -15,7 +15,9 @@ Join our discord at https://discord.gg/7njfwrAqTd
 - [x] Easy to use and set up
 - [x] Customizable
 - [x] Frequently updated
-- [x] Tournament support
+- [x] 2FA Feature
+- [x] New item shop every day **automatically**
+- [x] Fully featured matchmaker with queue
 
 ## Installation
 
