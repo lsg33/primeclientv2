@@ -42,7 +42,20 @@ app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipient
     const athena = profiles!.profiles["athena"];
 
     for (const itemGrant of findOfferId.offerId.itemGrants) {
-        if (athena.items.some(item => itemGrant.templateId.toLowerCase() == item.templateId.toLowerCase())) {
+        console.log(athena.items);
+
+        if (!athena.items || typeof athena.items !== 'object') {
+            return error.createError(
+                "errors.com.epicgames.modules.gamesubcatalog.purchase_not_allowed",
+                `Could not purchase catalog offer ${findOfferId.offerId.devName}, item ${itemGrant.templateId} as 'items' is not an object`,
+                [findOfferId.offerId.devName, itemGrant.templateId], 28004, undefined, 403, res
+            );
+        }
+
+        const templateIdLowerCase = itemGrant.templateId.toLowerCase();
+        const itemKeys = Object.keys(athena.items);
+
+        if (itemKeys.some(itemKey => itemKey.toLowerCase() === templateIdLowerCase)) {
             return error.createError(
                 "errors.com.epicgames.modules.gamesubcatalog.purchase_not_allowed",
                 `Could not purchase catalog offer ${findOfferId.offerId.devName}, item ${itemGrant.templateId}`,

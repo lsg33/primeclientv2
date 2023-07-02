@@ -7,3 +7,4 @@ package-lock.json
 missing-endpoints.json
 tokens.json
 state/redis.json
+Config/catalog_config.json
