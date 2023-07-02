@@ -26,8 +26,8 @@ module.exports = {
         const selectedUserId: Number = selectedUser.id;
 
         const user = await Users.findOne({ discordId: selectedUserId });
-        const profile = await Profiles.findOne({ accountId: user.accountId });
         if (!user) return interaction.reply({ content: "That user does not own an account", ephemeral: true });
+        const profile = await Profiles.findOne({ accountId: user.accountId });
         if(!profile) return interaction.reply({ content: "That user does not have a profile", ephemeral: true });
 
         const allItems = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../../Config/DefaultProfiles/allathena.json"), 'utf8'))
