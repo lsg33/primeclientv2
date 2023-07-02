@@ -27,21 +27,18 @@ class Shop {
 
     }
 
-    public async updateShop() {
+    public async updateShop(): Promise<string[]> {
 
-        const shop = await fetch(`http://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+        const newItems: any[] = [];
+
+        const shop = await fetch(`http://127.0.0.1:8080/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
                 'x-api-key': safety.env.SHOP_API_KEY
             }
-        }).catch((err) => {
-            if (err.status == 401) {
-                console.log("Invalid API key");
-                return process.exit(1);
-            }
-        });
+        })
 
-        if (!shop) return;
+        if (!shop) return [];
 
         const shopJSON = await shop.json();
         const dailyItems = shopJSON[0].daily;
@@ -56,6 +53,8 @@ class Shop {
             catalog[`daily${i + 1}`].price = itemPrice;
             catalog[`daily${i + 1}`].itemGrants = [`${shopName}`];
 
+            newItems.push(dailyItems[i]);
+
             //console.log(`Added ${shopName} to catalog as daily with price ${itemPrice}`);
 
         }
@@ -66,6 +65,8 @@ class Shop {
 
             catalog[`featured${i + 1}`].price = itemPrice;
             catalog[`featured${i + 1}`].itemGrants = [`${shopName}`];
+
+            newItems.push(shopJSON[1].featured[i]);
 
             //console.log(`Added ${shopName} to catalog as featured with price ${itemPrice}`);
 
@@ -80,6 +81,8 @@ class Shop {
         //set expiration to current time + 24 hours
 
         fs.writeFileSync(path.join(__dirname, "../../responses/catalog.json"), JSON.stringify(catalogJson, null, 2));
+
+        return newItems;
     }
 }
 
