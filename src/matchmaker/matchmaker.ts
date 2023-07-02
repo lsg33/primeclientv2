@@ -32,8 +32,6 @@ socket.on("connect", () => {
 
 //On error connecting to socket.io server
 socket.on("connect_error", (err: any) => {
-    console.log("Error connecting to socket.io server");
-    console.log(err);
 });
 
 
