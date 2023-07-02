@@ -31,7 +31,7 @@ class Shop {
 
         const newItems: any[] = [];
 
-        const shop = await fetch(`http://127.0.0.1:8080/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+        const shop = await fetch(`https://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
                 'x-api-key': safety.env.SHOP_API_KEY
