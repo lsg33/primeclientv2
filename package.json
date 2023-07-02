@@ -11,6 +11,7 @@
     "aws-sdk": "^2.1386.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
+    "croner": "^6.0.5",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
     "escape-string-regexp": "^5.0.0",

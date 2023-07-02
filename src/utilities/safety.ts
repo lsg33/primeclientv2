@@ -18,6 +18,8 @@ interface iEnv {
     ALLOW_REBOOT: boolean;
     MATCHMAKER_IP: string;
     LINK_SECRET: string;
+    SHOP_API_KEY: string;
+    MAIN_SEASON: number;
     USE_S3: boolean;
     S3_BUCKET_NAME: string;
     S3_ENDPOINT: string;
@@ -59,6 +61,8 @@ export class Safety {
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
         LINK_SECRET: process.env.LINK_SECRET as string,
+        SHOP_API_KEY: process.env.SHOP_API_KEY as string,
+        MAIN_SEASON: parseInt(process.env.MAIN_SEASON as string),
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME as string,
         S3_ENDPOINT: process.env.S3_ENDPOINT as string,

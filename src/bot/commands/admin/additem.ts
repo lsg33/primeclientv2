@@ -36,6 +36,7 @@ module.exports = {
         const selectedUserId = selectedUser!.id;
 
         const user = await Users.findOne({ discordId: selectedUserId });
+        if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
         const profile = await Profiles.findOne({ accountId: user.accountId });
         if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
         if (!profile) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });

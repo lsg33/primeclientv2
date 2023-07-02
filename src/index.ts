@@ -14,6 +14,17 @@ import kv from './utilities/kv';
 import log from './utilities/structs/log';
 import Safety from './utilities/safety';
 import update from './utilities/update';
+import Shop from './utilities/shop';
+import { Cron } from "croner";
+
+if(Safety.env.SHOP_API_KEY !== "") {
+    Shop.testKey();
+    log.backend("Starting shop cron")
+    const shopCron = Cron('0 0 * * *', () => {
+        console.log("Updating shop");
+        Shop.updateShop();
+    });    
+}
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 

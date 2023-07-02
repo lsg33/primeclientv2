@@ -191,12 +191,14 @@ class functions {
                     CatalogEntry.itemGrants.push({ "templateId": itemGrant, "quantity": 1 });
                 }
 
+                const timeIn2MinutesISO = new Date(Date.now() + 86400000).toISOString();
+
                 CatalogEntry.prices = [{
                     "currencyType": "MtxCurrency",
                     "currencySubType": "",
                     "regularPrice": CatalogConfig[value].price,
                     "finalPrice": CatalogConfig[value].price,
-                    "saleExpiration": "9999-12-02T01:12:00Z",
+                    "saleExpiration": timeIn2MinutesISO,
                     "basePrice": CatalogConfig[value].price
                 }];
 

@@ -1,35 +1,51 @@
 {
     "//": "BR Item Shop Config",
     "daily1": {
-        "itemGrants": ["AthenaCharacter:cid_001_athena_commando_f_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaEmoji:Emoji_S10Lvl100"
+        ],
+        "price": 200
     },
     "daily2": {
-        "itemGrants": ["AthenaCharacter:cid_002_athena_commando_f_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaCharacter:CID_684_Athena_Commando_F_DragonRacer"
+        ],
+        "price": 1200
     },
     "daily3": {
-        "itemGrants": ["AthenaCharacter:cid_003_athena_commando_f_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaSpray:SPID_153_KnightRemix"
+        ],
+        "price": 200
     },
     "daily4": {
-        "itemGrants": ["AthenaCharacter:cid_004_athena_commando_f_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaPickaxe:Pickaxe_ID_250_Lopex"
+        ],
+        "price": 800
     },
     "daily5": {
-        "itemGrants": ["AthenaCharacter:cid_005_athena_commando_m_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaCharacter:CID_724_Athena_Commando_M_SpyTech"
+        ],
+        "price": 1200
     },
     "daily6": {
-        "itemGrants": ["AthenaCharacter:cid_006_athena_commando_m_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaGlider:Glider_ID_207_InformerMale"
+        ],
+        "price": 800
     },
     "featured1": {
-        "itemGrants": ["AthenaCharacter:cid_007_athena_commando_m_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaDance:EID_ShaolinSipUp"
+        ],
+        "price": 200
     },
     "featured2": {
-        "itemGrants": ["AthenaCharacter:cid_008_athena_commando_m_default"],
-        "price": 0
+        "itemGrants": [
+            "AthenaPickaxe:Pickaxe_ID_STW001_Tier_1"
+        ],
+        "price": 800
     }
 }

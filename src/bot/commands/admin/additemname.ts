@@ -35,6 +35,7 @@ module.exports = {
         let username = interaction.options.getString('username');
 
         const user = await Users.findOne({ username_lower: username.toLowerCase() });
+        if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
         const profile = await Profiles.findOne({ accountId: user.accountId });
         if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
         if (!profile) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
