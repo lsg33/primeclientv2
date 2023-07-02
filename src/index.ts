@@ -28,6 +28,11 @@ if(Safety.env.SHOP_API_KEY !== "") {
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
+const updateCron = Cron('0 */30 * * * *', () => {
+    console.log("Checking for updates");
+    update.checkForUpdate(packageJson.version);
+});  
+
 async function main() {
 
     await Safety.airbag();
