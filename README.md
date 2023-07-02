@@ -18,6 +18,7 @@ Join our discord at https://discord.gg/7njfwrAqTd
 - [x] 2FA Feature
 - [x] New item shop every day **automatically**
 - [x] Fully featured matchmaker with queue
+- [x] Working gifting
 
 ## Installation
 
