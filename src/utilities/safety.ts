@@ -18,7 +18,6 @@ interface iEnv {
     GAME_SERVERS: string[];
     ALLOW_REBOOT: boolean;
     MATCHMAKER_IP: string;
-    LINK_SECRET: string;
     MAIN_SEASON: number;
     USE_S3: boolean;
     S3_BUCKET_NAME: string;
@@ -64,7 +63,6 @@ export class Safety {
         GAME_SERVERS: process.env.GAME_SERVERS?.split("_") as string[],
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
-        LINK_SECRET: process.env.LINK_SECRET as string,
         MAIN_SEASON: parseInt(process.env.MAIN_SEASON as string),
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME as string,
