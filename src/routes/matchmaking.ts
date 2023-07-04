@@ -11,8 +11,15 @@ const app = express.Router();
 import functions from "../utilities/structs/functions";
 const MMCode = require("../model/mmcodes");
 const { verifyToken } = require("../tokenManager/tokenVerify");
-const qs = require('qs');
+import qs from "qs";
 import error from "../utilities/structs/error";
+
+interface iCodeDocument {
+    code_lower: string,
+    ip: string,
+    region: string,
+    playlist: string,
+}
 
 let buildUniqueId = {};
 
@@ -21,31 +28,33 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
     res.status(200).end();
 });
 
-const codeCache = new Map<string, typeof MMCode>();
-
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
-    const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'];
+    const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'] as string;
     const bucketId = qs.parse(req.query, { ignoreQueryPrefix: true })['bucketId'];
+    if (typeof bucketId !== "string" || bucketId.split(":").length !== 4) {
+        return res.status(400).end();
+    }
     const region = bucketId.split(":")[2];
     const playlist = bucketId.split(":")[3];
 
-    let codeDocument: iMMCodes | null = null;
-    if (playerCustomKey) {
-        codeDocument = codeCache.get(playerCustomKey);
-        if (!codeDocument) {
-            codeDocument = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
-            if (!codeDocument) {
-                return error.createError(
-                    "errors.com.epicgames.common.matchmaking.code.not_found",
-                    "Your matchmaking code does not exist, please create it using the Discord bot",
-                    [], 1013, "invalid_code", 404, res
-                );
-            }
-            codeCache.set(playerCustomKey, codeDocument);
-        }
-        await kv.set(`playerCustomKey:${req.user.accountId}`, codeDocument);
-    }
+    if (typeof playerCustomKey == "string") {
 
+        let codeDocument: iMMCodes = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
+        if (!codeDocument) {
+            return error.createError(
+                "errors.com.epicgames.common.matchmaking.code.not_found",
+                `The matchmaking code "${playerCustomKey}" was not found`,
+                [], 1013, "invalid_code", 404, res
+            );
+        }
+
+        const kvDocument = JSON.stringify({
+            ip: codeDocument.ip,
+            port: codeDocument.port,
+            playlist: playlist,
+        })
+        await kv.set(`playerCustomKey:${req.user.accountId}`, kvDocument);
+    }
     if (typeof req.query.bucketId !== "string" || req.query.bucketId.split(":").length !== 4) {
         return res.status(400).end();
     }
@@ -54,22 +63,12 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     const matchmakerIP = Safety.env.MATCHMAKER_IP;
 
-    //This annoyed be bc i couldnt easily edit it to ssl when using Docker
-    if (matchmakerIP.includes("ws") || matchmakerIP.includes("wss")) {
-        return res.json({
-            "serviceUrl": matchmakerIP,
-            "ticketType": "mms-player",
-            "payload": "account",
-            "signature": `${req.user.matchmakingId} ${playlist}`
-        });
-    } else {
-        res.json({
-            "serviceUrl": `ws://${matchmakerIP}`,
-            "ticketType": "mms-player",
-            "payload": "account",
-            "signature": `${req.user.matchmakingId} ${playlist}`
-        });
-    }
+    return res.json({
+        "serviceUrl": matchmakerIP.includes("ws") || matchmakerIP.includes("wss") ? matchmakerIP : `ws://${matchmakerIP}`,
+        "ticketType": "mms-player",
+        "payload": "account",
+        "signature": `${req.user.matchmakingId} ${playlist}`
+    })
 
 });
 
@@ -85,10 +84,18 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
 
     const user: iUser = await decode.decodeAuth(req) as iUser;
 
-    let codeKV = await kv.get(`playerCustomKey:${user.accountId}`) ?? {
-        ip: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[0],
-        port: parseInt(Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[1])
-    };
+    let kvDocument = await kv.get(`playerCustomKey:${req.user.accountId}`);
+    if (!kvDocument) {
+        kvDocument = JSON.stringify({
+            ip: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[0],
+            port: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[1],
+            playlist: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[2]
+        })
+    }
+
+    let codeKV = JSON.parse(kvDocument);
+
+    console.log(codeKV.ip, codeKV.port, codeKV.playlist);
 
     res.json({
         "id": req.params.sessionId,
@@ -96,7 +103,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
         "ownerName": "[DS]fortnite-liveeugcec1c2e30ubrcore0a-z8hj-1968",
         "serverName": "[DS]fortnite-liveeugcec1c2e30ubrcore0a-z8hj-1968",
         "serverAddress": codeKV.ip,
-        "serverPort": codeKV.port.toString(),
+        "serverPort": codeKV.port,
         "maxPublicPlayers": 220,
         "openPublicPlayers": 175,
         "maxPrivatePlayers": 0,
@@ -111,7 +118,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
             "MATCHMAKINGPOOL_s": "Any",
             "STORMSHIELDDEFENSETYPE_i": 0,
             "HOTFIXVERSION_i": 0,
-            "PLAYLISTNAME_s": "Playlist_DefaultSolo",
+            "PLAYLISTNAME_s": codeKV.playlist,
             "SESSIONKEY_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
             "TENANT_s": "Fortnite",
             "BEACONPORT_i": 15009

@@ -60,7 +60,7 @@ export class Safety {
         GUILD_ID: process.env.GUILD_ID as string,
         NAME: process.env.NAME as string,
         PORT: parseInt(process.env.PORT as string),
-        GAME_SERVERS: process.env.GAME_SERVERS?.split("_") as string[],
+        GAME_SERVERS: process.env.GAME_SERVERS?.split(" ") as string[],
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
         MAIN_SEASON: parseInt(process.env.MAIN_SEASON as string),
@@ -80,26 +80,31 @@ export class Safety {
 
     public async registerLoopKey(): Promise<boolean> {
 
-        const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
-            method: 'PUT',
-            headers: {
-                "loopkey": await this.getLoopKey()
-            }
-        }).then(res => res.json())
+        try {
+            const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
+                method: 'PUT',
+                headers: {
+                    "loopkey": await this.getLoopKey()
+                }
+            }).then(res => res.json())
 
-        if (registration.status !== "ok") {
-            fs.existsSync(path.resolve(__dirname, "../../state/loopkey.json")) && fs.unlinkSync(path.resolve(__dirname, "../../state/loopkey.json"));
-            if (registration.error === "Loopkey already registered") {
-                log.debug("Loopkey already registered. Continuing...");
-                return true;
+            if (registration.status !== "ok") {
+                fs.existsSync(path.resolve(__dirname, "../../state/loopkey.json")) && fs.unlinkSync(path.resolve(__dirname, "../../state/loopkey.json"));
+                if (registration.error === "Loopkey already registered") {
+                    log.debug("Loopkey already registered. Continuing...");
+                    return true;
+                } else {
+                    log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
+                }
+                return false;
             } else {
-                log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
+                log.backend("Loopkey registration successful. Please restart the backend.");
+                process.exit(0);
+                return true;
             }
+        } catch (error) {
+            log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
             return false;
-        } else {
-            log.backend("Loopkey registration successful. Please restart the backend.");
-            process.exit(0);
-            return true;
         }
 
     }
@@ -111,6 +116,9 @@ export class Safety {
         try {
             if (!fs.existsSync(path.resolve(loopKeyPath))) {
                 const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+                if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
+                    fs.mkdirSync(path.resolve(__dirname, "../../state/"));
+                }
                 fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
                     "loopkey": loopKey
                 }));
@@ -120,6 +128,9 @@ export class Safety {
                 const loopKey = JSON.parse(fs.readFileSync(path.resolve(loopKeyPath), "utf-8")).loopkey;
                 if (loopKey === undefined || loopKey === null || loopKey === "") {
                     const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+                    if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
+                        fs.mkdirSync(path.resolve(__dirname, "../../state/"));
+                    }
                     fs.writeFileSync(path.resolve(loopKeyPath), JSON.stringify({
                         "loopkey": loopKey
                     }));
@@ -129,6 +140,9 @@ export class Safety {
             }
         } catch (error) {
             const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+            if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
+                fs.mkdirSync(path.resolve(__dirname, "../../state/"));
+            }
             fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
                 "loopkey": loopKey
             }));
@@ -136,87 +150,83 @@ export class Safety {
             return loopKey;
         }
     }
-
     public async airbag(): Promise<boolean> {
-
         try {
-            const fileBuffer = fs.readFileSync(path.join(__dirname, '../../responses/contentpages.json'));
+            const stateDir = path.join(__dirname, ".././state/");
+            if (!fs.existsSync(stateDir)) {
+                fs.mkdirSync(stateDir);
+            }
+
+            const contentPagesPath = path.join(__dirname, '../../responses/contentpages.json');
+            const fileBuffer = fs.readFileSync(contentPagesPath);
             const hashSum = crypto.createHash('sha256');
             hashSum.update(fileBuffer);
             const sha256 = hashSum.digest('hex');
 
             if (sha256 !== "487d56b51a3f4b4287cb692916d039b1e8fc4b1d5cb942cc2c8e86f5284f51b1") {
-                await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json")
-                    .then(res => res.json())
-                    .then(json => {
-                        fs.writeFileSync(path.join(__dirname, '../../responses/contentpages.json'), JSON.stringify(json));
-                    });
+                const res = await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json");
+                const json = await res.json();
+                fs.writeFileSync(contentPagesPath, JSON.stringify(json));
             }
-        } catch (e: any) {
-            console.log("An error occured, but the program will continue.");
-        }
 
-        if (parseInt(process.version.slice(1)) < 18) {
-            throw new Error(`Your node version is too old, please update to at least 18. Your version: ${process.version}`);
-        }
+            if (parseInt(process.version.slice(1)) < 18) {
+                throw new Error(`Your node version is too old, please update to at least 18. Your version: ${process.version}`);
+            }
 
-        try {
             if (this.env.USE_REDIS) {
-                let redisstate = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../state/redis.json"), "utf-8"));
-                if (!redisstate.knownUrls.includes(this.env.REDIS_URL)) {
-                    redisstate.knownUrls.push(this.env.REDIS_URL);
-                    fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify(redisstate));
+                const redisStatePath = path.resolve(__dirname, "../../state/redis.json");
+                const redisState = fs.existsSync(redisStatePath) ? JSON.parse(fs.readFileSync(redisStatePath, "utf-8")) : { knownUrls: [] };
+                if (!redisState.knownUrls.includes(this.env.REDIS_URL)) {
+                    redisState.knownUrls.push(this.env.REDIS_URL);
+                    fs.writeFileSync(redisStatePath, JSON.stringify(redisState));
                     log.debug("Redis URL is not known, adding to known URLs.");
                     await kv.set("tokens", JSON.stringify({
                         "accessTokens": [],
                         "refreshTokens": [],
                         "clientTokens": []
-                    })
-                    );
+                    }));
                 } else {
                     log.debug("Redis URL is already known, skipping.");
                 }
             }
-        } catch (e) {
-            fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify({
-                "knownUrls": [this.env.REDIS_URL]
-            }));
-        }
 
-        try {
-            JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../tokens.json"), "utf-8"));
-        } catch (e) {
-            fs.writeFileSync(path.resolve(__dirname, "../../tokens.json"), JSON.stringify({
-                "accessTokens": [],
-                "refreshTokens": [],
-                "clientTokens": []
-            }));
-        }
+            const tokensPath = path.resolve(__dirname, "../../tokens.json");
+            if (!fs.existsSync(tokensPath)) {
+                fs.writeFileSync(tokensPath, JSON.stringify({
+                    "accessTokens": [],
+                    "refreshTokens": [],
+                    "clientTokens": []
+                }));
+            }
 
-        let missingVariables: string[] = [];
+            let missingVariables: string[] = [];
 
-        for (const [key, value] of Object.entries(this.env)) {
-            if (value === undefined) {
-                if (key == "CLIENT_ID" || key == "GUILD_ID") {
-                    continue;
-                } else {
-                    missingVariables.push(key);
+            for (const [key, value] of Object.entries(this.env)) {
+                if (value === undefined) {
+                    if (key == "CLIENT_ID" || key == "GUILD_ID") {
+                        continue;
+                    } else {
+                        missingVariables.push(key);
+                    }
+                }
+                if (key === "NAME") {
+                    if (typeof value === "string" && value.length > 16) {
+                        throw new TypeError(`The environment variable ${key} is too long, please declare it in the .env file.`);
+                    } else {
+                        this.env[key] = typeof value === "string" ? value.replace(/ /g, "_") : value;
+                    }
                 }
             }
-            if (key === "NAME") {
-                if (typeof value === "string" && value.length > 16) {
-                    throw new TypeError(`The environment variable ${key} is too long, please declare it in the .env file.`);
-                } else {
-                    this.env[key] = typeof value === "string" ? value.replace(/ /g, "_") : value;
-                }
+
+            if (missingVariables.length > 0) {
+                throw new TypeError(`The environment ${missingVariables.length > 1 ? "variables" : "variable"} ${missingVariables.join(", ")} ${missingVariables.length > 1 ? "are" : "is"} missing, please declare ${missingVariables.length > 1 ? "them" : "it"} in the .env file.`);
             }
-        }
 
-        if (missingVariables.length > 0) {
-            throw new TypeError(`The environment ${missingVariables.length > 1 ? "variables" : "variable"} ${missingVariables.join(", ")} ${missingVariables.length > 1 ? "are" : "is"} missing, please declare ${missingVariables.length > 1 ? "them" : "it"} in the .env file.`);
+            return true;
+        } catch (error) {
+            console.error("Error in airbag(): ", error);
+            return false;
         }
-
-        return true;
     }
 }
 

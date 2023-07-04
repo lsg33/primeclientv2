@@ -2,50 +2,50 @@
     "//": "BR Item Shop Config",
     "daily1": {
         "itemGrants": [
-            "AthenaCharacter:CID_559_Athena_Commando_F_RebirthDefaultD"
-        ],
-        "price": 500
-    },
-    "daily2": {
-        "itemGrants": [
-            "AthenaBackpack:BID_127_PlagueMale"
-        ],
-        "price": 1200
-    },
-    "daily3": {
-        "itemGrants": [
-            "AthenaCharacter:CID_608_Athena_Commando_F_ModernWitch"
-        ],
-        "price": 1500
-    },
-    "daily4": {
-        "itemGrants": [
-            "AthenaPickaxe:Pickaxe_ID_021_Megalodon"
+            "AthenaPickaxe:Pickaxe_ID_305_Phantom1H"
         ],
         "price": 800
     },
+    "daily2": {
+        "itemGrants": [
+            "AthenaDance:EID_DanceMoves"
+        ],
+        "price": 500
+    },
+    "daily3": {
+        "itemGrants": [
+            "AthenaPickaxe:Pickaxe_ID_314_WeepingWoodsMale1H"
+        ],
+        "price": 800
+    },
+    "daily4": {
+        "itemGrants": [
+            "AthenaItemWrap:Wrap_232_BadEgg"
+        ],
+        "price": 200
+    },
     "daily5": {
         "itemGrants": [
-            "AthenaCharacter:CID_655_Athena_Commando_F_Barefoot"
+            "AthenaDance:EID_Zombie"
         ],
-        "price": 1200
+        "price": 800
     },
     "daily6": {
         "itemGrants": [
-            "AthenaGlider:Glider_ID_139_EarthDay"
+            "AthenaLoadingScreen:LSID_137_S9Cumulative07"
         ],
         "price": 500
     },
     "featured1": {
         "itemGrants": [
-            "AthenaPickaxe:Pickaxe_ID_170_Aztec"
+            "AthenaCharacter:CID_694_Athena_Commando_M_CatBurglar"
         ],
-        "price": 800
+        "price": 2000
     },
     "featured2": {
         "itemGrants": [
-            "AthenaItemWrap:Wrap_238_RainbowGlitter"
+            "AthenaCharacter:CID_013_Athena_Commando_F"
         ],
-        "price": 500
+        "price": 800
     }
 }
