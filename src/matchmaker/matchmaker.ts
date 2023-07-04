@@ -27,7 +27,6 @@ const socket = io("https://matchmaker.nexusfn.net", {
 
 //Connect to socket.io server
 socket.on("connect", () => {
-    log.backend("Connected to socket.io server");
 });
 
 //On error connecting to socket.io server

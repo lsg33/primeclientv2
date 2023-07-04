@@ -10,7 +10,7 @@ import kv from "../utilities/kv";
 import logger from '../utilities/structs/log';
 import error from "../utilities/structs/error";
 import functions from "../utilities/structs/functions";
-import client from "../bot/index";
+import { client } from "../bot/index";
 import log from "../utilities/structs/log";
 import Safety from "../utilities/safety";
 
@@ -20,9 +20,6 @@ const User = require("../model/user");
 
 const { Events } = require('discord.js');
 
-client.once(Events.ClientReady, c => {
-    logger.bot(`MFA Bot ready! Logged in as ${c.user.tag}`);
-});
 
 function waitFor2FA(req: { user: { discordId: any; }; }) {
     return new Promise<void>((resolve) => {

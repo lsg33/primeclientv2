@@ -6,5 +6,5 @@ build
 package-lock.json
 missing-endpoints.json
 tokens.json
-state/redis.json
+state
 Config/catalog_config.json

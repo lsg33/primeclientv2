@@ -4,6 +4,7 @@ import fs from "fs";
 import dotenv from "dotenv";
 import crypto from "crypto";
 import kv from "./kv";
+import Loopkey from ".././utilities/loopkey";
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
@@ -18,7 +19,6 @@ interface iEnv {
     ALLOW_REBOOT: boolean;
     MATCHMAKER_IP: string;
     LINK_SECRET: string;
-    SHOP_API_KEY: string;
     MAIN_SEASON: number;
     USE_S3: boolean;
     S3_BUCKET_NAME: string;
@@ -27,6 +27,10 @@ interface iEnv {
     S3_SECRET_ACCESS_KEY: string;
     USE_REDIS: boolean;
     REDIS_URL: string;
+}
+
+interface iModules {
+    [key: string]: boolean;
 }
 
 export class Safety {
@@ -61,7 +65,6 @@ export class Safety {
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
         LINK_SECRET: process.env.LINK_SECRET as string,
-        SHOP_API_KEY: process.env.SHOP_API_KEY as string,
         MAIN_SEASON: parseInt(process.env.MAIN_SEASON as string),
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
         S3_BUCKET_NAME: process.env.S3_BUCKET_NAME as string,
@@ -72,8 +75,65 @@ export class Safety {
         REDIS_URL: process.env.REDIS_URL as string,
     };
 
-    public changeEnvValue(key: string, value: string): void {
-        this.env[key] = value;
+    public modules: iModules = {
+        Shop: false,
+        Matchmaking: false,
+    }
+
+    public async registerLoopKey(): Promise<boolean> {
+
+        const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
+            method: 'PUT',
+            headers: {
+                "loopkey": await this.getLoopKey()
+            }
+        }).then(res => res.json())
+
+        if (registration.status !== "ok") {
+            if(registration.error === "Loopkey already registered") {
+                log.debug("Loopkey already registered. Continuing...");
+                return true;
+            }
+            return false;
+        } else {
+            log.warn("Loopkey registration successful. Please restart the backend.");
+            process.exit(0);
+            return true;
+        }
+
+    }
+
+    public async getLoopKey(): Promise<string> {
+
+        const loopKeyPath = path.resolve(__dirname, "../../state/loopkey.json");
+
+        try {
+            if (!fs.existsSync(path.resolve(loopKeyPath))) {
+                const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+                fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
+                    "loopkey": loopKey
+                }));
+                this.registerLoopKey();
+                return loopKey;
+            } else {
+                const loopKey = JSON.parse(fs.readFileSync(path.resolve(loopKeyPath), "utf-8")).loopkey;
+                if (loopKey === undefined || loopKey === null || loopKey === "") {
+                    const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+                    fs.writeFileSync(path.resolve(loopKeyPath), JSON.stringify({
+                        "loopkey": loopKey
+                    }));
+                    this.registerLoopKey();
+                }
+                return loopKey;
+            }
+        } catch (error) {
+            const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+            fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
+                "loopkey": loopKey
+            }));
+            this.registerLoopKey();
+            return loopKey;
+        }
     }
 
     public async airbag(): Promise<boolean> {

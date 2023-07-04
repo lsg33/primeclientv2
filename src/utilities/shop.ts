@@ -1,40 +1,38 @@
 import fs from 'fs';
 import path from 'path';
 import Safety from './safety';
-import safety from './safety';
-import error from './structs/error';
 import log from './structs/log';
 
 class Shop {
 
-    public async testKey() {
+    public async testModule(loopKey): Promise<boolean> {
 
         const test = await fetch(`http://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
-                'x-api-key': safety.env.SHOP_API_KEY
+                'loopkey': loopKey
             }
-        }).then((res) => {
-            if (res.status == 401) {
-                log.error("Invalid Shop API key. If you don't want to use auto-rotate, then leave the key blank.");
-                return process.exit(1);
-            }
-        });
+        })
 
-        log.backend("Shop API key is valid");
+        await test.json()
 
-        return;
+        if (test.status == 200) {
+            return true;
+        } else {
+            log.warn("Auto rotate has been disabled as you do not have access to it or some unknown error happened. Please go to https://discord.gg/NexusFN and enter the /purchase command to gain access or if you think this is a mistake then please contact a staff member.");
+            return false;
+        }
 
     }
 
-    public async updateShop(): Promise<string[]> {
+    public async updateShop(loopKey: string): Promise<string[]> {
 
         const newItems: any[] = [];
 
         const shop = await fetch(`https://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
-                'x-api-key': safety.env.SHOP_API_KEY
+                'loopkey': loopKey
             }
         })
 
@@ -55,8 +53,6 @@ class Shop {
 
             newItems.push(dailyItems[i]);
 
-            //console.log(`Added ${shopName} to catalog as daily with price ${itemPrice}`);
-
         }
 
         for (let i = 0; i < shopJSON[1].featured.length; i++) {
@@ -68,19 +64,9 @@ class Shop {
 
             newItems.push(shopJSON[1].featured[i]);
 
-            //console.log(`Added ${shopName} to catalog as featured with price ${itemPrice}`);
-
         }
 
         fs.writeFileSync(path.join(__dirname, "../../Config/catalog_config.json"), JSON.stringify(catalog, null, 4));
-
-        const catalogRaw = fs.readFileSync(path.join(__dirname, "../../responses/catalog.json"));
-        const catalogJson = JSON.parse(catalogRaw.toString());
-
-        catalogJson.expiration = new Date(Date.now() + 86400000).toISOString();
-        //set expiration to current time + 24 hours
-
-        fs.writeFileSync(path.join(__dirname, "../../responses/catalog.json"), JSON.stringify(catalogJson, null, 2));
 
         return newItems;
     }

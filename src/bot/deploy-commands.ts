@@ -2,7 +2,7 @@ export { }
 
 const path = require("path");
 
-import client from ".";
+import { client } from ".";
 import log from "../utilities/structs/log";
 import logger from "../utilities/structs/log";
 import Safety from "../utilities/safety";

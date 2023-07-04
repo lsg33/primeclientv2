@@ -16,26 +16,38 @@ import Safety from './utilities/safety';
 import update from './utilities/update';
 import Shop from './utilities/shop';
 import { Cron } from "croner";
-
-if(Safety.env.SHOP_API_KEY !== "") {
-    Shop.testKey();
-    log.backend("Starting shop cron")
-    const shopCron = Cron('0 0 * * *', () => {
-        console.log("Updating shop");
-        Shop.updateShop();
-    });    
-}
+import { client } from './bot';
+import modules from './utilities/modules';
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
 const updateCron = Cron('0 */30 * * * *', () => {
     console.log("Checking for updates");
     update.checkForUpdate(packageJson.version);
-});  
+});
 
 async function main() {
 
     await Safety.airbag();
+
+    await client.login(Safety.env.BOT_TOKEN);
+
+    const LOOP_KEY = await Safety.getLoopKey();
+
+    const availabeModules = await modules.getModules(LOOP_KEY);
+    if(!availabeModules) return console.log("Failed to get modules");
+
+    modules.configureModules(availabeModules as string[]);
+
+    if (Safety.modules.Shop) {
+        log.backend("Shop module enabled");
+        const shopCron = Cron('0 0 * * *', () => {
+            console.log("Updating shop");
+            Shop.updateShop(LOOP_KEY);
+        });
+    } else {
+        log.warn("Shop module disabled");
+    }
 
     try {
         await update.checkForUpdate(packageJson.version);
@@ -93,23 +105,23 @@ async function main() {
 
     global.exchangeCodes = [];
 
-        mongoose.set("strictQuery", true);
+    mongoose.set("strictQuery", true);
 
-        mongoose
-            .connect(Safety.env.MONGO_URI)
-            .then(() => {
-                logger.backend("Connected to MongoDB");
-            })
-            .catch((error) => {
-                console.error("Error connecting to MongoDB: ", error);
-            });
-
-        mongoose.connection.on("error", (err) => {
-            logger.error(
-                "MongoDB failed to connect, please make sure you have MongoDB installed and running."
-            );
-            throw err;
+    mongoose
+        .connect(Safety.env.MONGO_URI)
+        .then(() => {
+            logger.backend("Connected to MongoDB");
+        })
+        .catch((error) => {
+            console.error("Error connecting to MongoDB: ", error);
         });
+
+    mongoose.connection.on("error", (err) => {
+        logger.error(
+            "MongoDB failed to connect, please make sure you have MongoDB installed and running."
+        );
+        throw err;
+    });
 
     app.get("/", (req, res) => {
 
@@ -143,8 +155,7 @@ async function main() {
 
     app.listen(PORT, () => {
         logger.backend(`App started listening on port ${PORT}`);
-        require("./xmpp/xmpp");
-        require("./bot/index");
+        import("./xmpp/xmpp");
     }).on("error", async (err) => {
         if (err.code == "EADDRINUSE") {
             logger.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);

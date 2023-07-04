@@ -1,17 +1,13 @@
 export { }
 
-const dotenv = require("dotenv");
-const path = require("path");
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+import { User, EmbedBuilder, GuildMember, Client, Partials, Collection, Events, GatewayIntentBits, ActivityType } from 'discord.js';
+import path from 'node:path';
 import logger from '../utilities/structs/log';
-import Safety from "../utilities/safety";
 
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js');
-const fs = require('node:fs');
-const token = Safety.env.BOT_TOKEN;
+import fs from 'node:fs';
 
-const client = new Client({
-	partials: ['CHANNEL', "MESSAGE", "REACTION"],
+export const client: any = new Client({
+	partials: [Partials.Channel, Partials.Message, Partials.Reaction],
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
@@ -53,8 +49,7 @@ for (const folder of commandFolders) {
 client.once(Events.ClientReady, async c => {
 	let clientId = await client.application?.id;
 	global.clientId = clientId;
-	const refreshCommands = require('./deploy-commands');
-	logger.bot(`Ready! Logged in as ${c.user.tag}`);
+	import('./deploy-commands');
 });
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -75,21 +70,3 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
-
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isModalSubmit()) return;
-	if (interaction.customId === 'shopmodal') {
-		const shopJSON = interaction.fields.getTextInputValue('shopjson');
-		try {
-			JSON.parse(shopJSON);
-			await fs.writeFile(path.join(__dirname, '../../responses/catalog.json'), shopJSON);
-			await interaction.reply({ content: 'Your submission was received successfully!' });
-		} catch (error) {
-			return await interaction.followUp({ content: 'The JSON you provided is invalid!' });
-		}
-	}
-});
-
-client.login(token);
-
-export default client;
