@@ -176,29 +176,33 @@ class functions {
                 if (!Array.isArray(CatalogConfig[value].itemGrants)) continue;
                 if (CatalogConfig[value].itemGrants.length == 0) continue;
 
-                const CatalogEntry: any = { "devName": "", "offerId": "", "fulfillmentIds": [], "dailyLimit": -1, "weeklyLimit": -1, "monthlyLimit": -1, "categories": [], "prices": [{ "currencyType": "MtxCurrency", "currencySubType": "", "regularPrice": 0, "finalPrice": 0, "saleExpiration": "9999-12-02T01:12:00Z", "basePrice": 0 }], "matchFilter": "", "filterWeight": 0, "appStoreId": [], "requirements": [], "offerType": "StaticPrice", "giftInfo": { "bIsEnabled": true, "forcedGiftBoxTemplateId": "", "purchaseRequirements": [], "giftRecordIds": [] }, "refundable": false, "metaInfo": [], "displayAssetPath": "", "itemGrants": [], "sortPriority": 0, "catalogGroupPriority": 0 };
+                const CatalogEntry: any = { "devName": "", "offerId": "", "fulfillmentIds": [], "dailyLimit": -1, "weeklyLimit": -1, "monthlyLimit": -1, "categories": [], "prices": [{ "currencyType": "MtxCurrency", "currencySubType": "", "regularPrice": 0, "finalPrice": 0, "saleExpiration": "9999-12-02T01:12:00Z", "basePrice": 0 }], "meta": { "SectionId": "Featured", "TileSize": "Small" }, "matchFilter": "", "filterWeight": 0, "appStoreId": [], "requirements": [], "offerType": "StaticPrice", "giftInfo": { "bIsEnabled": true, "forcedGiftBoxTemplateId": "", "purchaseRequirements": [], "giftRecordIds": [] }, "refundable": false, "metaInfo": [{ "key": "SectionId", "value": "Featured" }, { "key": "TileSize", "value": "Small" }], "displayAssetPath": "", "itemGrants": [], "sortPriority": 0, "catalogGroupPriority": 0 };
+
                 let i = catalog.storefronts.findIndex(p => p.name == (value.toLowerCase().startsWith("daily") ? "BRDailyStorefront" : "BRWeeklyStorefront"));
                 if (i == -1) continue;
+
+                if (value.toLowerCase().startsWith("daily")) {
+                    // Make featured items appear on the left side of the screen
+                    CatalogEntry.sortPriority = -1;
+                } else {
+                    CatalogEntry.meta.TileSize = "Normal";
+                    CatalogEntry.metaInfo[1].value = "Normal";
+                }
 
                 for (let itemGrant of CatalogConfig[value].itemGrants) {
                     if (typeof itemGrant != "string") continue;
                     if (itemGrant.length == 0) continue;
 
-                    CatalogEntry.devName = CatalogConfig[value].itemGrants[0];
-                    CatalogEntry.offerId = CatalogConfig[value].itemGrants[0];
-
                     CatalogEntry.requirements.push({ "requirementType": "DenyOnItemOwnership", "requiredId": itemGrant, "minQuantity": 1 });
                     CatalogEntry.itemGrants.push({ "templateId": itemGrant, "quantity": 1 });
                 }
-
-                const timeIn2MinutesISO = new Date(Date.now() + 86400000).toISOString();
 
                 CatalogEntry.prices = [{
                     "currencyType": "MtxCurrency",
                     "currencySubType": "",
                     "regularPrice": CatalogConfig[value].price,
                     "finalPrice": CatalogConfig[value].price,
-                    "saleExpiration": timeIn2MinutesISO,
+                    "saleExpiration": "9999-12-02T01:12:00Z",
                     "basePrice": CatalogConfig[value].price
                 }];
 

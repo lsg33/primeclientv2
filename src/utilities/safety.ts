@@ -153,18 +153,6 @@ export class Safety {
                 fs.mkdirSync(stateDir);
             }
 
-            const contentPagesPath = path.join(__dirname, '../../responses/contentpages.json');
-            const fileBuffer = fs.readFileSync(contentPagesPath);
-            const hashSum = crypto.createHash('sha256');
-            hashSum.update(fileBuffer);
-            const sha256 = hashSum.digest('hex');
-
-            if (sha256 !== "487d56b51a3f4b4287cb692916d039b1e8fc4b1d5cb942cc2c8e86f5284f51b1") {
-                const res = await fetch("https://raw.githubusercontent.com/Nexus-FN/Momentum/main/responses/contentpages.json");
-                const json = await res.json();
-                fs.writeFileSync(contentPagesPath, JSON.stringify(json));
-            }
-
             if (parseInt(process.version.slice(1)) < 18) {
                 throw new Error(`Your node version is too old, please update to at least 18. Your version: ${process.version}`);
             }
