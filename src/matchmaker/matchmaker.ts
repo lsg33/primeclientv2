@@ -18,29 +18,29 @@ type Client = {
     socket: Object
 }
 
-const socket = io("https://matchmaker.nexusfn.net", {
-    transports: ["websocket"],
-    extraHeaders: {
-        "key": Safety.env.LINK_SECRET
-    }
-});
-
-//Connect to socket.io server
-socket.on("connect", () => {
-});
-
-//On error connecting to socket.io server
-socket.on("connect_error", (err: any) => {
-    log.debug("Failed to connect to socket.io server");
-});
-
-
 class matchmaker {
 
     // Create a map to store clients
     clients = new Map();
 
     public async server(ws: WebSocket, req: Request) {
+
+        const socket = io("https://matchmaker.nexusfn.net", {
+            transports: ["websocket"],
+            extraHeaders: {
+                "key": await Safety.getLoopKey()
+            }
+        });
+
+        //Connect to socket.io server
+        socket.on("connect", () => {
+        });
+
+        //On error connecting to socket.io server
+        socket.on("connect_error", (err: any) => {
+            log.debug("Failed to connect to socket.io server");
+        });
+
 
         let clients = this.clients;
 
