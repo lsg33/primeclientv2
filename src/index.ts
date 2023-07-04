@@ -35,7 +35,7 @@ async function main() {
     const LOOP_KEY = await Safety.getLoopKey();
 
     const availabeModules = await modules.getModules(LOOP_KEY);
-    if(!availabeModules) console.log("Failed to get modules");
+    if(!availabeModules) log.warn("Failed to get modules. You can ignore this warning if you haven't purchased anything. Are you sure you have a valid loop key or a NexusFN account? For support, join https://discord.gg/NexusFN");
 
     modules.configureModules(availabeModules as string[]);
 

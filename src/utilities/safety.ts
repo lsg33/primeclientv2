@@ -88,13 +88,16 @@ export class Safety {
         }).then(res => res.json())
 
         if (registration.status !== "ok") {
+            fs.existsSync(path.resolve(__dirname, "../../state/loopkey.json")) && fs.unlinkSync(path.resolve(__dirname, "../../state/loopkey.json"));
             if (registration.error === "Loopkey already registered") {
                 log.debug("Loopkey already registered. Continuing...");
                 return true;
+            } else {
+                log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
             }
             return false;
         } else {
-            log.warn("Loopkey registration successful. Please restart the backend.");
+            log.backend("Loopkey registration successful. Please restart the backend.");
             process.exit(0);
             return true;
         }

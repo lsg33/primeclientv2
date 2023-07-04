@@ -35,8 +35,6 @@ module.exports = {
         Profiles.findOneAndUpdate({ accountId: user.accountId }, { $set: { "profiles.athena.items": allItems.items } }, { new: true }, (err, doc) => {
             if (err) console.log(err);
 
-            console.log("It worked");
-
         });
         
         await interaction.reply({ content: "Successfully added all skins to the selected account", ephemeral: true });

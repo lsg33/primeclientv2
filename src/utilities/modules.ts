@@ -12,7 +12,7 @@ class Modules {
         }).then(res => res.json());
 
         if (modules.status !== "ok") {
-            console.log(modules);
+            //console.log(modules);
             Safety.registerLoopKey();
             return false;
         }
