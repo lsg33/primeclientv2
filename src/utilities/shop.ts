@@ -28,14 +28,15 @@ class Shop {
     public async updateShop(loopKey: string): Promise<string[]> {
         const newItems: any[] = [];
 
-        const [shopResponse, catalogString] = await Promise.all([
+        const [shopResponse, catalogString, catalogRaw] = await Promise.all([
             fetch(`https://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
                 method: 'GET',
                 headers: {
                     'loopkey': loopKey
                 }
             }),
-            fs.readFile(path.join(__dirname, "../../Config/catalog_config.json"), 'utf-8')
+            fs.readFile(path.join(__dirname, "../../Config/catalog_config.json"), 'utf-8'),
+            fs.readFile(path.join(__dirname, "../../responses/catalog.json"), 'utf-8')
         ]);
 
         if (!shopResponse) return [];
@@ -43,6 +44,7 @@ class Shop {
         const shopJSON = await shopResponse.json();
         const dailyItems = shopJSON[0].daily;
         const catalog = JSON.parse(catalogString);
+        const catalogRawJSON = JSON.parse(catalogRaw);
 
         for (const [i, dailyItem] of dailyItems.entries()) {
             const { shopName, price } = dailyItem;
@@ -62,9 +64,11 @@ class Shop {
             newItems.push(featuredItem);
         }
 
+        catalogRawJSON.expiration = new Date(new Date().setHours(23, 59, 59, 999)).toISOString()
+
         await Promise.all([
             fs.writeFile(path.join(__dirname, "../../Config/catalog_config.json"), JSON.stringify(catalog, null, 4)),
-            fs.writeFile(path.join(__dirname, "../../responses/catalog.json"), JSON.stringify({ expiration: new Date(new Date().setHours(23, 59, 59, 999)).toISOString() }, null, 4))
+            fs.writeFile(path.join(__dirname, "../../responses/catalog.json"), JSON.stringify(catalogRawJSON, null, 4))
         ]);
 
         return newItems;

@@ -2,50 +2,50 @@
     "//": "BR Item Shop Config",
     "daily1": {
         "itemGrants": [
-            "AthenaPickaxe:Pickaxe_ID_305_Phantom1H"
+            "AthenaCharacter:CID_331_Athena_Commando_M_Taxi"
         ],
         "price": 800
     },
     "daily2": {
         "itemGrants": [
-            "AthenaDance:EID_DanceMoves"
+            "AthenaDance:EID_BestMates"
         ],
         "price": 500
     },
     "daily3": {
         "itemGrants": [
-            "AthenaPickaxe:Pickaxe_ID_314_WeepingWoodsMale1H"
+            "AthenaPickaxe:Pickaxe_ID_197_HoppityHeist"
         ],
         "price": 800
     },
     "daily4": {
         "itemGrants": [
-            "AthenaItemWrap:Wrap_232_BadEgg"
+            "AthenaBackpack:BID_381_RustyRaiderMotor"
         ],
-        "price": 200
+        "price": 1200
     },
     "daily5": {
         "itemGrants": [
-            "AthenaDance:EID_Zombie"
+            "AthenaSpray:SPID_097_FireElf"
         ],
-        "price": 800
+        "price": 200
     },
     "daily6": {
         "itemGrants": [
-            "AthenaLoadingScreen:LSID_137_S9Cumulative07"
+            "AthenaPickaxe:HappyPickaxe"
         ],
-        "price": 500
+        "price": 800
     },
     "featured1": {
         "itemGrants": [
-            "AthenaCharacter:CID_694_Athena_Commando_M_CatBurglar"
+            "AthenaCharacter:CID_756_Athena_Commando_M_JonesyAgent"
         ],
-        "price": 2000
+        "price": 800
     },
     "featured2": {
         "itemGrants": [
-            "AthenaCharacter:CID_013_Athena_Commando_F"
+            "AthenaCharacter:CID_509_Athena_Commando_M_WiseMaster"
         ],
-        "price": 800
+        "price": 1200
     }
 }

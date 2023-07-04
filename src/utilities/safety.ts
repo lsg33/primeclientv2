@@ -89,7 +89,6 @@ export class Safety {
             }).then(res => res.json())
 
             if (registration.status !== "ok") {
-                fs.existsSync(path.resolve(__dirname, "../../state/loopkey.json")) && fs.unlinkSync(path.resolve(__dirname, "../../state/loopkey.json"));
                 if (registration.error === "Loopkey already registered") {
                     log.debug("Loopkey already registered. Continuing...");
                     return true;
@@ -110,28 +109,24 @@ export class Safety {
     }
 
     public async getLoopKey(): Promise<string> {
-
         const loopKeyPath = path.resolve(__dirname, "../../state/loopkey.json");
 
         try {
-            if (!fs.existsSync(path.resolve(loopKeyPath))) {
-                const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+            if (!fs.existsSync(loopKeyPath)) {
+                const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN);
                 if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
                     fs.mkdirSync(path.resolve(__dirname, "../../state/"));
                 }
-                fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
+                fs.writeFileSync(loopKeyPath, JSON.stringify({
                     "loopkey": loopKey
                 }));
                 this.registerLoopKey();
                 return loopKey;
             } else {
-                const loopKey = JSON.parse(fs.readFileSync(path.resolve(loopKeyPath), "utf-8")).loopkey;
+                const loopKey = JSON.parse(fs.readFileSync(loopKeyPath, "utf-8")).loopkey;
                 if (loopKey === undefined || loopKey === null || loopKey === "") {
-                    const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
-                    if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
-                        fs.mkdirSync(path.resolve(__dirname, "../../state/"));
-                    }
-                    fs.writeFileSync(path.resolve(loopKeyPath), JSON.stringify({
+                    const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN);
+                    fs.writeFileSync(loopKeyPath, JSON.stringify({
                         "loopkey": loopKey
                     }));
                     this.registerLoopKey();
@@ -139,17 +134,18 @@ export class Safety {
                 return loopKey;
             }
         } catch (error) {
-            const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN)
+            const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN);
             if (!fs.existsSync(path.resolve(__dirname, "../../state/"))) {
                 fs.mkdirSync(path.resolve(__dirname, "../../state/"));
             }
-            fs.writeFileSync(path.resolve(__dirname, "../../state/loopkey.json"), JSON.stringify({
+            fs.writeFileSync(loopKeyPath, JSON.stringify({
                 "loopkey": loopKey
             }));
             this.registerLoopKey();
             return loopKey;
         }
     }
+
     public async airbag(): Promise<boolean> {
         try {
             const stateDir = path.join(__dirname, ".././state/");
