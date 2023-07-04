@@ -90,7 +90,7 @@ export class Safety {
         }).then(res => res.json())
 
         if (registration.status !== "ok") {
-            if(registration.error === "Loopkey already registered") {
+            if (registration.error === "Loopkey already registered") {
                 log.debug("Loopkey already registered. Continuing...");
                 return true;
             }
@@ -159,21 +159,27 @@ export class Safety {
             throw new Error(`Your node version is too old, please update to at least 18. Your version: ${process.version}`);
         }
 
-        if (this.env.USE_REDIS) {
-            let redisstate = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../state/redis.json"), "utf-8"));
-            if (!redisstate.knownUrls.includes(this.env.REDIS_URL)) {
-                redisstate.knownUrls.push(this.env.REDIS_URL);
-                fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify(redisstate));
-                log.debug("Redis URL is not known, adding to known URLs.");
-                await kv.set("tokens", JSON.stringify({
-                    "accessTokens": [],
-                    "refreshTokens": [],
-                    "clientTokens": []
-                })
-                );
-            } else {
-                log.debug("Redis URL is already known, skipping.");
+        try {
+            if (this.env.USE_REDIS) {
+                let redisstate = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../state/redis.json"), "utf-8"));
+                if (!redisstate.knownUrls.includes(this.env.REDIS_URL)) {
+                    redisstate.knownUrls.push(this.env.REDIS_URL);
+                    fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify(redisstate));
+                    log.debug("Redis URL is not known, adding to known URLs.");
+                    await kv.set("tokens", JSON.stringify({
+                        "accessTokens": [],
+                        "refreshTokens": [],
+                        "clientTokens": []
+                    })
+                    );
+                } else {
+                    log.debug("Redis URL is already known, skipping.");
+                }
             }
+        } catch (e) {
+            fs.writeFileSync(path.resolve(__dirname, "../../state/redis.json"), JSON.stringify({
+                "knownUrls": [this.env.REDIS_URL]
+            }));
         }
 
         try {
