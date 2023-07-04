@@ -37,6 +37,8 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
     const region = bucketId.split(":")[2];
     const playlist = bucketId.split(":")[3];
 
+    await kv.set(`playerPlaylist:${req.user.accountId}`, playlist);
+
     if (typeof playerCustomKey == "string") {
 
         let codeDocument: iMMCodes = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
@@ -84,13 +86,20 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
 
     const user: iUser = await decode.decodeAuth(req) as iUser;
 
+    const playlist = await kv.get(`playerPlaylist:${req.user.accountId}`);
+
     let kvDocument = await kv.get(`playerCustomKey:${req.user.accountId}`);
     if (!kvDocument) {
+        const gameServers = Safety.env.GAME_SERVERS;
+        let selectedServer = gameServers.find(server => server.split(":")[2] === playlist);
+        if (!selectedServer) {
+            selectedServer = gameServers[Math.floor(Math.random() * gameServers.length)];
+        }
         kvDocument = JSON.stringify({
-            ip: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[0],
-            port: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[1],
-            playlist: Safety.env.GAME_SERVERS[Math.floor(Math.random() * Safety.env.GAME_SERVERS.length)].split(":")[2]
-        })
+            ip: selectedServer.split(":")[0],
+            port: selectedServer.split(":")[1],
+            playlist: selectedServer.split(":")[2]
+        });
     }
 
     let codeKV = JSON.parse(kvDocument);
