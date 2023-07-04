@@ -27,8 +27,11 @@ class Modules {
 
     public async configureModules(modules: string[]) {
 
-        Safety.modules.Shop = modules.includes("shop");
-        Safety.modules.Matchmaking = modules.includes("matchmaker");
+        try {
+            Safety.modules.Shop = modules.includes("shop");
+            Safety.modules.Matchmaking = modules.includes("matchmaker");
+        } catch(error) {
+        }
 
     }
 
