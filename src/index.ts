@@ -35,7 +35,7 @@ async function main() {
     const LOOP_KEY = await Safety.getLoopKey();
 
     const availabeModules = await modules.getModules(LOOP_KEY);
-    if(!availabeModules) return console.log("Failed to get modules");
+    if(!availabeModules) console.log("Failed to get modules");
 
     modules.configureModules(availabeModules as string[]);
 
