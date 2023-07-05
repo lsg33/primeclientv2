@@ -52,6 +52,10 @@ client.once(Events.ClientReady, async c => {
 	import('./deploy-commands');
 });
 
+client.once(Events.ClientReady, async c => {
+	logger.bot(`[READY] Logged in as ${client.user?.tag}!`);
+});
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
