@@ -23,5 +23,5 @@ Join our discord at https://discord.gg/7njfwrAqTd
 ## Installation
 
 <p align="center">
-    <a href="https://docs.nexusfn.net"><img src="[.github/images/labs.png](https://cdn.nexusfn.net/file/2023/07/prodcos.png)https://cdn.nexusfn.net/file/2023/07/prodcos.png" alt="Flipt Labs" width=960 /></a>
+    <a href="https://docs.nexusfn.net"><img src="https://cdn.nexusfn.net/file/2023/07/prodcos.png" alt="Prod install" width=960 /></a>
 </p>
