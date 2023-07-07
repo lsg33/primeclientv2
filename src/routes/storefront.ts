@@ -42,8 +42,6 @@ app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipient
     const athena = profiles!.profiles["athena"];
 
     for (const itemGrant of findOfferId.offerId.itemGrants) {
-        console.log(athena.items);
-
         if (!athena.items || typeof athena.items !== 'object') {
             return error.createError(
                 "errors.com.epicgames.modules.gamesubcatalog.purchase_not_allowed",

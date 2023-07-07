@@ -146,11 +146,11 @@ app.get("/api/v1/events/Fortnite/download/*", (req, res) => {
 });
 
 app.post("/api/v1/assets/Fortnite/*/*", async (req, res) => {
-    if (req.body.hasOwnProperty("FortCreativeDiscoverySurface") && req.body.FortCreativeDiscoverySurface == 0) {
-        const discovery_api_assets = require("./../responses/Athena/Discovery/discovery_api_assets.json");
+    /*if (req.body.hasOwnProperty("FortCreativeDiscoverySurface") && req.body.FortCreativeDiscoverySurface == 0) {
+        const discovery_api_assets = require("../../responses/Athena/Discovery/discovery_api_assets.json");
         res.json(discovery_api_assets)
     }
-    else {
+    else {*/
         res.json({
             "FortCreativeDiscoverySurface": {
                 "meta": {
@@ -160,7 +160,7 @@ app.post("/api/v1/assets/Fortnite/*/*", async (req, res) => {
             }
         })
     }
-})
+/*}*/)
 
 app.get("/fortnite/api/game/v2/twitch/*", (req, res) => {
     res.status(200);
