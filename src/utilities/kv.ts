@@ -1,4 +1,3 @@
-import kvjs from '@heyputer/kv.js';
 import Redis from 'ioredis';
 import Safety from './safety';
 import keyv from 'keyv';
