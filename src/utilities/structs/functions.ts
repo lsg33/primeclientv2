@@ -197,12 +197,17 @@ class functions {
                     CatalogEntry.itemGrants.push({ "templateId": itemGrant, "quantity": 1 });
                 }
 
+                const todayAtMidnight = new Date();
+                todayAtMidnight.setHours(24, 0, 0, 0)
+                const todayOneMinuteBeforeMidnight = new Date(todayAtMidnight.getTime() - 60000);
+                const isoDate = todayOneMinuteBeforeMidnight.toISOString();
+
                 CatalogEntry.prices = [{
                     "currencyType": "MtxCurrency",
                     "currencySubType": "",
                     "regularPrice": CatalogConfig[value].price,
                     "finalPrice": CatalogConfig[value].price,
-                    "saleExpiration": "9999-12-02T01:12:00Z",
+                    "saleExpiration": isoDate,
                     "basePrice": CatalogConfig[value].price
                 }];
 
