@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import crypto from "crypto";
 import kv from "./kv";
 import Loopkey from ".././utilities/loopkey";
+import { client } from "../bot";
+import { Application } from "discord.js";
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
@@ -81,6 +83,11 @@ export class Safety {
     public async registerLoopKey(): Promise<boolean> {
 
         try {
+
+            const discordClient: Application = client;
+
+            log.warn("A DM will be sent to the user " + client.application?.owner.username + " to enable your loopkey. Please check your DMs." )
+
             const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
                 method: 'PUT',
                 headers: {

@@ -14,17 +14,9 @@ const { verifyToken } = require("../tokenManager/tokenVerify");
 import qs from "qs";
 import error from "../utilities/structs/error";
 
-interface iCodeDocument {
-    code_lower: string,
-    ip: string,
-    region: string,
-    playlist: string,
-}
-
 let buildUniqueId = {};
 
 app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
-
     res.status(200).end();
 });
 
@@ -34,8 +26,20 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
     if (typeof bucketId !== "string" || bucketId.split(":").length !== 4) {
         return res.status(400).end();
     }
-    const region = bucketId.split(":")[2];
+    //const region = bucketId.split(":")[2];
     const playlist = bucketId.split(":")[3];
+
+    const gameServers = Safety.env.GAME_SERVERS;
+    let selectedServer = gameServers.find(server => server.split(":")[2] === playlist);
+
+    if (!selectedServer) {
+        console.log("No server found for playlist", playlist);
+        return error.createError(
+            "errors.com.epicgames.common.matchmaking.playlist.not_found",
+            `No server found for playlist ${playlist}`,
+            [], 1013, "invalid_playlist", 404, res
+        );
+    }
 
     await kv.set(`playerPlaylist:${req.user.accountId}`, playlist);
 
@@ -84,16 +88,20 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const user: iUser = await decode.decodeAuth(req) as iUser;
-
     const playlist = await kv.get(`playerPlaylist:${req.user.accountId}`);
 
     let kvDocument = await kv.get(`playerCustomKey:${req.user.accountId}`);
     if (!kvDocument) {
         const gameServers = Safety.env.GAME_SERVERS;
         let selectedServer = gameServers.find(server => server.split(":")[2] === playlist);
+        //Typescript will complain if I don't check if selectedServer is undefined
         if (!selectedServer) {
-            selectedServer = gameServers[Math.floor(Math.random() * gameServers.length)];
+            console.log("No server found for playlist", playlist);
+            return error.createError(
+                "errors.com.epicgames.common.matchmaking.playlist.not_found",
+                `No server found for playlist ${playlist}`,
+                [], 1013, "invalid_playlist", 404, res
+            );
         }
         kvDocument = JSON.stringify({
             ip: selectedServer.split(":")[0],
@@ -103,8 +111,6 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req,
     }
 
     let codeKV = JSON.parse(kvDocument);
-
-    console.log(codeKV.ip, codeKV.port, codeKV.playlist);
 
     res.json({
         "id": req.params.sessionId,

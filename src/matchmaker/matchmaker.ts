@@ -127,7 +127,7 @@ class matchmaker {
         const sessionId = functions.MakeID().replace(/-/ig, "");
 
         //Listen for "matchmaking" event
-        socket.on(`${bote}-queue`, (message: any) => {
+        socket.on(`${bote}-queue`, async (message: any) => {
             //console.log("Received matchmaking queue event");
             //console.log(message);
             message = JSON.parse(message);
@@ -142,6 +142,17 @@ class matchmaker {
                 if (playlist) {
                     setTimeout(() => Queued(message.data.queuedAmount, playlist), 2000);
                 }
+                const status = await kv.get(`serverStatus:${playlist}`);
+                if (status == "online") {
+                    setTimeout(async () => {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await SessionAssignment(playlist);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await Join(playlist);
+                    }, 2000);
+                } else {
+                    await kv.set(`serverStatus:${playlist}`, "offline");
+                }
             } else {
                 if (playlist) {
                     Queued(message.data.queuedAmount, playlist);
@@ -150,7 +161,7 @@ class matchmaker {
         });
 
         //Listen for "status" event
-        socket.on(`${bote}-status`, (message: any) => {
+        socket.on(`${bote}-status`, async (message: any) => {
 
             //console.log("Received matchmaking status event");
             //console.log(message);
@@ -164,6 +175,7 @@ class matchmaker {
                 case "update":
                     SessionAssignment(playlist);
                     setTimeout(() => Join(playlist), 1000);
+                    await kv.setttl(`serverStatus:${playlist}`, "online", 60000);
             }
 
         });
@@ -197,6 +209,7 @@ class matchmaker {
         }
 
         async function Queued(players: number, playlist: string) {
+
             //console.log(`Queued. Players: ${players}. Typeof players: ${typeof players}`);
             if (typeof players !== "number") {
                 players = 0;
