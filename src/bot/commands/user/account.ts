@@ -34,9 +34,8 @@ module.exports = {
             let cosmetic: { images: { icon: string; }; } = { images: { icon: "" } };
     
             try {
-                cosmetic = await asteria.getCosmetic("name", selectedSkinSplit[1], true);
+                cosmetic = await asteria.getCosmetic("id", selectedSkinSplit[1], true);
             } catch (err) {
-                console.log(err);
                 cosmetic = { images: { icon: "https://nexusassets.zetax.workers.dev/ceba508f24a70c50bd8782d08bd530b0d0df82e0baf7e357bcfd01ac81898297.gif" } }
             }
     
