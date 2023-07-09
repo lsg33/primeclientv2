@@ -86,7 +86,7 @@ export class Safety {
 
             const discordClient: Application = client;
 
-            log.warn("A DM will be sent to the user " + client.application?.owner.username + " to enable their loopkey." )
+            log.warn("A DM will be sent to the user " + client.application?.owner.username + " to enable your loopkey. Please check your DMs." )
 
             const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
                 method: 'PUT',
