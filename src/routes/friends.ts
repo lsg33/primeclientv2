@@ -100,13 +100,13 @@ const aliasPattern = /[\w \-_.'\u2018\u2019]+/gu;
 
             friends.list.accepted[friendIndex].alias = req.rawBody;
 
-            await friends.updateOne({ $set: { list: friends.list } });
+            await Friends.updateOne({ $set: { list: friends.list } });
             break;
 
         case "DELETE":
             friends.list.accepted[friendIndex].alias = "";
 
-            await friends.updateOne({ $set: { list: friends.list } });
+            await Friends.updateOne({ $set: { list: friends.list } });
             break;
     }
 

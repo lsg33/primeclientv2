@@ -57,7 +57,7 @@ app.get("/launcher/api/public/assets/*", async (req, res) => {
 app.get("/Builds/Fortnite/Content/CloudDir/*.manifest", async (req, res) => {
     res.set("Content-Type", "application/octet-stream")
 
-    const manifest = fs.readFileSync(path.join(__dirname, "..", "responses", "CloudDir", "LawinServer.manifest"));
+    const manifest = fs.readFileSync(path.join(__dirname, "../../", "responses", "CloudDir", "LawinServer.manifest"));
 
     res.status(200).send(manifest).end();
 })
@@ -65,13 +65,13 @@ app.get("/Builds/Fortnite/Content/CloudDir/*.manifest", async (req, res) => {
 app.get("/Builds/Fortnite/Content/CloudDir/*.chunk", async (req, res) => {
     res.set("Content-Type", "application/octet-stream")
 
-    const chunk = fs.readFileSync(path.join(__dirname, "..", "responses", "CloudDir", "LawinServer.chunk"));
+    const chunk = fs.readFileSync(path.join(__dirname, "../../", "responses", "CloudDir", "LawinServer.chunk"));
 
     res.status(200).send(chunk).end();
 })
 
 app.get("/Builds/Fortnite/Content/CloudDir/*.ini", async (req, res) => {
-    const ini = fs.readFileSync(path.join(__dirname, "..", "responses", "CloudDir", "Full.ini"));
+    const ini = fs.readFileSync(path.join(__dirname, "../../", "responses", "CloudDir", "Full.ini"));
 
     res.status(200).send(ini).end();
 })

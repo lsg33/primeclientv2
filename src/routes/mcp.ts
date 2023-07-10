@@ -1479,36 +1479,6 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetCosmeticLockerSlot", verifyT
 
 });
 
-app.post("/fortnite/api/game/v2/profile/:accountId/dedicated_server/:operation", async (req, res) => {
-    const profiles = await Profile.findOne({ accountId: req.params.accountId });
-    var profile = profiles.profiles[req.query.profileId];
-
-    const memory = functions.GetVersionInfo(req);
-
-    var ApplyProfileChanges: Object[] = [];
-    let BaseRevision = profile.rvn;
-    let ProfileRevisionCheck = (memory.build >= 12.20) ? profile.commandRevision : profile.rvn;
-    var QueryRevision = req.query.rvn || -1;
-
-    if (QueryRevision != ProfileRevisionCheck) {
-        ApplyProfileChanges = [{
-            "changeType": "fullProfileUpdate",
-            "profile": profile
-        }];
-    }
-
-    res.json({
-        "profileRevision": profile.rvn || 0,
-        "profileId": req.query.profileId || "athena",
-        "profileChangesBaseRevision": BaseRevision,
-        "profileChanges": ApplyProfileChanges,
-        "profileCommandRevision": profile.commandRevision || 0,
-        "serverTime": new Date().toISOString(),
-        "responseVersion": 1
-    })
-    res.end();
-});
-
 app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async (req, res) => {
     const profiles = await Profile.findOne({ accountId: req.user.accountId });
 
