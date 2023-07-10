@@ -225,20 +225,6 @@ wss.on('connection', async (ws, req) => {
                         if (!MUC) return;
 
                         if (!MUC.members.find(i => i.accountId == accountId)) return;
-
-                        MUC.members.forEach(member => {
-                            let ClientData = global.Clients.find(i => i.accountId == member.accountId);
-                            if (!ClientData) return;
-
-                            let commands = `!help - Shows all commands\n!ping - Pong!`;
-
-                            ClientData.client.send(XMLBuilder.create("message")
-                                .attribute("to", jid)
-                                .attribute("from", `${jid}`)
-                                .attribute("xmlns", "jabber:client")
-                                .attribute("type", "groupchat")
-                                .element("body", commands)).up().toString();
-                        });
                         return;
                 }
 
@@ -249,20 +235,6 @@ wss.on('connection', async (ws, req) => {
                     if (typeof bodyJSON.type != "string") return;
                     if (!msg.root.attributes.to) return;
                     if (!msg.root.attributes.id) return;
-
-                    switch (bodyJSON.type) {
-
-                        case "com.epicgames.social.party.notification.v0.MEMBER_STATE_UPDATED":
-                            console.log("Somebody emoted")
-                            console.log(bodyJSON);
-                            break;
-
-                        case "FRIENDSHIP_ENTRY_UPDATE":
-                            console.log("Maybe nickname change?")
-                            console.log(bodyJSON);
-                            break;
-
-                    }
 
                     sendXmppMessageToClient(jid, msg, body);
                 }
