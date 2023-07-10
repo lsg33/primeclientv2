@@ -17,6 +17,9 @@ module.exports = {
 
 
 	async execute(interaction) {
+
+		await interaction.deferReply({ ephemeral: true });
+
         const user = await Users.findOne({ discordId: interaction.user.id });
         if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
 
@@ -37,7 +40,7 @@ module.exports = {
 			})
 			.setTimestamp();
 
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
 
 	},
 };

@@ -3,10 +3,8 @@ export { };
 const express = require("express");
 const app = express.Router();
 
-const { verifyApikey } = require("../utilities/api.js");
+import { verifyApikey } from "../utilities/api.js";
 const User = require("../model/user.js");
-
-
 
 app.get("/api/user/:key/:value", verifyApikey, (req, res) => {
 

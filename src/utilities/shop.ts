@@ -42,6 +42,7 @@ class Shop {
         if (!shopResponse) return [];
 
         const shopJSON = await shopResponse.json();
+        console.log(shopJSON)
         const dailyItems = shopJSON[0].daily;
         const catalog = JSON.parse(catalogString);
         const catalogRawJSON = JSON.parse(catalogRaw);
@@ -64,7 +65,12 @@ class Shop {
             newItems.push(featuredItem);
         }
 
-        catalogRawJSON.expiration = new Date(new Date().setHours(23, 59, 59, 999)).toISOString()
+        const todayAtMidnight = new Date();
+        todayAtMidnight.setHours(24, 0, 0, 0)
+        const todayOneMinuteBeforeMidnight = new Date(todayAtMidnight.getTime() - 60000);
+        const isoDate = todayOneMinuteBeforeMidnight.toISOString();
+
+        catalogRawJSON.expiration = isoDate
 
         await Promise.all([
             fs.writeFile(path.join(__dirname, "../../Config/catalog_config.json"), JSON.stringify(catalog, null, 4)),

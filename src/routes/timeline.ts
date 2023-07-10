@@ -21,6 +21,11 @@ app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
         }
     ];
 
+    const todayAtMidnight = new Date();
+    todayAtMidnight.setHours(24, 0, 0, 0)
+    const todayOneMinuteBeforeMidnight = new Date(todayAtMidnight.getTime() - 60000);
+    const isoDate = todayOneMinuteBeforeMidnight.toISOString();
+
     res.json({
         channels: {
             "client-matchmaking": {
@@ -40,16 +45,16 @@ app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
                         seasonBegin: "2020-01-01T00:00:00Z",
                         seasonEnd: "9999-01-01T00:00:00Z",
                         seasonDisplayedEnd: "9999-01-01T00:00:00Z",
-                        weeklyStoreEnd: "9999-01-01T00:00:00Z",
+                        weeklyStoreEnd: isoDate,
                         stwEventStoreEnd: "9999-01-01T00:00:00.000Z",
                         stwWeeklyStoreEnd: "9999-01-01T00:00:00.000Z",
                         sectionStoreEnds: {
-                            Featured: "9999-01-01T00:00:00.000Z"
+                            Featured: isoDate
                         },
-                        dailyStoreEnd: "9999-01-01T00:00:00Z"
+                        dailyStoreEnd: isoDate
                     }
                 }],
-                cacheExpire: "9999-01-01T00:00:00.000Z"
+                cacheExpire: isoDate
             }
         },
         eventsTimeOffsetHrs: 0,

@@ -1,7 +1,7 @@
 {
     "refreshIntervalHrs": 24,
     "dailyPurchaseHrs": 24,
-    "expiration": "2023-07-05T21:59:59.999Z",
+    "expiration": "2023-07-09T21:59:00.000Z",
     "storefronts": [
         {
             "name": "BRDailyStorefront",

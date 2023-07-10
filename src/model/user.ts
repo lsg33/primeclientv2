@@ -5,14 +5,14 @@ const mongoose = require("mongoose");
 export interface iUser {
     created: Date,
     banned: Boolean,
-    discordId: String,
-    accountId: String,
-    username: String,
-    username_lower: String,
-    email: String,
-    password: String,
+    discordId: string,
+    accountId: string,
+    username: string,
+    username_lower: string,
+    email: string,
+    password: string,
     mfa: Boolean,
-    matchmakingId: String,
+    matchmakingId: string,
     canCreateCodes: Boolean
     isServer: Boolean
 }
