@@ -45,7 +45,7 @@ class Shop {
         if (!shopResponse) return [];
 
         const shopJSON = await shopResponse.json();
-        console.log(shopJSON)
+
         const dailyItems = shopJSON[0].daily;
         const catalog = JSON.parse(catalogString);
         const catalogRawJSON = JSON.parse(catalogRaw);

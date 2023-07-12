@@ -65,7 +65,6 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 const [type, id] = key.split(":");
                 if (id === cosmeticFromAPI.id) {
                     foundcosmeticname = key;
-                    console.log(`Found key: ${key}`);
                     if (profile.profiles.athena.items[key]) {
                         return await interaction.editReply({ content: "That user already has that cosmetic" });
                     }

@@ -195,8 +195,6 @@ wss.on('connection', async (ws, req) => {
 
                 let body = findBody.content;
 
-                console.log(body);
-
                 switch (msg.root.attributes.type) {
                     case "chat":
                         if (!msg.root.attributes.to) return;

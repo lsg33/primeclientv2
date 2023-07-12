@@ -22,14 +22,12 @@ app.get("/affiliate/api/public/affiliates/slug/:slug", verifyToken, async (req, 
         [], 1032, undefined, 404, res
     );
 
-    console.log(req)
 
     await User.findOne({ accountId: req.user.accountId }, async (err, doc) => {
         if (err) {
             console.log(err);
             return res.status(500).end();
         } else {
-            console.log("Found user");
         }
     });
 
