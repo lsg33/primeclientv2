@@ -106,10 +106,10 @@ const listCloudFiles = async (prefix: string) => {
             Prefix: prefix,
             ContinuationToken,
         };
-        const data = await s3.listObjectsV2(params).promise();
-        objectsList.push(...data.Contents || []);
+        const data = await s3.listObjects(params).promise();
+        objectsList.push(...(data.Contents || []));
         if (data.IsTruncated) {
-            await listObjects(data.NextContinuationToken);
+            await listObjects(data.NextMarker);
         }
     };
 

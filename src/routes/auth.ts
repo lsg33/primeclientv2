@@ -21,7 +21,7 @@ import User from "../model/user.js";
 function waitFor2FA(req: { user: { discordId: any; }; }) {
     return new Promise<void>((resolve) => {
         const checkCondition = async () => {
-            while (await kv.get(req.user.discordId) !== "true") {
+            while ((await kv.get(req.user.discordId)) !== "true") {
                 await new Promise((r) => setTimeout(r, 1000));
             }
             resolve();
@@ -126,7 +126,7 @@ app.post("/account/api/oauth/token", async (req, res) => {
             if (!req.user) return err();
             else {
                 if (!rebootAccount) {
-                    if (!await bcrypt.compare(password, req.user.password)) return err();
+                    if (!(await bcrypt.compare(password, req.user.password))) return err();
                 }
             }
 

@@ -1,5 +1,3 @@
-export { };
-
 import mongoose from "mongoose";
 
 const ApiSchema = new mongoose.Schema(

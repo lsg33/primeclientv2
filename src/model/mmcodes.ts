@@ -1,8 +1,6 @@
 import { iUser } from "./user";
 
-import User from "../model/user";
-
-export { };
+import User from "../model/user.js";
 
 import mongoose from "mongoose";
 

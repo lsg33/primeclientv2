@@ -35,7 +35,7 @@ class friendsClass {
     }
     
     public async sendFriendReq(fromId, toId) {
-        if (!await this.validateFriendAdd(fromId, toId)) return false;
+        if (!(await this.validateFriendAdd(fromId, toId))) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
         let fromFriends = from?.list;
@@ -78,7 +78,7 @@ class friendsClass {
     }
     
     public async acceptFriendReq(fromId, toId) {
-        if (!await this.validateFriendAdd(fromId, toId)) return false;
+        if (!(await this.validateFriendAdd(fromId, toId))) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
         let fromFriends = from?.list;
@@ -127,7 +127,7 @@ class friendsClass {
     }
     
     public async deleteFriend(fromId, toId) {
-        if (!await this.validateFriendDelete(fromId, toId)) return false;
+        if (!(await this.validateFriendDelete(fromId, toId))) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
         let fromFriends = from?.list;
@@ -178,8 +178,8 @@ class friendsClass {
     }
     
     public async blockFriend(fromId, toId) {
-        if (!await this.validateFriendDelete(fromId, toId)) return false;
-        if (!await this.validateFriendBlock(fromId, toId)) return false;
+        if (!(await this.validateFriendDelete(fromId, toId))) return false;
+        if (!(await this.validateFriendBlock(fromId, toId))) return false;
         await this.deleteFriend(fromId, toId);
     
         let from = await Friends.findOne({ accountId: fromId });

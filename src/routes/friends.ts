@@ -65,12 +65,12 @@ app.post("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) =>
     if (!sender || !receiver) return res.status(403).end();
 
     if (sender.list.incoming.find(i => i.accountId == receiver?.accountId)) {
-        if (!await friends.acceptFriendReq(sender.accountId, receiver.accountId)) return res.status(403).end();
+        if (!(await friends.acceptFriendReq(sender.accountId, receiver.accountId))) return res.status(403).end();
 
         functions.getPresenceFromUser(sender.accountId, receiver.accountId, false);
         functions.getPresenceFromUser(receiver.accountId, sender.accountId, false);
     } else if (!sender.list.outgoing.find(i => i.accountId == receiver?.accountId)) {
-        if (!await friends.sendFriendReq(sender.accountId, receiver.accountId)) return res.status(403).end();
+        if (!(await friends.sendFriendReq(sender.accountId, receiver.accountId))) return res.status(403).end();
     }
 
     res.status(204).end();
@@ -130,7 +130,7 @@ app.delete("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) 
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.deleteFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.deleteFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     functions.getPresenceFromUser(sender.accountId, receiver.accountId, true);
     functions.getPresenceFromUser(receiver.accountId, sender.accountId, true);
@@ -143,7 +143,7 @@ app.post("/friends/api/*/blocklist*/:receiverId", verifyToken, async (req, res) 
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.blockFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.blockFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     functions.getPresenceFromUser(sender.accountId, receiver.accountId, true);
     functions.getPresenceFromUser(receiver.accountId, sender.accountId, true);
@@ -156,7 +156,7 @@ app.delete("/friends/api/*/blocklist*/:receiverId", verifyToken, async (req, res
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.deleteFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.deleteFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     res.status(204).end();
 });
