@@ -1,20 +1,21 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-const fs = require("fs");
-const crypto = require("crypto");
-const path = require("path");
-import S3 from 'aws-sdk/clients/s3';
-const limit = require("express-limit").limit;
+import fs from "fs";
+import crypto from "crypto";
+import path from "path";
+import S3 from 'aws-sdk/clients/s3.js';
+const limit = (await import("express-limit")).limit;
 import os from 'os';
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-import functions from "../utilities/structs/functions";
-import { AWSError } from 'aws-sdk/lib/error';
-import log from '../utilities/structs/log';
-import Safety from './../utilities/safety';
+import { verifyToken, verifyClient } from "../tokenManager/tokenVerify.js";
+import functions from "../utilities/structs/functions.js";
+import { AWSError } from 'aws-sdk/lib/error.js';
+import log from '../utilities/structs/log.js';
+import Safety from './../utilities/safety.js';
+import { dirname } from 'dirname-filename-esm';
 
-const NodeCache = require("node-cache")
+const __dirname = dirname(import.meta);
+
+import NodeCache from "node-cache";
 const cache = new NodeCache();
 
 const operatingSystem = os.platform();
@@ -391,4 +392,4 @@ app.put("/fortnite/api/cloudstorage/user/*/:file", verifyToken, async (req, res)
     res.status(204).end();
 });
 
-module.exports = app;
+export default app;

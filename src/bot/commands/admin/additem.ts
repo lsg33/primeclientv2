@@ -1,106 +1,110 @@
-export { }
+import Asteria from '../../../utilities/asteriasdk/index.js'
 
-import { CommandInteraction, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import Asteria from "asteriasdk";
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChatInputCommandInteraction } from 'discord.js';
+import Users from '../../../model/user.js';
+import Profiles from '../../../model/profiles.js';
+import fs from 'fs';
+import path from 'path';
+import { dirname } from 'dirname-filename-esm';
 
-const { SlashCommandBuilder } = require('discord.js');
-const Users = require('../../../model/user');
-const Profiles = require('../../../model/profiles');
+const __dirname = dirname(import.meta);
 
 const asteria = new Asteria({
     collectAnonStats: true,
     throwErrors: true,
 });
 
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('addcosmetic')
-        .setDescription('Allows you to give a user any skin, pickaxe, glider, etc.')
-        .addUserOption(option =>
-            option.setName('user')
-                .setDescription('The user you want to give the cosmetic to')
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('cosmeticname')
-                .setDescription('The name of the cosmetic you want to give')
-                .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
-        .setDMPermission(false),
 
+export const data = new SlashCommandBuilder()
+    .setName('addcosmetic')
+    .setDescription('Allows you to give a user any skin, pickaxe, glider, etc.')
+    .addUserOption(option =>
+        option.setName('user')
+            .setDescription('The user you want to give the cosmetic to')
+            .setRequired(true))
+    .addStringOption(option =>
+        option.setName('cosmeticname')
+            .setDescription('The name of the cosmetic you want to give')
+            .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+    .setDMPermission(false);
 
-    async execute(interaction) {
+export async function execute(interaction: ChatInputCommandInteraction) {
+    await interaction.deferReply({ ephemeral: true });
 
-        await interaction.deferReply({ ephemeral: true });
+    const selectedUser = interaction.options.getUser('user');
+    const selectedUserId = selectedUser!.id;
 
-        const selectedUser = interaction.options.getUser('user');
-        const selectedUserId = selectedUser!.id;
+    const user = await Users.findOne({ discordId: selectedUserId });
+    if (!user) return interaction.editReply({ content: "That user does not own an account" });
+    const profile = await Profiles.findOne({ accountId: user.accountId });
+    if (!profile) return interaction.editReply({ content: "That user does not own an account" });
 
-        const user = await Users.findOne({ discordId: selectedUserId });
-        if (!user) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
-        const profile = await Profiles.findOne({ accountId: user.accountId });
-        if (!profile) return interaction.editReply({ content: "That user does not own an account", ephemeral: true });
+    const cosmeticname: string = interaction.options.getString('cosmeticname')!;
 
-        const cosmeticname: string = interaction.options.getString('cosmeticname');
+    try {
+        await fetch(`https://fortnite-api.com/v2/cosmetics/br/search?name=${cosmeticname}`).then(res => res.json()).then(async json => {
+            const cosmeticFromAPI = json.data;
+            if (!cosmeticFromAPI) return await interaction.editReply({ content: "Could not find the cosmetic" });
 
-        const cosmeticCheck = await asteria.getCosmetic("name", cosmeticname, false);
+            const cosmeticimage = cosmeticFromAPI.images.icon;
 
-        const regex = /^(?:[A-Z][a-z]*\b\s*)+$/;
+            const regex = /^(?:[A-Z][a-z]*\b\s*)+$/;
+            if (!regex.test(cosmeticname)) return await interaction.editReply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct." })
 
-        if (!regex.test(cosmeticname)) return await interaction.editReply({ content: "Please check for correct casing. E.g 'renegade raider' is wrong, but 'Renegade Raider' is correct.", ephemeral: true })
+            let cosmetic: any = {};
 
-        let cosmetic: any = {};
+            const file = fs.readFileSync(path.join(__dirname, "../../../../Config/DefaultProfiles/allathena.json"));
+            const jsonFile = JSON.parse(file.toString());
+            const items = jsonFile.items;
 
-        try {
-            cosmetic = await asteria.getCosmetic("name", cosmeticname, false);
-        } catch (err) {
-            return await interaction.editReply({ content: "That cosmetic does not exist" });
-        } finally {
-            try {
-                if (profile.profiles.athena.items[`${cosmeticCheck.type.backendValue}:${cosmeticCheck.id}`]) return await interaction.editReply({ content: "That user already has that cosmetic", ephemeral: true });
-            } catch (err) {
-                await fetch(`https://fortnite-api.com/v2/cosmetics/br/search?name=${cosmeticname}`).then(res => res.json()).then(async json => {
-                    const cosmeticFromAPI = json.data;
-                    if (profile.profiles.athena.items[`${cosmeticFromAPI.type.backendValue}:${cosmeticFromAPI.id}`]) {
-                        await interaction.editReply({ content: "That user already has that cosmetic", ephemeral: true });
-                        return;
+            let foundcosmeticname: string = "";
+            let found = false;
+
+            for (const key of Object.keys(items)) {
+                const [type, id] = key.split(":");
+                if (id === cosmeticFromAPI.id) {
+                    foundcosmeticname = key;
+                    console.log(`Found key: ${key}`);
+                    if (profile.profiles.athena.items[key]) {
+                        return await interaction.editReply({ content: "That user already has that cosmetic" });
                     }
-                    cosmetic = cosmeticFromAPI;
-                })
+                    found = true;
+                    cosmetic = items[key];
+                    break;
+                }
             }
-        }
 
-        await Profiles.findOneAndUpdate(
-            { accountId: user.accountId },
-            {
-                $set: {
-                    [`profiles.athena.items.${cosmetic.type.backendValue}:${cosmetic.id}`]: {
-                        templateId: `${cosmetic.type.backendValue}:${cosmetic.id}`,
-                        attributes: {
-                            item_seen: false,
-                            variants: [],
-                            favorite: false,
-                        },
-                        "quantity": 1,
+            if (!found) return await interaction.editReply({ content: `Could not find the cosmetic ${cosmeticname}` });
+
+            await Profiles.findOneAndUpdate(
+                { accountId: user.accountId },
+                {
+                    $set: {
+                        [`profiles.athena.items.${foundcosmeticname}`]: cosmetic,
                     },
                 },
-            },
-            { new: true },
-        )
-            .catch((err) => {
+                { new: true },
+            ).catch(async (err) => {
+                console.log(err);
+                return await interaction.editReply({ content: "An error occured while adding the cosmetic" });
             })
 
-        const embed = new EmbedBuilder()
-            .setTitle("Cosmetic added")
-            .setDescription("Successfully gave the user the cosmetic: " + cosmetic.name)
-            .setThumbnail(cosmetic.images.icon)
-            .setColor("#2b2d31")
-            .setFooter({
-                text: "Momentum",
-                iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-            })
-            .setTimestamp();
+            const embed = new EmbedBuilder()
+                .setTitle("Cosmetic added")
+                .setDescription("Successfully gave the user the cosmetic: " + cosmeticname)
+                .setThumbnail(cosmeticimage)
+                .setColor("#2b2d31")
+                .setFooter({
+                    text: "Momentum",
+                    iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+                })
+                .setTimestamp();
 
-        await interaction.editReply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
+        })
+    } catch (err) {
+        console.log(err);
+    }
 
-    },
-};
+}

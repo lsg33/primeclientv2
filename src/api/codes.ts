@@ -1,12 +1,9 @@
 import { iUser } from './../model/user';
-
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-const { verifyApikey } = require("../utilities/api.js");
-const MMCodes = require("../model/mmcodes");
-const Users = require("../model/user");
+import { verifyApikey } from "../utilities/api.js";
+import MMCodes from "../model/mmcodes.js";
+import Users from "../model/user.js";
 
 app.put("/api/codes/create", verifyApikey, async (req, res) => {
 
@@ -49,13 +46,14 @@ app.delete("/api/codes/delete", verifyApikey, async (req, res) => {
 
     if (!code || !accountId) return res.status(400).json({ error: "Missing parameter: " + (!code ? "code" : !accountId ? "accountId" : "") });
 
-    const user:iUser = await Users.findOne({ accountId: accountId });
+    const user: iUser = await Users.findOne({ accountId: accountId }) as iUser;
     if (!user) return res.status(404).json({ error: "User not found" });
 
     const codeExists = await MMCodes.findOne({ code_lower: code.toLowerCase() }).populate("owner");
     if (!codeExists) return res.status(404).json({ error: "Code not found" });
 
-    if (codeExists.owner.accountId !== user.accountId) return res.status(403).json({ error: "You don't own this code as the owner is " + codeExists.owner });
+    // @ts-expect-error
+    if (codeExists.owner?.accountId !== user.accountId) return res.status(403).json({ error: "You don't own this code as the owner is " + codeExists.owner });
 
     await MMCodes.deleteOne({ code_lower: code.toLowerCase() });
 
@@ -63,4 +61,4 @@ app.delete("/api/codes/delete", verifyApikey, async (req, res) => {
 
 });
 
-module.exports = app;
+export default app;

@@ -1,12 +1,12 @@
 export { };
 
-const express = require("express");
+import express from "express";
 const app = express.Router();
 
-import Island, { IslandInterface } from "../model/island";
+import Island, { IslandInterface } from "../model/island.js";
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
-import error from "../utilities/structs/error";
+import { verifyToken, verifyClient } from "../tokenManager/tokenVerify.js";
+import error from "../utilities/structs/error.js";
 
 //Thanks milxnor
 app.get("/links/api/fn/mnemonic/:islandCode", async (req, res) => {
@@ -46,4 +46,4 @@ app.get("/api/v1/links/favorites/:accountId/check", verifyToken, async (req, res
 
 });
 
-module.exports = app;
+export default app;

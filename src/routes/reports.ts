@@ -1,12 +1,10 @@
-export {}
-
-const express = require("express");
+import express, { Request } from "express";
 const app = express.Router();
 
-const { verifyToken } = require("../tokenManager/tokenVerify.js");
-const User = require("../model/user.js");
+import { verifyToken } from "../tokenManager/tokenVerify.js";
+import User from "../model/user.js";
 
-app.post("/fortnite/api/game/v2/toxicity/account/:unsafeReporter/report/:reportedPlayer", verifyToken, async (req, res) => {
+app.post("/fortnite/api/game/v2/toxicity/account/:unsafeReporter/report/:reportedPlayer", verifyToken, async (req: Request, res) => {
 
     const reporter = req.user.accountId;
     const reportedPlayer = req.params.reportedPlayer;
@@ -27,4 +25,4 @@ app.post("/fortnite/api/game/v2/toxicity/account/:unsafeReporter/report/:reporte
 
 });
 
-module.exports = app;
+export default app;

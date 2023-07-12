@@ -1,8 +1,6 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-import functions from "../utilities/structs/functions";
+import functions from "../utilities/structs/functions.js";
 
 app.get("/content/api/pages/*", async (req, res) => {
     const contentpages = functions.getContentPages(req);
@@ -10,4 +8,4 @@ app.get("/content/api/pages/*", async (req, res) => {
     res.json(contentpages);
 });
 
-module.exports = app;
+export default app;

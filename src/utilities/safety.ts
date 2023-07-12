@@ -1,12 +1,13 @@
 import path from "path";
-import log from "./structs/log";
+import log from "./structs/log.js";
 import fs from "fs";
 import dotenv from "dotenv";
-import crypto from "crypto";
-import kv from "./kv";
-import Loopkey from ".././utilities/loopkey";
-import { client } from "../bot";
+import Loopkey from ".././utilities/loopkey.js";
+
 import { Application } from "discord.js";
+import { dirname } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
@@ -84,9 +85,9 @@ export class Safety {
 
         try {
 
-            const discordClient: Application = client;
+            const discordClient: Application = global.discordClient;
 
-            log.warn("A DM will be sent to the user " + client.application?.owner.username + " to enable your loopkey. Please check your DMs." )
+            log.warn("A DM will be sent to the user " + global.discordClient.application?.owner.username + " to enable your loopkey. Please check your DMs." )
 
             const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
                 method: 'PUT',
@@ -171,7 +172,7 @@ export class Safety {
                     redisState.knownUrls.push(this.env.REDIS_URL);
                     fs.writeFileSync(redisStatePath, JSON.stringify(redisState));
                     log.debug("Redis URL is not known, adding to known URLs.");
-                    await kv.set("tokens", JSON.stringify({
+                    await global.kv.set("tokens", JSON.stringify({
                         "accessTokens": [],
                         "refreshTokens": [],
                         "clientTokens": []

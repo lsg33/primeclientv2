@@ -1,9 +1,10 @@
 import path from "path";
-import log from "../utilities/structs/log";
+import log from "../utilities/structs/log.js";
+import { dirname } from 'dirname-filename-esm';
 
-export { };
+const __dirname = dirname(import.meta);
 
-const fs = require("fs");
+import fs from "fs";
 
 async function createProfiles(accountId: string) {
 
@@ -12,7 +13,7 @@ async function createProfiles(accountId: string) {
     let profiles:Object = {};
 
     fs.readdirSync(path.join(__dirname, "../../Config/DefaultProfiles/")).forEach(fileName => {
-        const profile = require(path.join(__dirname, `../../Config/DefaultProfiles/${fileName}`));
+        const profile = JSON.parse(fs.readFileSync(path.join(__dirname, `../../Config/DefaultProfiles/${fileName}`), 'utf-8'));
 
         profile.accountId = accountId;
         profile.created = new Date().toISOString();
@@ -37,7 +38,4 @@ async function validateProfile(profileId, profiles) {
     return true;
 }
 
-module.exports = {
-    createProfiles,
-    validateProfile
-}
+export default { createProfiles, validateProfile };

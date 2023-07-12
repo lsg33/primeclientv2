@@ -1,26 +1,26 @@
-import kv from "../kv";
-import log from "./log";
+import log from "./log.js";
 
-export { };
+import XMLBuilder from "xmlbuilder";
+import { v4 } from "uuid";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
-const XMLBuilder = require("xmlbuilder");
-const uuid = require("uuid");
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
+import User from "../../model/user.js";
+import Profile from "../../model/profiles.js";
+import profileManager from "../../structs/profile.js";
+import Friends from "../../model/friends.js";
+import { dirname } from 'dirname-filename-esm';
 
-const User = require("../../model/user.js");
-const Profile = require("../../model/profiles.js");
-const profileManager = require("../../structs/profile");
-const Friends = require("../../model/friends.js");
+const __dirname = dirname(import.meta);
 
 class functions {
 
-    public async sleep(ms) {
-        await new Promise((resolve, reject) => {
+    public sleep(ms) {
+        return new Promise((resolve) => {
             setTimeout(resolve, ms);
-        })
+        });
     }
 
     public GetVersionInfo(req) {
@@ -168,8 +168,8 @@ class functions {
     }
 
     public getItemShop() {
-        const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "responses", "catalog.json")).toString());
-        const CatalogConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "Config", "catalog_config.json").toString()));
+        const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "responses", "catalog.json"), "utf8"));
+        const CatalogConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../", "Config", "catalog_config.json"), "utf8"));
 
         try {
             for (let value in CatalogConfig) {
@@ -239,7 +239,7 @@ class functions {
     }
 
     public MakeID() {
-        return uuid.v4();
+        return v4();
     }
 
     public sendXmppMessageToAll(body) {
@@ -289,7 +289,7 @@ class functions {
         ClientData.client.send(xml.toString());
     }
 
-    public async registerUser(discordId: any, username: string, email: string, plainPassword: string | any[], isServer: boolean) {
+    public async registerUser(discordId: any, username: string, email: string, plainPassword: string, isServer: boolean) {
         email = email.toLowerCase();
 
         if (!discordId || !username || !email || !plainPassword) return { message: "Username/email/password is required.", status: 400 };
@@ -336,13 +336,13 @@ class functions {
         return Buffer.from(str, 'base64').toString();
     }
 
-    public UpdateTokens() {
+    public async UpdateTokens() {
         /*fs.writeFileSync("../../../tokens.json", JSON.stringify({
             accessTokens: global.accessTokens,
             refreshTokens: global.refreshTokens,
             clientTokens: global.clientTokens
         }, null, 2));*/
-        kv.set("tokens", JSON.stringify({
+        await global.kv.set("tokens", JSON.stringify({
             accessTokens: global.accessTokens,
             refreshTokens: global.refreshTokens,
             clientTokens: global.clientTokens

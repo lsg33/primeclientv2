@@ -1,6 +1,4 @@
-export { };
-
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 export interface iUser {
     created: Date,
@@ -39,4 +37,4 @@ const UserSchema = new mongoose.Schema(
 
 const model = mongoose.model('UserSchema', UserSchema);
 
-module.exports = model;
+export default model;

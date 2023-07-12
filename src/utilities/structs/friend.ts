@@ -1,7 +1,5 @@
-export { };
-
-const Friends = require("../../model/friends.js");
-import functions from "../../utilities/structs/functions";
+import Friends from "../../model/friends.js";
+import functions from "../../utilities/structs/functions.js";
 
 class friendsClass {
 
@@ -10,8 +8,8 @@ class friendsClass {
         let receiver = await Friends.findOne({ accountId: friendId }).lean();
         if (!sender || !receiver) return false;
     
-        if (sender.list.accepted.find(i => i.accountId == receiver.accountId) || receiver.list.accepted.find(i => i.accountId == sender.accountId)) return false;
-        if (sender.list.blocked.find(i => i.accountId == receiver.accountId) || receiver.list.blocked.find(i => i.accountId == sender.accountId)) return false;
+        if (sender.list.accepted.find(i => i.accountId == receiver?.accountId) || receiver.list.accepted.find(i => i.accountId == sender?.accountId)) return false;
+        if (sender.list.blocked.find(i => i.accountId == receiver?.accountId) || receiver.list.blocked.find(i => i.accountId == sender?.accountId)) return false;
         if (sender.accountId == receiver.accountId) return false;
     
         return true;
@@ -30,7 +28,7 @@ class friendsClass {
         let receiver = await Friends.findOne({ accountId: friendId }).lean();
         if (!sender || !receiver) return false;
     
-        if (sender.list.blocked.find(i => i.accountId == receiver.accountId)) return false;
+        if (sender.list.blocked.find(i => i.accountId == receiver?.accountId)) return false;
         if (sender.accountId == receiver.accountId) return false;
     
         return true;
@@ -40,16 +38,16 @@ class friendsClass {
         if (!await this.validateFriendAdd(fromId, toId)) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
-        let fromFriends = from.list;
+        let fromFriends = from?.list;
     
         let to = await Friends.findOne({ accountId: toId });
-        let toFriends = to.list;
+        let toFriends = to?.list;
     
-        fromFriends.outgoing.push({ accountId: to.accountId, created: new Date().toISOString() });
+        fromFriends.outgoing.push({ accountId: to?.accountId, created: new Date().toISOString() });
     
         functions.sendXmppMessageToId({
             "payload": {
-                "accountId": to.accountId,
+                "accountId": to?.accountId,
                 "status": "PENDING",
                 "direction": "OUTBOUND",
                 "created": new Date().toISOString(),
@@ -57,13 +55,13 @@ class friendsClass {
             },
             "type": "com.epicgames.friends.core.apiobjects.Friend",
             "timestamp": new Date().toISOString()
-        }, from.accountId);
+        }, from?.accountId);
     
-        toFriends.incoming.push({ accountId: from.accountId, created: new Date().toISOString() });
+        toFriends.incoming.push({ accountId: from?.accountId, created: new Date().toISOString() });
     
         functions.sendXmppMessageToId({
             "payload": {
-                "accountId": from.accountId,
+                "accountId": from?.accountId,
                 "status": "PENDING",
                 "direction": "INBOUND",
                 "created": new Date().toISOString(),
@@ -71,10 +69,10 @@ class friendsClass {
             },
             "type": "com.epicgames.friends.core.apiobjects.Friend",
             "timestamp": new Date().toISOString()
-        }, to.accountId);
+        }, to?.accountId);
     
-        await from.updateOne({ $set: { list: fromFriends } });
-        await to.updateOne({ $set: { list: toFriends } });
+        await from?.updateOne({ $set: { list: fromFriends } });
+        await to?.updateOne({ $set: { list: toFriends } });
     
         return true;
     }
@@ -83,20 +81,20 @@ class friendsClass {
         if (!await this.validateFriendAdd(fromId, toId)) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
-        let fromFriends = from.list;
+        let fromFriends = from?.list;
     
         let to = await Friends.findOne({ accountId: toId });
-        let toFriends = to.list;
+        let toFriends = to?.list;
     
-        let incomingIndex = fromFriends.incoming.findIndex(i => i.accountId == to.accountId);
+        let incomingIndex = fromFriends.incoming.findIndex(i => i.accountId == to?.accountId);
     
         if (incomingIndex != -1) {
             fromFriends.incoming.splice(incomingIndex, 1);
-            fromFriends.accepted.push({ accountId: to.accountId, created: new Date().toISOString() });
+            fromFriends.accepted.push({ accountId: to?.accountId, created: new Date().toISOString() });
     
             functions.sendXmppMessageToId({
                 "payload": {
-                    "accountId": to.accountId,
+                    "accountId": to?.accountId,
                     "status": "ACCEPTED",
                     "direction": "OUTBOUND",
                     "created": new Date().toISOString(),
@@ -104,14 +102,14 @@ class friendsClass {
                 },
                 "type": "com.epicgames.friends.core.apiobjects.Friend",
                 "timestamp": new Date().toISOString()
-            }, from.accountId);
+            }, from?.accountId);
     
-            toFriends.outgoing.splice(toFriends.outgoing.findIndex(i => i.accountId == from.accountId), 1);
-            toFriends.accepted.push({ accountId: from.accountId, created: new Date().toISOString() });
+            toFriends.outgoing.splice(toFriends.outgoing.findIndex(i => i.accountId == from?.accountId), 1);
+            toFriends.accepted.push({ accountId: from?.accountId, created: new Date().toISOString() });
     
             functions.sendXmppMessageToId({
                 "payload": {
-                    "accountId": from.accountId,
+                    "accountId": from?.accountId,
                     "status": "ACCEPTED",
                     "direction": "OUTBOUND",
                     "created": new Date().toISOString(),
@@ -119,10 +117,10 @@ class friendsClass {
                 },
                 "type": "com.epicgames.friends.core.apiobjects.Friend",
                 "timestamp": new Date().toISOString()
-            }, to.accountId);
+            }, to?.accountId);
     
-            await from.updateOne({ $set: { list: fromFriends } });
-            await to.updateOne({ $set: { list: toFriends } });
+            await from?.updateOne({ $set: { list: fromFriends } });
+            await to?.updateOne({ $set: { list: toFriends } });
         }
     
         return true;
@@ -132,16 +130,16 @@ class friendsClass {
         if (!await this.validateFriendDelete(fromId, toId)) return false;
     
         let from = await Friends.findOne({ accountId: fromId });
-        let fromFriends = from.list;
+        let fromFriends = from?.list;
     
         let to = await Friends.findOne({ accountId: toId });
-        let toFriends = to.list;
+        let toFriends = to?.list;
     
         let removed = false;
     
         for (let listType in fromFriends) {
-            let findFriend = fromFriends[listType].findIndex(i => i.accountId == to.accountId);
-            let findToFriend = toFriends[listType].findIndex(i => i.accountId == from.accountId);
+            let findFriend = fromFriends[listType].findIndex(i => i.accountId == to?.accountId);
+            let findToFriend = toFriends[listType].findIndex(i => i.accountId == from?.accountId);
     
             if (findFriend != -1) {
                 fromFriends[listType].splice(findFriend, 1);
@@ -156,24 +154,24 @@ class friendsClass {
         if (removed == true) {
             functions.sendXmppMessageToId({
                 "payload": {
-                    "accountId": to.accountId,
+                    "accountId": to?.accountId,
                     "reason": "DELETED"
                 },
                 "type": "com.epicgames.friends.core.apiobjects.FriendRemoval",
                 "timestamp": new Date().toISOString()
-            }, from.accountId);
+            }, from?.accountId);
     
             functions.sendXmppMessageToId({
                 "payload": {
-                    "accountId": from.accountId,
+                    "accountId": from?.accountId,
                     "reason": "DELETED"
                 },
                 "type": "com.epicgames.friends.core.apiobjects.FriendRemoval",
                 "timestamp": new Date().toISOString()
-            }, to.accountId);
+            }, to?.accountId);
     
-            await from.updateOne({ $set: { list: fromFriends } });
-            await to.updateOne({ $set: { list: toFriends } });
+            await from?.updateOne({ $set: { list: fromFriends } });
+            await to?.updateOne({ $set: { list: toFriends } });
         }
     
         return true;
@@ -185,13 +183,13 @@ class friendsClass {
         await this.deleteFriend(fromId, toId);
     
         let from = await Friends.findOne({ accountId: fromId });
-        let fromFriends = from.list;
+        let fromFriends = from?.list;
     
         let to = await Friends.findOne({ accountId: toId });
         
-        fromFriends.blocked.push({ accountId: to.accountId, created: new Date().toISOString() });
+        fromFriends.blocked.push({ accountId: to?.accountId, created: new Date().toISOString() });
     
-        await from.updateOne({ $set: { list: fromFriends } });
+        await from?.updateOne({ $set: { list: fromFriends } });
     
         return true;
     }

@@ -1,18 +1,15 @@
-import { iMMCodes } from "../model/mmcodes";
-import { iUser } from "../model/user";
-import decode from "../utilities/decode";
-import kv from "../utilities/kv";
-import Safety from "../utilities/safety";
+import { iMMCodes } from "../model/mmcodes.js";
+import Safety from "../utilities/safety.js";
 
-export { };
 
-const express = require("express");
+
+import express from "express";
 const app = express.Router();
-import functions from "../utilities/structs/functions";
-const MMCode = require("../model/mmcodes");
-const { verifyToken } = require("../tokenManager/tokenVerify");
+import functions from "../utilities/structs/functions.js";
+import MMCode from "../model/mmcodes.js";
+import { verifyToken } from "../tokenManager/tokenVerify.js";
 import qs from "qs";
-import error from "../utilities/structs/error";
+import error from "../utilities/structs/error.js";
 
 let buildUniqueId = {};
 
@@ -21,8 +18,8 @@ app.get("/fortnite/api/matchmaking/session/findPlayer/*", (req, res) => {
 });
 
 app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken, async (req, res) => {
-    const playerCustomKey = qs.parse(req.query, { ignoreQueryPrefix: true })['player.option.customKey'] as string;
-    const bucketId = qs.parse(req.query, { ignoreQueryPrefix: true })['bucketId'];
+    const playerCustomKey = qs.parse(req.url.split("?")[1], { ignoreQueryPrefix: true })['player.option.customKey'] as string;
+    const bucketId = qs.parse(req.url.split("?")[1], { ignoreQueryPrefix: true })['bucketId'] as string;
     if (typeof bucketId !== "string" || bucketId.split(":").length !== 4) {
         return res.status(400).end();
     }
@@ -41,11 +38,11 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
         );
     }
 
-    await kv.set(`playerPlaylist:${req.user.accountId}`, playlist);
+    await global.kv.set(`playerPlaylist:${req.user.accountId}`, playlist);
 
     if (typeof playerCustomKey == "string") {
 
-        let codeDocument: iMMCodes = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() });
+        let codeDocument: iMMCodes = await MMCode.findOne({ code_lower: playerCustomKey?.toLowerCase() }) as iMMCodes;
         if (!codeDocument) {
             return error.createError(
                 "errors.com.epicgames.common.matchmaking.code.not_found",
@@ -59,7 +56,7 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
             port: codeDocument.port,
             playlist: playlist,
         })
-        await kv.set(`playerCustomKey:${req.user.accountId}`, kvDocument);
+        await global.kv.set(`playerCustomKey:${req.user.accountId}`, kvDocument);
     }
     if (typeof req.query.bucketId !== "string" || req.query.bucketId.split(":").length !== 4) {
         return res.status(400).end();
@@ -88,9 +85,9 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, async (req, res) => {
 
-    const playlist = await kv.get(`playerPlaylist:${req.user.accountId}`);
+    const playlist = await global.kv.get(`playerPlaylist:${req.user.accountId}`);
 
-    let kvDocument = await kv.get(`playerCustomKey:${req.user.accountId}`);
+    let kvDocument = await global.kv.get(`playerCustomKey:${req.user.accountId}`);
     if (!kvDocument) {
         const gameServers = Safety.env.GAME_SERVERS;
         let selectedServer = gameServers.find(server => server.split(":")[2] === playlist);
@@ -165,4 +162,4 @@ app.post("/fortnite/api/matchmaking/session/matchMakingRequest", (req, res) => {
     res.json([]);
 });
 
-module.exports = app;
+export default app;

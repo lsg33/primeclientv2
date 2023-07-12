@@ -1,28 +1,20 @@
-export { };
 
-const express = require("express");
+
+import express from "express";
+import fs from 'fs';
+const eulaJson = JSON.parse(fs.readFileSync('./responses/eula/SharedAgreements.json', 'utf8'));
 const app = express.Router();
 
-//Dont know the response for this yet
+app.get("/eulatracking/api/shared/agreements/fn", async (req, res) => {
 
-/* app.get("/eulatracking/api/shared/agreements/fn", async (req, res) => {
-
-    const locale = req.query.locale;
-
-    console.log("Requested EULA")
-
-    res.send("Hello eula lol")
+    res.json(eulaJson);
 
 });
 
 app.get("/eulatracking/api/public/agreements/fn/account/:accountId", async (req, res) => {
 
-    const locale = req.query.locale;
+    res.status(204).send();
 
-    console.log("Requested EULA")
+}); 
 
-    res.send("Hello eula lol")
-
-}); */
-
-module.exports = app;
+export default app;

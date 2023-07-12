@@ -1,6 +1,6 @@
-export { };
 
-const express = require("express");
+
+import express from "express";
 const app = express.Router();
 import path from "path";
 import fs from "fs";
@@ -188,4 +188,4 @@ app.post("/datarouter/api/v1/public/data", (req, res) => {
     res.end();
 });
 
-module.exports = app;
+export default app;

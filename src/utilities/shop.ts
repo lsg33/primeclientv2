@@ -1,7 +1,10 @@
-import { promises as fs } from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
-import Safety from './safety';
-import log from './structs/log';
+import Safety from './safety.js';
+import log from './structs/log.js';
+import { dirname } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
 
 class Shop {
 

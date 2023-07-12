@@ -1,14 +1,10 @@
-export { };
-
-import functions from "../utilities/structs/functions";
-import kv from "../utilities/kv";
-import Safety from "../utilities/safety";
+import functions from "../utilities/structs/functions.js";
+import Safety from "../utilities/safety.js";
 import { WebSocket } from "ws";
-import { Request } from "express";
 import { io } from "socket.io-client";
-import log from "../utilities/structs/log";
+import log from "../utilities/structs/log.js";
 
-const User = require("../model/user");
+import User from "../model/user.js";
 
 const bote = Safety.env.NAME;
 
@@ -23,7 +19,7 @@ class matchmaker {
     // Create a map to store clients
     clients = new Map();
 
-    public async server(ws: WebSocket, req: Request) {
+    public async server(ws: WebSocket, req: any) {
 
         const socket = io("https://matchmaker.nexusfn.net", {
             transports: ["websocket"],
@@ -142,7 +138,7 @@ class matchmaker {
                 if (playlist) {
                     setTimeout(() => Queued(message.data.queuedAmount, playlist), 2000);
                 }
-                const status = await kv.get(`serverStatus:${playlist}`);
+                const status = await global.kv.get(`serverStatus:${playlist}`);
                 if (status == "online") {
                     setTimeout(async () => {
                         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -151,7 +147,7 @@ class matchmaker {
                         await Join(playlist);
                     }, 2000);
                 } else {
-                    await kv.set(`serverStatus:${playlist}`, "offline");
+                    await global.kv.set(`serverStatus:${playlist}`, "offline");
                 }
             } else {
                 if (playlist) {
@@ -175,7 +171,7 @@ class matchmaker {
                 case "update":
                     SessionAssignment(playlist);
                     setTimeout(() => Join(playlist), 1000);
-                    await kv.setttl(`serverStatus:${playlist}`, "online", 60000);
+                    await global.kv.setttl(`serverStatus:${playlist}`, "online", 60000);
             }
 
         });

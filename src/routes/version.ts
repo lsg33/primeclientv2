@@ -1,6 +1,4 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
 
 app.get("/fortnite/api/version", (req, res) => {
@@ -46,4 +44,4 @@ app.get("/fortnite/api*/versioncheck*", (req, res) => {
     });
 });
 
-module.exports = app;
+export default app;

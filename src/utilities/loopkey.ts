@@ -1,6 +1,4 @@
-import Safety from "../utilities/safety";
 import { createHash } from 'node:crypto'
-import { client } from "../bot/index";
 
 class Loopkey {
 
@@ -13,8 +11,8 @@ class Loopkey {
         // 🔒 Learn more about SHA-256 hashing here: https://www.n-able.com/blog/sha-256-encryption#:~:text=SHA%2D256%20is%20a%20patented,as%20long%20as%20when%20unencrypted.
         const HASHED_TOKEN = createHash('sha256').update(token).digest('hex');
     
-        await client.application.fetch();
-        const ownerId = client.application?.owner.id;
+        await global.discordClient.application.fetch();
+        const ownerId = global.discordClient.application?.owner.id;
         return Buffer.from(`${HASHED_TOKEN}_${ownerId}`).toString('base64');
     
     }

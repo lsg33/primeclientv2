@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request } from 'express';
-const User = require("../model/user");
+import User from "../model/user.js";
 
 class decode {
     public async decodeAuth(req: Request) {
@@ -11,7 +11,7 @@ class decode {
         }
 
         const decodedToken = jwt.decode(token);
-        const user = await User.findOne({ accountId: decodedToken.sub });
+        const user = await User.findOne({ accountId: decodedToken?.sub });
 
         return user;
     }

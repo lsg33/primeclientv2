@@ -1,10 +1,9 @@
-export { }
-
-import { User, EmbedBuilder, GuildMember, Client, Partials, Collection, Events, GatewayIntentBits, ActivityType } from 'discord.js';
+import { Client, Partials, Collection, Events, GatewayIntentBits, ActivityType, SlashCommandBuilder } from 'discord.js';
 import path from 'node:path';
-import logger from '../utilities/structs/log';
-
+import logger from '../utilities/structs/log.js';
 import fs from 'node:fs';
+
+
 
 export const client: any = new Client({
 	partials: [Partials.Channel, Partials.Message, Partials.Reaction],
@@ -29,27 +28,33 @@ export const client: any = new Client({
 });
 
 client.commands = new Collection();
-const foldersPath = path.join(__dirname, 'commands');
+const basePath = process.cwd();
+const foldersPath = path.join(basePath, 'build', 'bot', 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
 	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			logger.error(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		try {
+			const command = await import(`file://${path.join(commandsPath, file)}`);
+
+			if (command.data && 'execute' in command) {
+				client.commands.set(command.data.name, command);
+			} else {
+				logger.error(`[WARNING] The command at ${path.join(commandsPath, file) } is missing a required "data" or "execute" property.`);
+			}
+		} catch (error) {
+			logger.error(`[ERROR] Error loading command file at ${path.join(commandsPath, file) }: ${error}`);
 		}
 	}
-};
+}
 
-client.once(Events.ClientReady, async c => {
+client.once(Events.ClientReady, async () => {
 	let clientId = await client.application?.id;
 	global.clientId = clientId;
-	import('./deploy-commands');
+	import('./deploy-commands.js');
 });
 
 client.once(Events.ClientReady, async c => {
@@ -74,3 +79,8 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+
+interface Command {
+	data: SlashCommandBuilder;
+	execute(interaction: any): Promise<void>;
+}

@@ -1,6 +1,6 @@
 export { };
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ApiSchema = new mongoose.Schema(
     {
@@ -15,4 +15,4 @@ const ApiSchema = new mongoose.Schema(
 
 const model = mongoose.model('ApiSchema', ApiSchema);
 
-module.exports = model;
+export default model;

@@ -1,10 +1,10 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-import functions from "../utilities/structs/functions";
 import fs from "fs";
 import path from "path";
+import { dirname } from 'dirname-filename-esm';
+
+const __dirname = dirname(import.meta);
 
 app.get("/api/v1/events/Fortnite/download/:accountId", async (req, res) => {
     const events = JSON.parse(fs.readFileSync(path.join(__dirname, "../../responses/eventlistactive.json"), "utf8"));
@@ -38,4 +38,4 @@ app.get("/api/v1/players/Fortnite/:accountId", async (req, res) => {
     })
 });
 
-module.exports = app;
+export default app;
