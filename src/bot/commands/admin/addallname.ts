@@ -13,7 +13,7 @@ export const data = new SlashCommandBuilder()
         option.setName('username')
             .setDescription('The username of the user you want to give all cosmetics to')
             .setRequired(true))
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
     .setDMPermission(false);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
