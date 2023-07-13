@@ -22,6 +22,7 @@ app.get("/affiliate/api/public/affiliates/slug/:slug", verifyToken, async (req, 
         [], 1032, undefined, 404, res
     );
 
+    return;
 
     await User.findOne({ accountId: req.user.accountId }, async (err, doc) => {
         if (err) {
@@ -1602,7 +1603,14 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
             break;
         case "DeleteCosmeticLoadout":
 
-            if (!(await profileManager.validateProfile(req.query.profileId, profiles))) return error.createError(
+            error.createError(
+                "errors.com.epicgames.route.disabled",
+                `This route is disabled.`,
+                [], 1032, undefined, 404, res
+            );
+            return;
+
+            /*if (!(await profileManager.validateProfile(req.query.profileId, profiles))) return error.createError(
                 "errors.com.epicgames.modules.profiles.operation_forbidden",
                 `Unable to find template configuration for profile ${req.query.profileId}`,
                 [req.query.profileId], 12813, undefined, 403, res
@@ -1626,7 +1634,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
 
             await Profile.findOneAndUpdate({ accountId: req.user.accountId }, { $set: profiles as any }, { upsert: true });
 
-            break;
+            break;*/
         case "SetCosmeticLockerName":
             
             if (!(await profileManager.validateProfile(req.query.profileId, profiles))) return error.createError(

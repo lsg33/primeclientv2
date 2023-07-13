@@ -139,7 +139,7 @@ app.post("/account/api/oauth/token", async (req, res) => {
                 const embed = new EmbedBuilder()
                     .setColor('#2b2d31')
                     .setTitle('New Login')
-                    .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
+                    .setDescription("A new login has been detected. Was this you? You have 20 seconds to press the corresponding button.")
                     .addFields(
                         { name: 'Account name', value: req.user.username, inline: false },
                         { name: 'Account ID', value: req.user.accountId, inline: true },
