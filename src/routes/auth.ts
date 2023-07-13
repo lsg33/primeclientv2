@@ -1,30 +1,27 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ButtonInteraction } from "discord.js";
 
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-import kv from "../utilities/kv";
-import logger from '../utilities/structs/log';
-import error from "../utilities/structs/error";
-import functions from "../utilities/structs/functions";
-import { client } from "../bot/index";
-import log from "../utilities/structs/log";
-import Safety from "../utilities/safety";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import kv from "../utilities/kv.js";
+import logger from '../utilities/structs/log.js';
+import error from "../utilities/structs/error.js";
+import functions from "../utilities/structs/functions.js";
+import { client } from "../bot/index.js";
+import log from "../utilities/structs/log.js";
+import Safety from "../utilities/safety.js";
 
-const tokenCreation = require("../tokenManager/tokenCreation.js");
-const { verifyToken } = require("../tokenManager/tokenVerify.js");
-const User = require("../model/user");
+import tokenCreation from "../tokenManager/tokenCreation.js";
+import { verifyToken } from "../tokenManager/tokenVerify.js";
+import User from "../model/user.js";
 
-const { Events } = require('discord.js');
 
 
 function waitFor2FA(req: { user: { discordId: any; }; }) {
     return new Promise<void>((resolve) => {
         const checkCondition = async () => {
-            while (await kv.get(req.user.discordId) !== "true") {
+            while ((await kv.get(req.user.discordId)) !== "true") {
                 await new Promise((r) => setTimeout(r, 1000));
             }
             resolve();
@@ -32,13 +29,12 @@ function waitFor2FA(req: { user: { discordId: any; }; }) {
         checkCondition();
     });
 }
-
-app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: string; }; body: { grant_type?: any; username?: any; password?: any; refresh_token?: any; exchange_code?: any; }; ip: any; user }, res: { json: (arg0: { access_token: string; expires_in: number; expires_at: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; refresh_token?: string; refresh_expires?: number; refresh_expires_at?: any; account_id?: any; displayName?: any; app?: string; in_app_id?: any; device_id?: any; }) => void; }) => {
+app.post("/account/api/oauth/token", async (req, res) => {
     let clientId: any[];
     let rebootAccount: boolean = false;
 
     try {
-        clientId = functions.DecodeBase64(req.headers["authorization"].split(" ")[1]).split(":");
+        clientId = functions.DecodeBase64((req.headers["authorization"] ?? "").split(" ")[1]).split(":");
 
         if (!clientId[1]) throw new Error("invalid client id");
 
@@ -67,7 +63,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             functions.UpdateTokens();
 
-            const decodedClient = jwt.decode(token);
+            const decodedClient = jwt.decode(token) as JwtPayload;
 
             res.json({
                 access_token: `eg1~${token}`,
@@ -102,7 +98,20 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 } else {
                     const numberWith8Digits = Math.floor(10000000 + Math.random() * 90000000);
                     const registerUser = await functions.registerUser(numberWith8Digits, `reboot_${email.split("@")[0]}`, email, password, true)
-                    req.user = await User.findOne({ email: email.toLowerCase() });
+                    req.user = await User.findOne({ email: email.toLowerCase() }) as {
+                        password: string;
+                        username: string;
+                        created: Date;
+                        banned: boolean;
+                        discordId: string;
+                        accountId: string;
+                        username_lower: string;
+                        email: string;
+                        mfa: boolean;
+                        matchmakingId: string;
+                        canCreateCodes: boolean;
+                        isServer: boolean;
+                    };
                 }
             } else {
                 req.user = await User.findOne({ email: email.toLowerCase() }).lean();
@@ -117,7 +126,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
             if (!req.user) return err();
             else {
                 if (!rebootAccount) {
-                    if (!await bcrypt.compare(password, req.user.password)) return err();
+                    if (!(await bcrypt.compare(password, req.user.password))) return err();
                 }
             }
 
@@ -130,7 +139,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                 const embed = new EmbedBuilder()
                     .setColor('#2b2d31')
                     .setTitle('New Login')
-                    .setDescription("A new login has been detected. Was this you? You have 20 seconds to react to the corresponding emoji.")
+                    .setDescription("A new login has been detected. Was this you? You have 20 seconds to press the corresponding button.")
                     .addFields(
                         { name: 'Account name', value: req.user.username, inline: false },
                         { name: 'Account ID', value: req.user.accountId, inline: true },
@@ -142,43 +151,63 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
                         iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
                     });
 
+                const yesButton = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Success)
+                    .setLabel('Yes')
+                    .setCustomId('yes');
+                
+                const noButton = new ButtonBuilder()
+                    .setStyle(ButtonStyle.Danger)
+                    .setLabel('No')
+                    .setCustomId('no');
+                
+                const row = new ActionRowBuilder()
+                    .addComponents(yesButton, noButton);
 
                 const discordUser = await client.users.fetch(discordId);
-                const sentMessage = await discordUser.send({ embeds: [embed] });
+                const sentMessage = await discordUser.send({ embeds: [embed], components: [row] });
 
-                await sentMessage.react('✅').then(() => sentMessage.react('❌'));
+                const collector = sentMessage.createMessageComponentCollector({ time: 20000 });
 
-                const collectorFilter = (reaction, user) => {
-                    logger.debug(`Reaction: ${reaction.emoji.name} | User: ${user.id}`);
-                    return ['✅', '❌'].includes(reaction.emoji.name) && user.id === discordUser.id;
-                };
-
-                await sentMessage.awaitReactions({ filter: collectorFilter, max: 1, time: 20000, errors: ['time'] })
-                    .then(async collected => {
-                        const reaction = collected.first();
-
-                        if (reaction.emoji.name === '✅') {
+                collector.on('collect', async (i: ButtonInteraction) => {
+                    log.debug(`Interaction Button ID: ${i.customId} | Interaction User ID: ${i.user.id}`)
+                    switch (i.customId) {
+                        case 'yes':
                             await kv.set(req.user.discordId, "true");
-                            await sentMessage.reply('Thank you for keeping your account secure, you will now be logging in.');
-                        } else {
+                            await i.reply('Thank you for keeping your account secure, you will now be logging in.');
+                            yesButton.setDisabled(true);
+                            noButton.setDisabled(true);
+                            await sentMessage.edit({ components: [row] })
+                            break;
+                        case 'no':
                             await kv.set(req.user.discordId, "false");
                             error.createError(
                                 "errors.com.epicgames.account.oauth.user_denied",
                                 "User denied the request.",
                                 [], 18058, "access_denied", 400, res
                             );
-                            await sentMessage.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
-                            setTimeout(() => {
-                                sentMessage.delete();
-                            }, 10000);
-                        }
-                    })
-                    .catch(collected => {
-                        setTimeout(() => {
-                            sentMessage.delete();
-                        }, 10000);
-                        sentMessage.reply('Your reaction was not detected in time, please try again.');
-                    });
+                            await i.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
+                            yesButton.setDisabled(true);
+                            noButton.setDisabled(true);
+                            await sentMessage.edit({ components: [row] })
+                            break;
+                    }
+                });
+
+                collector.on('end', async (collected, reason) => {
+                    if (reason === 'time' && !(await kv.get(req.user.discordId))) {
+                        await kv.set(req.user.discordId, "false");
+                        error.createError(
+                            "errors.com.epicgames.account.oauth.user_denied",
+                            "User denied the request.",
+                            [], 18058, "access_denied", 400, res
+                        );
+                        sentMessage.reply('Your interaction was not detected in time, please try again.');
+                        yesButton.setDisabled(true);
+                        noButton.setDisabled(true);
+                        await sentMessage.edit({ components: [row] })
+                    }
+                });
 
                 //Wait for 2FA
                 await waitFor2FA(req);
@@ -202,7 +231,7 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
             try {
                 if (refreshToken == -1) throw new Error("Refresh token invalid.");
-                let decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", ""));
+                let decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", "")) as JwtPayload;
 
                 if (DateAddHours(new Date(decodedRefreshToken.creation_date), decodedRefreshToken.hours_expire).getTime() <= new Date().getTime()) {
                     throw new Error("Expired refresh token.");
@@ -287,8 +316,8 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
 
     functions.UpdateTokens();
 
-    const decodedAccess = jwt.decode(accessToken);
-    const decodedRefresh = jwt.decode(refreshToken);
+    const decodedAccess = jwt.decode(accessToken) as JwtPayload;
+    const decodedRefresh = jwt.decode(refreshToken) as JwtPayload;
 
     res.json({
         access_token: `eg1~${accessToken}`,
@@ -311,10 +340,9 @@ app.post("/account/api/oauth/token", async (req: { headers: { [x: string]: strin
     await kv.set(req.user.discordId, 'false');
 
 });
-
-app.get("/account/api/oauth/verify", verifyToken, (req: { headers: { [x: string]: string; }; user: { accountId: any; username: any; }; }, res: { json: (arg0: { token: any; session_id: any; token_type: string; client_id: any; internal_client: boolean; client_service: string; account_id: any; expires_in: number; expires_at: any; auth_method: any; display_name: any; app: string; in_app_id: any; device_id: any; }) => void; }) => {
-    let token = req.headers["authorization"].replace("bearer ", "");
-    const decodedToken = jwt.decode(token.replace("eg1~", ""));
+app.get("/account/api/oauth/verify", verifyToken, (req, res) => {
+    let token = req.headers["authorization"]!.replace("bearer ", "");
+    const decodedToken = jwt.decode(token.replace("eg1~", "")) as JwtPayload;
 
     res.json({
         token: token,
@@ -334,11 +362,11 @@ app.get("/account/api/oauth/verify", verifyToken, (req: { headers: { [x: string]
     });
 });
 
-app.delete("/account/api/oauth/sessions/kill", (req: any, res: { status: (arg0: number) => { (): any; new(): any; end: { (): void; new(): any; }; }; }) => {
+app.delete("/account/api/oauth/sessions/kill", (req, res) => {
     res.status(204).end();
 });
 
-app.delete("/account/api/oauth/sessions/kill/:token", (req: { params: { token: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; end: { (): void; new(): any; }; }; }) => {
+app.delete("/account/api/oauth/sessions/kill/:token", (req, res) => {
     let token = req.params.token;
 
     let accessIndex = global.accessTokens.findIndex((i: { token: any; }) => i.token == token);
@@ -385,7 +413,7 @@ app.post("/epic/oauth/v2/token", async (req, res) => {
     let clientId;
 
     try {
-        clientId = functions.DecodeBase64(req.headers["authorization"].split(" ")[1]).split(":");
+        clientId = functions.DecodeBase64((req.headers["authorization"] || "").split(" ")[1]).split(":");
 
         if (!clientId[1]) throw new Error("invalid client id");
 
@@ -411,7 +439,7 @@ app.post("/epic/oauth/v2/token", async (req, res) => {
 
     try {
         if (refreshToken == -1) throw new Error("Refresh token invalid.");
-        let decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", ""));
+        let decodedRefreshToken = jwt.decode(refresh_token.replace("eg1~", "")) as JwtPayload;
 
         if (DateAddHours(new Date(decodedRefreshToken.creation_date), decodedRefreshToken.hours_expire).getTime() <= new Date().getTime()) {
             throw new Error("Expired refresh token.");
@@ -459,4 +487,4 @@ function DateAddHours(pdate: Date, number: any) {
     return date;
 }
 
-module.exports = app;
+export default app;

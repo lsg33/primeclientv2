@@ -1,6 +1,6 @@
-export { };
 
-const express = require("express");
+
+import express from "express";
 const app = express.Router();
 
 app.get("/lightswitch/api/service/Fortnite/status", async (req, res) => {
@@ -44,4 +44,4 @@ app.get("/lightswitch/api/service/bulk/status", async (req, res) => {
     }]);
 });
 
-module.exports = app;
+export default app;

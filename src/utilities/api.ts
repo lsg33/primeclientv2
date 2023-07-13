@@ -1,5 +1,4 @@
-const Api = require("../model/api");
-import kv from "./kv";
+import Api from "../model/api.js";
 import { Request, Response, NextFunction } from "express";
 
 async function verifyApikey(req: Request, res: Response, next: NextFunction) {
@@ -8,7 +7,7 @@ async function verifyApikey(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ error: "No api key provided" });
     }
 
-    const cachedApi = await kv.get(apikey);
+    const cachedApi = await global.kv.get(apikey);
     if (cachedApi) {
         return next();
     }
@@ -19,7 +18,7 @@ async function verifyApikey(req: Request, res: Response, next: NextFunction) {
             return res.status(401).json({ error: "Invalid api key" });
         }
 
-        kv.set(apikey, JSON.stringify(api));
+        global.kv.set(apikey, JSON.stringify(api));
         next();
     } catch (err) {
         console.error(err);

@@ -1,75 +1,74 @@
-import { Hash } from "crypto";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
+import { APIActionRowComponent, APIButtonComponent, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
-export { }
+import Users from '../../../model/user.js';
+import Profiles from '../../../model/profiles.js';
+import Friends from '../../../model/friends.js';
 
-const { SlashCommandBuilder } = require('discord.js');
-const Users = require('../../../model/user');
-const Profiles = require('../../../model/profiles');
-const Friends = require('../../../model/friends');
+export const data = new SlashCommandBuilder()
+    .setName('deleteaccount')
+    .setDescription('Deletes your account (irreversible)');
 
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('deleteaccount')
-        .setDescription('Deletes your account (irreversible)'),
+export async function execute(interaction: ChatInputCommandInteraction) {
 
-    async execute(interaction) {
+    const user = await Users.findOne({ discordId: interaction.user.id });
+    if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
 
-        const user = await Users.findOne({ discordId: interaction.user.id });
-        if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
+    const confirm = new ButtonBuilder()
+        .setCustomId('confirm')
+        .setLabel('Confirm Deletion')
+        .setStyle(ButtonStyle.Danger);
 
-        const confirm = new ButtonBuilder()
-            .setCustomId('confirm')
-            .setLabel('Confirm Deletion')
-            .setStyle(ButtonStyle.Danger);
+    const cancel = new ButtonBuilder()
+        .setCustomId('cancel')
+        .setLabel('Cancel')
+        .setStyle(ButtonStyle.Secondary);
 
-        const cancel = new ButtonBuilder()
-            .setCustomId('cancel')
-            .setLabel('Cancel')
-            .setStyle(ButtonStyle.Secondary);
+    const row: APIActionRowComponent<APIButtonComponent> = {
+        type: 1,
+        components: [confirm.toJSON(), cancel.toJSON()]
+    }
 
-        const row = new ActionRowBuilder()
-            .addComponents(confirm, cancel);
+    const confirmationEmbed = new EmbedBuilder()
+        .setTitle(`Are you sure you want to delete your account?`)
+        .setDescription("This action is irreversible, and will delete all your data.")
+        .setColor("#2b2d31")
+        .setFooter({
+            text: "Momentum",
+            iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+        })
+        .setTimestamp();
 
-        const confirmationEmbed = new EmbedBuilder()
-            .setTitle(`Are you sure you want to delete your account?`)
-            .setDescription("This action is irreversible, and will delete all your data.")
-            .setColor("#2b2d31")
-            .setFooter({
-                text: "Momentum",
-                iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-            })
-            .setTimestamp();
+    const confirmationResponse = await interaction.reply({
+        embeds: [confirmationEmbed],
+        components: [row],
+        ephemeral: true
+    });
 
-        const confirmationResponse = await interaction.reply({ 
-            embeds: [confirmationEmbed], 
-            components: [row],
-            ephemeral: true
-        });
+    const filter = (i) => i.user.id === interaction.user.id;
 
-        const filter = (i) => i.user.id === interaction.user.id;
+    const collector = confirmationResponse.createMessageComponentCollector({ filter, time: 10000 });
 
-        try {
-            const confirmation = await confirmationResponse.awaitMessageComponent({ filter, time: 10000 });
-
-            if (confirmation.customId === 'confirm') {
+    collector.on("collect", async (i) => {
+        switch (i.customId) {
+            case "confirm":
                 await Users.findOneAndDelete({ discordId: interaction.user.id });
-                await Profiles.findOneAndDelete({ accountId: await user.accountId });
-                await Friends.findOneAndDelete({ accountId: await user.accountId });
+                await Profiles.findOneAndDelete({ accountId: user.accountId });
+                await Friends.findOneAndDelete({ accountId: user.accountId });
 
-                const embed = new EmbedBuilder()
+                const confirmEmbed = new EmbedBuilder()
                     .setTitle(`Account Deleted`)
-                    .setDescription("Your account has been deleted, we're sorry to see you go! \n\nNote: The interaction has not actually failed, just discord being weird.")
+                    .setDescription("Your account has been deleted, we're sorry to see you go!")
                     .setColor("#2b2d31")
                     .setFooter({
                         text: "Momentum",
                         iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
                     })
                     .setTimestamp();
-        
-                interaction.followUp({ embeds: [embed], ephemeral: true });
-            } else if (confirmation.customId === 'cancel') {
-                const embed = new EmbedBuilder()
+
+                i.reply({ embeds: [confirmEmbed], ephemeral: true });
+                break;
+            case "cancel":
+                const cancelEmbed = new EmbedBuilder()
                     .setTitle(`Account Deletion Cancelled`)
                     .setDescription("Your account has not been deleted.")
                     .setColor("#2b2d31")
@@ -78,14 +77,12 @@ module.exports = {
                         iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
                     })
                     .setTimestamp();
-        
-                interaction.followUp({ embeds: [embed], ephemeral: true });
-            }
-                
 
-        } catch (err) {
-            return interaction.followUp({ content: "You took too long to respond!", components: [] });
+                i.reply({ embeds: [cancelEmbed], ephemeral: true });
+                break;
         }
 
-    },
-};
+
+    })
+
+}

@@ -1,46 +1,38 @@
-import { Hash } from "crypto";
-import { EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from 'discord.js';
+import Users from '../../../model/user.js';
 
-export { }
+export const data = new SlashCommandBuilder()
+	.setName('username')
+	.setDescription('Lets you change your userame')
+	.addStringOption(option =>
+		option.setName('username')
+			.setDescription('Your desired username')
+			.setRequired(true));
 
-const { SlashCommandBuilder } = require('discord.js');
-const Users = require('../../../model/user');
+export async function execute(interaction: ChatInputCommandInteraction) {
 
-module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('username')
-		.setDescription('Lets you change your userame')
-		.addStringOption(option =>
-			option.setName('username')
-				.setDescription('Your desired username')
-				.setRequired(true)),
+	await interaction.deferReply({ ephemeral: true });
 
+	const user = await Users.findOne({ discordId: interaction.user.id });
+	if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
 
-	async execute(interaction) {
+	let accessToken = global.accessTokens.find(i => i.accountId == user.accountId);
+	if (accessToken) return interaction.editReply({ content: "Failed to change username as you are currently logged in to Fortnite.\nRun the /sign-out-of-all-sessions command to sign out." });
 
-		await interaction.deferReply({ ephemeral: true });
+	const username = interaction.options.getString('username');
 
-        const user = await Users.findOne({ discordId: interaction.user.id });
-        if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
+	await user.updateOne({ $set: { username: username } });
 
-		let accessToken = global.accessTokens.find(i => i.accountId == user.accountId);
-        if (accessToken) return interaction.editReply({ content: "Failed to change username as you are currently logged in to Fortnite.\nRun the /sign-out-of-all-sessions command to sign out.", ephemeral: true });
+	const embed = new EmbedBuilder()
+		.setTitle("Username changed")
+		.setDescription("Your account username has been changed to " + username + "")
+		.setColor("#2b2d31")
+		.setFooter({
+			text: "Momentum",
+			iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
+		})
+		.setTimestamp();
 
-		const username = interaction.options.getString('username');
-            
-        await user.updateOne({ $set: { username: username } });
+	await interaction.editReply({ embeds: [embed] });
 
-		const embed = new EmbedBuilder()
-			.setTitle("Username changed")
-			.setDescription("Your account username has been changed to " + username + "")
-			.setColor("#2b2d31")
-			.setFooter({
-				text: "Momentum",
-				iconURL: "https://cdn.discordapp.com/app-assets/432980957394370572/1084188429077725287.png",
-			})
-			.setTimestamp();
-
-            await interaction.editReply({ embeds: [embed], ephemeral: true });
-
-	},
-};
+}

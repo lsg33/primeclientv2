@@ -1,7 +1,5 @@
-export { };
-
-import functions from "../utilities/structs/functions";
-const jwt = require("jsonwebtoken");
+import functions from "../utilities/structs/functions.js";
+import jwt from "jsonwebtoken";
 
 function createClient(clientId, grant_type, ip, expiresIn) {
     let clientToken = jwt.sign({
@@ -64,7 +62,7 @@ function createRefresh(user, clientId, grant_type, deviceId, expiresIn) {
     return refreshToken;
 }
 
-module.exports = {
+export default {
     createClient,
     createAccess,
     createRefresh

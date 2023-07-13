@@ -1,4 +1,4 @@
-import Safety from "./safety";
+import Safety from "./safety.js";
 
 class Modules {
 

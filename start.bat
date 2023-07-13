@@ -1,5 +1,5 @@
 :start
 @echo off
-node --no-warnings build/index.js
+npm run prod --no-warnings
 @echo on
 goto start

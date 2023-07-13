@@ -1,5 +1,4 @@
 import { Document, Model, model, Schema } from "mongoose";
-import { iUser } from "./user";
 
 type linkType = "Creative:Island";
 type mmsType = "keep_full";

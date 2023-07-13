@@ -1,12 +1,7 @@
-import log from "../utilities/structs/log";
-import Safety from "../utilities/safety";
-
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
-const { verifyApikey } = require("../utilities/api.js");
-const Profile = require("../model/profiles.js");
+import { verifyApikey } from "../utilities/api.js";
+import Profile from "../model/profiles.js";
 
 app.get("/api/profile/accountId/:value", verifyApikey, (req, res) => {
 
@@ -69,4 +64,4 @@ app.post("/api/profile/mtx/:accountId", verifyApikey, async (req, res) => {
     })
 });
 
-module.exports = app;
+export default app;

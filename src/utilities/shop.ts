@@ -1,7 +1,10 @@
-import { promises as fs } from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
-import Safety from './safety';
-import log from './structs/log';
+import Safety from './safety.js';
+import log from './structs/log.js';
+import { dirname } from 'dirname-filename-esm'
+
+const __dirname = dirname(import.meta)
 
 class Shop {
 
@@ -42,7 +45,7 @@ class Shop {
         if (!shopResponse) return [];
 
         const shopJSON = await shopResponse.json();
-        console.log(shopJSON)
+
         const dailyItems = shopJSON[0].daily;
         const catalog = JSON.parse(catalogString);
         const catalogRawJSON = JSON.parse(catalogRaw);

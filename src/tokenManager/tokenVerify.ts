@@ -1,10 +1,8 @@
-export { };
+import jwt, { JwtPayload } from "jsonwebtoken";
 
-const jwt = require("jsonwebtoken");
-
-const User = require("../model/user.js");
-import functions from "../utilities/structs/functions";
-import error from "../utilities/structs/error";
+import User from "../model/user.js";
+import functions from "../utilities/structs/functions.js";
+import error from "../utilities/structs/error.js";
 
 async function verifyToken(req, res, next) {
     let authErr = () => error.createError(
@@ -18,7 +16,7 @@ async function verifyToken(req, res, next) {
     const token = req.headers["authorization"].replace("bearer eg1~", "");
 
     try {
-        const decodedToken = jwt.decode(token);
+        const decodedToken = jwt.decode(token) as JwtPayload;
 
         if (!global.accessTokens.find(i => i.token == `eg1~${token}`)) throw new Error("Invalid token.");
 
@@ -59,7 +57,7 @@ async function verifyClient(req, res, next) {
     const token = req.headers["authorization"].replace("bearer eg1~", "");
 
     try {
-        const decodedToken = jwt.decode(token);
+        const decodedToken = jwt.decode(token) as JwtPayload;
 
         let findAccess = global.accessTokens.find(i => i.token == `eg1~${token}`);
 

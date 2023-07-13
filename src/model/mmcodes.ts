@@ -1,10 +1,8 @@
 import { iUser } from "./user";
 
-const User = require("../model/user");
+import User from "../model/user.js";
 
-export { };
-
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 export interface iMMCodes {
     created: Date,
@@ -31,4 +29,4 @@ const MMCodesSchema = new mongoose.Schema(
 
 const model = mongoose.model('MMCodeSchema', MMCodesSchema);
 
-module.exports = model;
+export default model;

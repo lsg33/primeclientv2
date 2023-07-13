@@ -1,9 +1,7 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
 
-import functions from "../utilities/structs/functions";
+import functions from "../utilities/structs/functions.js";
 
 app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
     const memory = functions.GetVersionInfo(req);
@@ -63,4 +61,4 @@ app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
     });
 });
 
-module.exports = app;
+export default app;

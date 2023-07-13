@@ -1,9 +1,10 @@
-const express = require("express");
-const Profile = require("../model/profiles.js");
-const Friends = require("../model/friends.js");
+import express, { Request } from "express";
+import Profile from "../model/profiles.js";
+import Friends from "../model/friends.js";
 import functions from "../utilities/structs/functions.js";
 import { verifyToken } from "../tokenManager/tokenVerify.js";
-const keychain = require("../../responses/keychain.json");
+import fs from 'fs';
+const keychain = JSON.parse(fs.readFileSync('./responses/keychain.json', 'utf8'));
 import error from "../utilities/structs/error.js";
 
 const app = express.Router();
@@ -17,7 +18,7 @@ app.get("/fortnite/api/storefront/v2/catalog", (req, res) => {
     res.json(functions.getItemShop());
 });
 
-app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipientId/offer/:offerId", verifyToken, async (req, res) => {
+app.get("/fortnite/api/storefront/v2/gift/check_eligibility/recipient/:recipientId/offer/:offerId", verifyToken, async (req: Request, res) => {
     const findOfferId = functions.getOfferID(req.params.offerId);
     if (!findOfferId) {
         return error.createError(
@@ -76,4 +77,4 @@ app.get("/catalog/api/shared/bulk/offers", (req, res) => {
     res.json({});
 });
 
-module.exports = app;
+export default app;

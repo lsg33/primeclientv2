@@ -1,15 +1,13 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
 
-import functions from "../utilities/structs/functions";
-import error from "../utilities/structs/error";
+import functions from "../utilities/structs/functions.js";
+import error from "../utilities/structs/error.js";
 
-const Friends = require("../model/friends.js");
-import { friends } from "../utilities/structs/friend";
+import Friends from "../model/friends.js";
+import { friends } from "../utilities/structs/friend.js";
 
-const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+import { verifyToken, verifyClient } from "../tokenManager/tokenVerify.js";
 
 app.get("/friends/api/v1/*/settings", (req, res) => {
     res.json({});
@@ -28,7 +26,7 @@ app.get("/friends/api/public/friends/:accountId", verifyToken, async (req, res) 
 
     const friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
 
-    friends.list.accepted.forEach(acceptedFriend => {
+    friends?.list.accepted.forEach(acceptedFriend => {
         response.push({
             "accountId": acceptedFriend.accountId,
             "status": "ACCEPTED",
@@ -38,7 +36,7 @@ app.get("/friends/api/public/friends/:accountId", verifyToken, async (req, res) 
         });
     });
 
-    friends.list.incoming.forEach(incomingFriend => {
+    friends?.list.incoming.forEach(incomingFriend => {
         response.push({
             "accountId": incomingFriend.accountId,
             "status": "PENDING",
@@ -48,7 +46,7 @@ app.get("/friends/api/public/friends/:accountId", verifyToken, async (req, res) 
         });
     });
 
-    friends.list.outgoing.forEach(outgoingFriend => {
+    friends?.list.outgoing.forEach(outgoingFriend => {
         response.push({
             "accountId": outgoingFriend.accountId,
             "status": "PENDING",
@@ -66,13 +64,13 @@ app.post("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) =>
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (sender.list.incoming.find(i => i.accountId == receiver.accountId)) {
-        if (!await friends.acceptFriendReq(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (sender.list.incoming.find(i => i.accountId == receiver?.accountId)) {
+        if (!(await friends.acceptFriendReq(sender.accountId, receiver.accountId))) return res.status(403).end();
 
         functions.getPresenceFromUser(sender.accountId, receiver.accountId, false);
         functions.getPresenceFromUser(receiver.accountId, sender.accountId, false);
-    } else if (!sender.list.outgoing.find(i => i.accountId == receiver.accountId)) {
-        if (!await friends.sendFriendReq(sender.accountId, receiver.accountId)) return res.status(403).end();
+    } else if (!sender.list.outgoing.find(i => i.accountId == receiver?.accountId)) {
+        if (!(await friends.sendFriendReq(sender.accountId, receiver.accountId))) return res.status(403).end();
     }
 
     res.status(204).end();
@@ -82,7 +80,7 @@ app.all("/friends/api/v1/*/friends/:friendId/alias", verifyToken, getRawBody, as
     let friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
 const aliasPattern = /[\w \-_.'\u2018\u2019]+/gu;
 
-    if (!friends.list.accepted.find(i => i.accountId == req.params.friendId)) return error.createError(
+    if (!friends?.list.accepted.find(i => i.accountId == req.params.friendId)) return error.createError(
         "errors.com.epicgames.friends.friendship_not_found",
         `Friendship between ${req.user.accountId} and ${req.params.friendId} does not exist`,
         [req.user.accountId, req.params.friendId], 14004, undefined, 404, res
@@ -92,7 +90,7 @@ const aliasPattern = /[\w \-_.'\u2018\u2019]+/gu;
 
     switch (req.method) {
         case "PUT":
-            if (!(aliasPattern.test(req.rawBody)) || (req.rawBody < 3) || (req.rawBody > 16)) return error.createError(
+            if (!(aliasPattern.test(req.rawBody)) || (req.rawBody.length < 3) || (req.rawBody.length > 16)) return error.createError(
                 "errors.com.epicgames.validation.validation_failed",
                 "Validation Failed. Invalid fields were [alias]",
                 ["[alias]"], 1040, undefined, 404, res
@@ -132,7 +130,7 @@ app.delete("/friends/api/*/friends*/:receiverId", verifyToken, async (req, res) 
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.deleteFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.deleteFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     functions.getPresenceFromUser(sender.accountId, receiver.accountId, true);
     functions.getPresenceFromUser(receiver.accountId, sender.accountId, true);
@@ -145,7 +143,7 @@ app.post("/friends/api/*/blocklist*/:receiverId", verifyToken, async (req, res) 
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.blockFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.blockFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     functions.getPresenceFromUser(sender.accountId, receiver.accountId, true);
     functions.getPresenceFromUser(receiver.accountId, sender.accountId, true);
@@ -158,7 +156,7 @@ app.delete("/friends/api/*/blocklist*/:receiverId", verifyToken, async (req, res
     let receiver = await Friends.findOne({ accountId: req.params.receiverId });
     if (!sender || !receiver) return res.status(403).end();
 
-    if (!await friends.deleteFriend(sender.accountId, receiver.accountId)) return res.status(403).end();
+    if (!(await friends.deleteFriend(sender.accountId, receiver.accountId))) return res.status(403).end();
 
     res.status(204).end();
 });
@@ -177,7 +175,7 @@ app.get("/friends/api/v1/:accountId/summary", verifyToken, async (req, res) => {
 
     const friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
 
-    friends.list.accepted.forEach(acceptedFriend => {
+    friends?.list.accepted.forEach(acceptedFriend => {
         response.friends.push({
             "accountId": acceptedFriend.accountId,
             "groups": [],
@@ -189,7 +187,7 @@ app.get("/friends/api/v1/:accountId/summary", verifyToken, async (req, res) => {
         });
     });
 
-    friends.list.incoming.forEach(incomingFriend => {
+    friends?.list.incoming.forEach(incomingFriend => {
         response.incoming.push({
             "accountId": incomingFriend.accountId,
             "mutual": 0,
@@ -198,14 +196,14 @@ app.get("/friends/api/v1/:accountId/summary", verifyToken, async (req, res) => {
         });
     });
 
-    friends.list.outgoing.forEach(outgoingFriend => {
+    friends?.list.outgoing.forEach(outgoingFriend => {
         response.outgoing.push({
             "accountId": outgoingFriend.accountId,
             "favorite": false
         });
     });
 
-    friends.list.blocked.forEach(blockedFriend => {
+    friends?.list.blocked.forEach(blockedFriend => {
         response.blocklist.push({
             "accountId": blockedFriend.accountId
         });
@@ -218,8 +216,8 @@ app.get("/friends/api/public/blocklist/*", verifyToken, async (req, res) => {
     let friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
 
     res.json({
-        "blockedUsers": friends.list.blocked.map(i => i.accountId)
+        "blockedUsers": friends?.list.blocked.map(i => i.accountId)
     });
 });
 
-module.exports = app;
+export default app;

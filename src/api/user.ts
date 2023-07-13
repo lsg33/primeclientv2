@@ -1,10 +1,8 @@
-export { };
-
-const express = require("express");
+import express from "express";
 const app = express.Router();
 
 import { verifyApikey } from "../utilities/api.js";
-const User = require("../model/user.js");
+import User from "../model/user.js";
 
 app.get("/api/user/:key/:value", verifyApikey, (req, res) => {
 
@@ -53,4 +51,4 @@ app.post("/api/user/:key/:value", verifyApikey, (req, res) => {
 });
 
 
-module.exports = app;
+export default app;

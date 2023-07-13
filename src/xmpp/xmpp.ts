@@ -1,20 +1,20 @@
-export { };
 
-const WebSocket = require("ws").Server;
-const XMLBuilder = require("xmlbuilder");
-const XMLParser = require("xml-parser");
-const express = require("express");
+import {WebSocketServer} from 'ws'
+import XMLBuilder from "xmlbuilder";
+import XMLParser from "xml-parser";
+import express from "express";
 const app = express();
 
 import logger from "../utilities/structs/log.js";
-import functions from "../utilities/structs/functions";
+import functions from "../utilities/structs/functions.js";
 
-const User = require("../model/user.js");
-const Friends = require("../model/friends.js");
+import User from "../model/user.js";
+import Friends from "../model/friends.js";
 
 const port = 80;
-const wss = new WebSocket({ server: app.listen(port) });
-import matchmaker from "../matchmaker/matchmaker";
+const wss = new WebSocketServer({ server: app.listen(port) });
+import matchmaker from "../matchmaker/matchmaker.js";
+import { RawData } from "ws";
 
 let domain = "prod.ol.epicgames.com";
 
@@ -69,10 +69,10 @@ wss.on('connection', async (ws, req) => {
     let clientExists: boolean = false;
     let connectionClosed: boolean = false;
 
-    ws.on('message', async (message) => {
+    ws.on('message', async (message: RawData | string) => {
         if (Buffer.isBuffer(message)) message = message.toString();
 
-        const msg = XMLParser(message);
+        const msg = XMLParser(message as string);
         if (!msg || !msg.root || !msg.root.name) return Error(ws);
 
         switch (msg.root.name) {
@@ -143,7 +143,7 @@ wss.on('connection', async (ws, req) => {
 
                         if (global.Clients.find(i => i.accountId == accountId)) return Error(ws);
 
-                        let findResource = msg.root.children.find(i => i.name == "bind").children.find(i => i.name == "resource");
+                        let findResource = msg.root.children.find(i => i.name == "bind")?.children.find(i => i.name == "resource");
 
                         if (!findResource) return;
                         if (!findResource.content) return;
@@ -194,8 +194,6 @@ wss.on('connection', async (ws, req) => {
                 if (!findBody || !findBody.content) return;
 
                 let body = findBody.content;
-
-                console.log(body);
 
                 switch (msg.root.attributes.type) {
                     case "chat":
@@ -477,7 +475,7 @@ async function updatePresenceForFriends(ws, body, away, offline) {
     global.Clients[SenderIndex].lastPresenceUpdate.status = body;
 
     let friends = await Friends.findOne({ accountId: SenderData.accountId });
-    let accepted = friends.list.accepted;
+    let accepted = friends?.list.accepted;
 
     accepted.forEach(friend => {
         let ClientData = global.Clients.find(i => i.accountId == friend.accountId);

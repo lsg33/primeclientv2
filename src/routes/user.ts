@@ -1,12 +1,10 @@
-export { };
-
-const express = require("express");
+import express, { Request } from "express";
 const app = express.Router();
 
-import error from "../utilities/structs/error";
+import error from "../utilities/structs/error.js";
 
-const { verifyToken } = require("../tokenManager/tokenVerify.js");
-const User = require("../model/user.js");
+import { verifyToken } from "../tokenManager/tokenVerify.js";
+import User from "../model/user.js";
 
 app.get("/account/api/public/account", async (req, res) => {
     let response:Object[] = [];
@@ -109,7 +107,7 @@ app.get("/api/v1/search/:accountId", async (req, res) => {
     res.json(response);
 });
 
-app.get("/account/api/public/account/:accountId", verifyToken, (req, res) => {
+app.get("/account/api/public/account/:accountId", verifyToken, (req: Request, res) => {
     res.json({
         id: req.user.accountId,
         displayName: req.user.username,
@@ -162,4 +160,5 @@ app.all("/v1/epic-settings/public/users/*/values", (req, res) => {
     res.json({});
 })
 
-module.exports = app;
+
+export default app;
