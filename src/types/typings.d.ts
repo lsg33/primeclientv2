@@ -26,6 +26,7 @@ export interface iEnv {
     S3_SECRET_ACCESS_KEY: string;
     USE_REDIS: boolean;
     REDIS_URL: string;
+    ENABLE_CROSS_BANS: boolean;
 }
 
 export interface iModules {
@@ -101,6 +102,7 @@ declare global {
             S3_SECRET_ACCESS_KEY: string;
             USE_REDIS: boolean;
             REDIS_URL: string;
+            ENABLE_CROSS_BANS: boolean;
         }
     }
 }

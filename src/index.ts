@@ -8,6 +8,7 @@ import rateLimit from "express-rate-limit";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import error from "./utilities/structs/error.js";
 import functions from "./utilities/structs/functions.js";
+import { client } from './bot/index.js';
 import kv from './utilities/kv.js';
 global.kv = kv;
 import Safety from './utilities/safety.js';
@@ -16,7 +17,7 @@ import log from './utilities/structs/log.js';
 import update from './utilities/update.js';
 import Shop from './utilities/shop.js';
 import { Cron } from "croner";
-import { client } from './bot/index.js';
+
 import modules from './utilities/modules.js';
 import { dirname } from 'dirname-filename-esm'
 
@@ -29,7 +30,6 @@ const updateCron = Cron('0 */30 * * * *', () => {
     update.checkForUpdate(packageJson.version);
 });
 
-global.discordClient = client;
 
 await Safety.airbag();
 

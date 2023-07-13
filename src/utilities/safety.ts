@@ -29,6 +29,7 @@ interface iEnv {
     S3_SECRET_ACCESS_KEY: string;
     USE_REDIS: boolean;
     REDIS_URL: string;
+    ENABLE_CROSS_BANS: boolean;
 }
 
 interface iModules {
@@ -59,7 +60,7 @@ export class Safety {
     public env: iEnv = {
         MONGO_URI: process.env.MONGO_URI,
         BOT_TOKEN: process.env.BOT_TOKEN,
-        CLIENT_ID: global.discordClient.user?.id as string,
+        CLIENT_ID: process.env.CLIENT_ID as string,
         GUILD_ID: process.env.GUILD_ID as string,
         NAME: process.env.NAME,
         PORT: parseInt(process.env.PORT),
@@ -74,6 +75,7 @@ export class Safety {
         S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
         REDIS_URL: process.env.REDIS_URL,
+        ENABLE_CROSS_BANS: this.convertToBool(process.env.ENABLE_CROSS_BANS, "ENABLE_CROSS_BANS"),
     };
 
     public modules: iModules = {
