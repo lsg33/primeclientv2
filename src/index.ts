@@ -19,6 +19,7 @@ import { Cron } from "croner";
 import { client } from './bot/index.js';
 import modules from './utilities/modules.js';
 import { dirname } from 'dirname-filename-esm'
+
 const __dirname = dirname(import.meta);
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
@@ -60,7 +61,6 @@ try {
 global.JWT_SECRET = functions.MakeID();
 const PORT = Safety.env.PORT;
 global.safetyEnv = Safety.env;
-
 let redisTokens: any;
 let tokens: any;
 
