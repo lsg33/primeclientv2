@@ -1,4 +1,6 @@
 import express from "express";
+import { client } from './bot/index.js';
+global.discordClient = client;
 const app = express();
 import mongoose from "mongoose";
 import fs from "fs";
@@ -8,7 +10,7 @@ import rateLimit from "express-rate-limit";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import error from "./utilities/structs/error.js";
 import functions from "./utilities/structs/functions.js";
-import { client } from './bot/index.js';
+
 import kv from './utilities/kv.js';
 global.kv = kv;
 import Safety from './utilities/safety.js';

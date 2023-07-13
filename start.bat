@@ -1,6 +1,5 @@
 :start
 @echo off
-npx tsc
-node --no-warnings build/index.js
+npm run prod --no-warnings
 @echo on
 goto start
