@@ -57,23 +57,23 @@ export class Safety {
     }
 
     public env: iEnv = {
-        MONGO_URI: process.env.MONGO_URI as string,
-        BOT_TOKEN: process.env.BOT_TOKEN as string,
-        CLIENT_ID: process.env.CLIENT_ID as string,
+        MONGO_URI: process.env.MONGO_URI,
+        BOT_TOKEN: process.env.BOT_TOKEN,
+        CLIENT_ID: global.discordClient.user?.id as string,
         GUILD_ID: process.env.GUILD_ID as string,
-        NAME: process.env.NAME as string,
-        PORT: parseInt(process.env.PORT as string),
+        NAME: process.env.NAME,
+        PORT: parseInt(process.env.PORT),
         GAME_SERVERS: process.env.GAME_SERVERS?.split(" ") as string[],
         ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
-        MATCHMAKER_IP: process.env.MATCHMAKER_IP as string,
-        MAIN_SEASON: parseInt(process.env.MAIN_SEASON as string),
+        MATCHMAKER_IP: process.env.MATCHMAKER_IP,
+        MAIN_SEASON: parseInt(process.env.MAIN_SEASON),
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
-        S3_BUCKET_NAME: process.env.S3_BUCKET_NAME as string,
-        S3_ENDPOINT: process.env.S3_ENDPOINT as string,
-        S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID as string,
-        S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY as string,
+        S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+        S3_ENDPOINT: process.env.S3_ENDPOINT,
+        S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
+        S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
-        REDIS_URL: process.env.REDIS_URL as string,
+        REDIS_URL: process.env.REDIS_URL,
     };
 
     public modules: iModules = {
