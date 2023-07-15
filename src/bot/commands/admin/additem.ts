@@ -6,6 +6,7 @@ import Profiles from '../../../model/profiles.js';
 import fs from 'fs';
 import path from 'path';
 import { dirname } from 'dirname-filename-esm';
+import destr from 'destr';
 
 const __dirname = dirname(import.meta);
 
@@ -55,7 +56,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             let cosmetic: any = {};
 
             const file = fs.readFileSync(path.join(__dirname, "../../../../Config/DefaultProfiles/allathena.json"));
-            const jsonFile = JSON.parse(file.toString());
+            const jsonFile = destr<{ items: any }>(file.toString());
             const items = jsonFile.items;
 
             let foundcosmeticname: string = "";

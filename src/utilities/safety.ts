@@ -6,6 +6,7 @@ import Loopkey from ".././utilities/loopkey.js";
 
 import { Application } from "discord.js";
 import { dirname } from 'dirname-filename-esm'
+import destr from "destr";
 
 const __dirname = dirname(import.meta)
 
@@ -132,7 +133,7 @@ export class Safety {
                 this.registerLoopKey();
                 return loopKey;
             } else {
-                const loopKey = JSON.parse(fs.readFileSync(loopKeyPath, "utf-8")).loopkey;
+                const loopKey = destr<{ loopkey: string }>(fs.readFileSync(loopKeyPath, "utf-8")).loopkey;
                 if (loopKey === undefined || loopKey === null || loopKey === "") {
                     const loopKey = await Loopkey.generateLoopKey(this.env.BOT_TOKEN);
                     fs.writeFileSync(loopKeyPath, JSON.stringify({
