@@ -132,7 +132,6 @@ class functions {
         try {
             contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = `season${memory.season}`;
             contentpages.dynamicbackgrounds.backgrounds.backgrounds[1].stage = `season${memory.season}`;
-            contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].backgroundimage = "https://cdn.discordapp.com/attachments/927739901540188200/930880158167085116/t-bp19-lobby-xmas-2048x1024-f85d2684b4af.png";
 
             if (memory.season == 10) {
                 contentpages.dynamicbackgrounds.backgrounds.backgrounds[0].stage = "seasonx";
