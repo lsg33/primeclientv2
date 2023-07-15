@@ -1,6 +1,7 @@
 import { AttachmentBuilder, ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import Canvas from '@napi-rs/canvas';
 import Shop from "../../../utilities/shop.js";
+import Safety from "../../../utilities/safety.js";
 
 export const data = new SlashCommandBuilder()
     .setName('rotateshop')
@@ -10,6 +11,8 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply();
+
+    if(!Safety.env.ENABLE_CLOUD) return await interaction.editReply({ content: "This command is disabled because cloud features are disabled. You can enable them by setting ENABLE_CLOUD to true in .env" }); 
 
     const shopItems: any[] = await Shop.updateShop(await global.safety.getLoopKey());
     const rowCount = 2; // Number of rows

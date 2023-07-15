@@ -35,7 +35,8 @@
     "uuid": "^9.0.0",
     "ws": "^8.13.0",
     "xml-parser": "^1.2.1",
-    "xmlbuilder": "^15.1.1"
+    "xmlbuilder": "^15.1.1",
+    "zod": "^3.21.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

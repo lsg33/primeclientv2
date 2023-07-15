@@ -30,6 +30,7 @@ interface iEnv {
     USE_REDIS: boolean;
     REDIS_URL: string;
     ENABLE_CROSS_BANS: boolean;
+    ENABLE_CLOUD: boolean;
 }
 
 interface iModules {
@@ -76,6 +77,7 @@ export class Safety {
         USE_REDIS: this.convertToBool(process.env.USE_REDIS, "USE_REDIS"),
         REDIS_URL: process.env.REDIS_URL,
         ENABLE_CROSS_BANS: this.convertToBool(process.env.ENABLE_CROSS_BANS, "ENABLE_CROSS_BANS"),
+        ENABLE_CLOUD: this.convertToBool(process.env.ENABLE_CLOUD, "ENABLE_CLOUD"),
     };
 
     public modules: iModules = {
@@ -87,9 +89,7 @@ export class Safety {
 
         try {
 
-            const discordClient: Application = global.discordClient;
-
-            log.warn("A DM will be sent to the user " + global.discordClient.application?.owner.username + " to enable your loopkey. Please check your DMs." )
+            log.warn("A DM will be sent to the user " + global.discordClient.application?.owner.username + " to enable your loopkey. Please check your DMs.");
 
             const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
                 method: 'PUT',
@@ -103,16 +103,15 @@ export class Safety {
                     log.debug("Loopkey already registered. Continuing...");
                     return true;
                 } else {
-                    log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
+                    log.warn("You can safely ignore this error if you haven't purchased anything. \nLoopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register if you wan to use your services.");
                 }
                 return false;
             } else {
                 log.backend("Loopkey registration successful. Please restart the backend.");
                 process.exit(0);
-                return true;
             }
         } catch (error) {
-            log.warn("You can safely ignore this error if you haven't purchased anything. Loopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register.");
+            log.warn("You can safely ignore this error if you haven't purchased anything. \nLoopkey registration failed. Please register with the Zero Point bot on the NexusFN discord with /register if you wan to use your services.");
             return false;
         }
 
