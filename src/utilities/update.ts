@@ -13,8 +13,6 @@ class Update {
         if (parseFloat(packageJson.version) > parseFloat(currentVersion)) {
             const message = `Update available! ${currentVersion} -> ${packageJson.version}`;
             log.warn(`${message}\nDownload it from the GitHub repo or repull the image if you're using Docker`);
-        } else {
-            log.backend("No update available. Latest version: " + packageJson.version + " Current version: " + currentVersion + "");
         }
     }
 }

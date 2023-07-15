@@ -5,6 +5,7 @@ import { io } from "socket.io-client";
 import log from "../utilities/structs/log.js";
 
 import User from "../model/user.js";
+import destr from "destr";
 
 const bote = Safety.env.NAME;
 
@@ -126,7 +127,8 @@ class matchmaker {
         socket.on(`${bote}-queue`, async (message: any) => {
             //console.log("Received matchmaking queue event");
             //console.log(message);
-            message = JSON.parse(message);
+            message = destr(message);
+            if(!message) return;
 
             const playlist = message.data.playlist;
 

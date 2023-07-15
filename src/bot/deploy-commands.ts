@@ -41,7 +41,7 @@ const rest = new REST().setToken(token);
 				{ body: commands },
 			) as APIApplicationCommand[];
 		} else {
-			log.bot("In prod mode, deploying globally");
+			log.debug("In prod mode, deploying globally");
 			data = await rest.put(
 				Routes.applicationCommands(global.clientId),
 				{ body: commands },
