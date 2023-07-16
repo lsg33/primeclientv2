@@ -8,6 +8,9 @@ import { dirname } from 'dirname-filename-esm';
 import destr from "destr";
 
 import { client } from './bot/index.js';
+
+global.discordClient = client;
+
 import kv from './utilities/kv.js';
 import Safety from './utilities/safety.js';
 import functions from "./utilities/structs/functions.js";
@@ -18,7 +21,7 @@ import { version } from "./utilities/cron/update.js";
 import "./utilities/cron/update.js";
 import "./utilities/cron/shop.js";
 
-global.discordClient = client;
+
 global.kv = kv;
 global.safety = Safety;
 
