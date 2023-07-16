@@ -12,6 +12,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     const user = await Users.findOne({ discordId: interaction.user.id });
     if (!user) return interaction.reply({ content: "You are not registered!", ephemeral: true });
+    if(user.banned) return interaction.reply({ content: "You are banned, and your account cannot therefore be deleted.", ephemeral: true } );
 
     const confirm = new ButtonBuilder()
         .setCustomId('confirm')
@@ -29,7 +30,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     const confirmationEmbed = new EmbedBuilder()
-        .setTitle(`Are you sure you want to delete your account?`)
+        .setTitle("Are you sure you want to delete your account?")
         .setDescription("This action is irreversible, and will delete all your data.")
         .setColor("#2b2d31")
         .setFooter({
@@ -50,13 +51,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     collector.on("collect", async (i) => {
         switch (i.customId) {
-            case "confirm":
+            case "confirm": {
                 await Users.findOneAndDelete({ discordId: interaction.user.id });
                 await Profiles.findOneAndDelete({ accountId: user.accountId });
                 await Friends.findOneAndDelete({ accountId: user.accountId });
 
                 const confirmEmbed = new EmbedBuilder()
-                    .setTitle(`Account Deleted`)
+                    .setTitle("Account Deleted")
                     .setDescription("Your account has been deleted, we're sorry to see you go!")
                     .setColor("#2b2d31")
                     .setFooter({
@@ -67,9 +68,10 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
                 i.reply({ embeds: [confirmEmbed], ephemeral: true });
                 break;
-            case "cancel":
+            }
+            case "cancel": {
                 const cancelEmbed = new EmbedBuilder()
-                    .setTitle(`Account Deletion Cancelled`)
+                    .setTitle("Account Deletion Cancelled")
                     .setDescription("Your account has not been deleted.")
                     .setColor("#2b2d31")
                     .setFooter({
@@ -80,6 +82,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
                 i.reply({ embeds: [cancelEmbed], ephemeral: true });
                 break;
+            }
         }
 
 
