@@ -8,7 +8,7 @@ import Safety from '../utilities/safety.js';
 
 
 
-export const client: any = new Client({
+export const client: Client = new Client({
 	partials: [Partials.Channel, Partials.Message, Partials.Reaction],
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -26,6 +26,9 @@ export const client: any = new Client({
 		status: 'online',
 	},
 });
+
+global.discordClient = client;
+global.discordApplication = await functions.FetchApplication();
 
 client.commands = new Collection();
 const basePath = process.cwd();
@@ -64,7 +67,7 @@ client.once(Events.ClientReady, async () => {
 client.on(Events.InteractionCreate, async (interaction: BaseInteraction) => {
 	if (!interaction.isChatInputCommand()) return;
 
-	const command = client.commands.get(interaction.commandName);
+	const command = client.commands.get(interaction.commandName)!;
 
 	if (!command) await interaction.reply({ content: 'This command does not exist', ephemeral: true });
 
@@ -122,4 +125,10 @@ client.on(Events.GuildBanRemove, async (ban: GuildBan) => {
 interface Command {
 	data: SlashCommandBuilder;
 	execute(interaction: any): Promise<void>;
+}
+
+declare module 'discord.js' {
+	interface Client {
+		commands: Collection<string, Command>;
+	}
 }

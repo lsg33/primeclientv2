@@ -348,6 +348,19 @@ class functions {
         }, null, 2));
     }
 
+    public async FetchApplication() {
+        const req = await fetch("https://discord.com/api/v10/applications/@me", {
+            method: "GET",
+            headers: {
+                Authorization: `Bot ${process.env.BOT_TOKEN}`
+            }
+        });
+
+        const res = await req.json();
+
+        return res;
+    }
+
 }
 
 export default new functions();

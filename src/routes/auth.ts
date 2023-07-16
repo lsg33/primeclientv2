@@ -1,4 +1,4 @@
-import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ButtonInteraction } from "discord.js";
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, ButtonInteraction, APIActionRowComponent, ButtonComponent, APIButtonComponent } from "discord.js";
 
 import express from "express";
 const app = express.Router();
@@ -151,20 +151,26 @@ app.post("/account/api/oauth/token", async (req, res) => {
                         iconURL: 'https://cdn.discordapp.com/avatars/1107325625074733127/42e9c19a432cf6a9cb607a47813a31de.webp?size=512'
                     });
 
-                const yesButton = new ButtonBuilder()
-                    .setStyle(ButtonStyle.Success)
-                    .setLabel('Yes')
-                    .setCustomId('yes');
+                const yesButton: APIButtonComponent = {
+                    type: 2,
+                    style: 3,
+                    label: 'Yes',
+                    custom_id: 'yes'
+                }
                 
-                const noButton = new ButtonBuilder()
-                    .setStyle(ButtonStyle.Danger)
-                    .setLabel('No')
-                    .setCustomId('no');
+                const noButton: APIButtonComponent = {
+                    type: 2,
+                    style: 4,
+                    label: 'No',
+                    custom_id: 'no'
+                }
                 
-                const row = new ActionRowBuilder()
-                    .addComponents(yesButton, noButton);
+                const row: APIActionRowComponent<APIButtonComponent> = {
+                    type: 1,
+                    components: [yesButton, noButton]
+                }
 
-                const discordUser = await client.users.fetch(discordId);
+                const discordUser = await client.users.fetch(discordId!);
                 const sentMessage = await discordUser.send({ embeds: [embed], components: [row] });
 
                 const collector = sentMessage.createMessageComponentCollector({ time: 20000 });
@@ -175,8 +181,8 @@ app.post("/account/api/oauth/token", async (req, res) => {
                         case 'yes':
                             await kv.set(req.user.discordId, "true");
                             await i.reply('Thank you for keeping your account secure, you will now be logging in.');
-                            yesButton.setDisabled(true);
-                            noButton.setDisabled(true);
+                            yesButton.disabled = true;
+                            noButton.disabled = true;
                             await sentMessage.edit({ components: [row] })
                             break;
                         case 'no':
@@ -187,8 +193,8 @@ app.post("/account/api/oauth/token", async (req, res) => {
                                 [], 18058, "access_denied", 400, res
                             );
                             await i.reply('Thank you! If you think your account has been compromised, please contact a staff member.');
-                            yesButton.setDisabled(true);
-                            noButton.setDisabled(true);
+                            yesButton.disabled = true;
+                            noButton.disabled = true;
                             await sentMessage.edit({ components: [row] })
                             break;
                     }
@@ -203,8 +209,8 @@ app.post("/account/api/oauth/token", async (req, res) => {
                             [], 18058, "access_denied", 400, res
                         );
                         sentMessage.reply('Your interaction was not detected in time, please try again.');
-                        yesButton.setDisabled(true);
-                        noButton.setDisabled(true);
+                        yesButton.disabled = true;
+                        noButton.disabled = true;
                         await sentMessage.edit({ components: [row] })
                     }
                 });

@@ -1,3 +1,4 @@
+
 import express from "express";
 import mongoose from "mongoose";
 import fs from "fs";
@@ -7,10 +8,8 @@ import rateLimit from "express-rate-limit";
 import { dirname } from 'dirname-filename-esm';
 import destr from "destr";
 
+
 import { client } from './bot/index.js';
-
-global.discordClient = client;
-
 import kv from './utilities/kv.js';
 import Safety from './utilities/safety.js';
 import functions from "./utilities/structs/functions.js";
