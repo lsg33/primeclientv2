@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto'
+import functions from './structs/functions.js';
 
 class Loopkey {
 
@@ -10,11 +11,9 @@ class Loopkey {
         // 🔒 This ensures that our users' data is safe and secure at all times, even from us!
         // 🔒 Learn more about SHA-256 hashing here: https://www.n-able.com/blog/sha-256-encryption#:~:text=SHA%2D256%20is%20a%20patented,as%20long%20as%20when%20unencrypted.
         const HASHED_TOKEN = createHash('sha256').update(token).digest('hex');
-    
-        await global.discordClient.application.fetch();
-        const ownerId = global.discordClient.application?.owner.id;
+        const application = await functions.FetchApplication();
+        const ownerId = application.owner.id;
         return Buffer.from(`${HASHED_TOKEN}_${ownerId}`).toString('base64');
-    
     }
 
 }

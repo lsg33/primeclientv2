@@ -4,8 +4,8 @@ import fs from "fs";
 import dotenv from "dotenv";
 import Loopkey from ".././utilities/loopkey.js";
 
-import { Application } from "discord.js";
 import { dirname } from 'dirname-filename-esm'
+import functions from "./structs/functions.js";
 import destr from "destr";
 
 const __dirname = dirname(import.meta)
@@ -89,8 +89,7 @@ export class Safety {
     public async registerLoopKey(): Promise<boolean> {
 
         try {
-
-            log.warn("A DM will be sent to the user " + global.discordClient.application?.owner.username + " to enable your loopkey. Please check your DMs.");
+            log.warn("A DM will be sent to the user " + global.discordApplication.owner.username + " to enable your loopkey. Please check your DMs.");
 
             const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
                 method: 'PUT',
