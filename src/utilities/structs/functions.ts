@@ -312,6 +312,8 @@ class functions {
 
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
+	const lowercaseEmail = email.toLowerCase();
+
 try {
 			log.debug(`Creating account with the username ${username} and email ${lowercaseEmail}`);
 			await User.create({
@@ -332,7 +334,7 @@ try {
 					accountId: i.accountId,
 					profiles: await profileManager.createProfiles(i.accountId ? i.accountId : "")
 				});
-				log.debug(`Created profile for the user with the username ${username} and email ${lowercaseEmail}`);
+				log.debug(`Created profile for the user with the username ${username} and email ${lowercaseEmail()}`);
 				await Friends.create({ created: i.created, accountId: i.accountId });
 				log.debug(`Created friends for the user with the username ${username} and email ${lowercaseEmail}`);
 			});
