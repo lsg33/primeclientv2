@@ -312,15 +312,30 @@ class functions {
 
         const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-        try {
-            log.debug(`Creating account with the username ${username} and email ${email}`);
-            await User.create({ created: new Date().toISOString(), discordId, accountId, username, username_lower: username.toLowerCase(), email, password: hashedPassword, isServer: isServer, matchmakingId: this.MakeID() }).then(async (i) => {
-                log.debug(`Created user with the username ${username} and email ${email}`);
-                await Profile.create({ created: i.created, accountId: i.accountId, profiles: await profileManager.createProfiles(i.accountId) });
-                log.debug(`Created profile for the user with the username ${username} and email ${email}`);
-                await Friends.create({ created: i.created, accountId: i.accountId });
-                log.debug(`Created friends for the user with the username ${username} and email ${email}`);
-            });
+try {
+			log.debug(`Creating account with the username ${username} and email ${lowercaseEmail}`);
+			await User.create({
+				created: new Date().toISOString(),
+				banne: false,
+				discordId: discordId,
+				accountId: this.makeID(),
+				username: username,
+				username_lower: username.toLowerCase(),
+				email: email.toLowerCase(),
+				password: hashedPassword,
+				isServer: isServer,
+				matchmakingId: this.makeID(),
+			}).then(async (i) => {
+				log.debug(`Created user with the username ${username} and email ${lowercaseEmail}`);
+				await Profile.create({
+					created: i.created,
+					accountId: i.accountId,
+					profiles: await profileManager.createProfiles(i.accountId ? i.accountId : "")
+				});
+				log.debug(`Created profile for the user with the username ${username} and email ${lowercaseEmail}`);
+				await Friends.create({ created: i.created, accountId: i.accountId });
+				log.debug(`Created friends for the user with the username ${username} and email ${lowercaseEmail}`);
+			});
         } catch (err: any) {
             if (err.code == 11000) return { message: `Username or email is already in use.`, status: 400 };
             console.error(err);
