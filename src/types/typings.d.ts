@@ -103,6 +103,7 @@ declare global {
             USE_REDIS: boolean;
             REDIS_URL: string;
             ENABLE_CROSS_BANS: boolean;
+            DEBUG_LOG: boolean;
         }
     }
 }
