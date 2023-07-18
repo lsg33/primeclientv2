@@ -1,6 +1,6 @@
 {
   "name": "momentum",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "Momentum is a fortnite backend that features an account system and xmpp.",
   "main": "index.js",
   "type": "module",
