@@ -3,6 +3,7 @@ import path from 'path';
 import Safety from './safety.js';
 import log from './structs/log.js';
 import { dirname } from 'dirname-filename-esm'
+import { ShopResponse } from '../types/typings';
 
 const __dirname = dirname(import.meta)
 
@@ -28,7 +29,7 @@ class Shop {
 
     }
 
-    public async updateShop(loopKey: string): Promise<string[]> {
+    public async updateShop(loopKey: string): Promise<ShopResponse[] | boolean[]> {
         const newItems: any[] = [];
 
         const [shopResponse, catalogString, catalogRaw] = await Promise.all([
@@ -45,6 +46,12 @@ class Shop {
         if (!shopResponse) return [];
 
         const shopJSON = await shopResponse.json();
+
+        if (shopJSON.error) {
+            if (shopJSON.error === "Module shop not enabled for this loopkey") {
+                return [false];
+            }
+        }
 
         const dailyItems = shopJSON[0].daily;
         const catalog = JSON.parse(catalogString);
@@ -85,3 +92,4 @@ class Shop {
 }
 
 export default new Shop();
+

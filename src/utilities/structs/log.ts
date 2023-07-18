@@ -25,7 +25,7 @@ class logger {
     }
 
     public debug(message: string) {
-        if (process.env.NODE_ENV !== "production" && os.userInfo().username == "finni") {
+        if (process.env.DEBUG_LOG) {
             console.log(`\x1b[37m[\x1b[34mDEBUG\x1b[0m\x1b[37m] ${message}`);
         }
     }

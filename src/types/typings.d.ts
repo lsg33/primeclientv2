@@ -103,6 +103,29 @@ declare global {
             USE_REDIS: boolean;
             REDIS_URL: string;
             ENABLE_CROSS_BANS: boolean;
+            DEBUG_LOG: boolean;
         }
     }
+}
+
+export interface ShopResponse {
+    daily: Daily[];
+    featured: Daily[];
+}
+
+export interface Daily {
+    id: string;
+    name: string;
+    price: number;
+    rarity: string;
+    type: string;
+    shopName: string;
+    images: Images;
+}
+
+export interface Images {
+    smallIcon: string;
+    icon: string;
+    featured: null | string;
+    other: null;
 }

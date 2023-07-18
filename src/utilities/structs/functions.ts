@@ -320,13 +320,13 @@ try {
 				created: new Date().toISOString(),
 				banne: false,
 				discordId: discordId,
-				accountId: this.makeID(),
+				accountId: this.MakeID(),
 				username: username,
 				username_lower: username.toLowerCase(),
 				email: email.toLowerCase(),
 				password: hashedPassword,
 				isServer: isServer,
-				matchmakingId: this.makeID(),
+				matchmakingId: this.MakeID(),
 			}).then(async (i) => {
 				log.debug(`Created user with the username ${username} and email ${lowercaseEmail}`);
 				await Profile.create({
@@ -334,7 +334,7 @@ try {
 					accountId: i.accountId,
 					profiles: await profileManager.createProfiles(i.accountId ? i.accountId : "")
 				});
-				log.debug(`Created profile for the user with the username ${username} and email ${lowercaseEmail()}`);
+				log.debug(`Created profile for the user with the username ${username} and email ${lowercaseEmail}`);
 				await Friends.create({ created: i.created, accountId: i.accountId });
 				log.debug(`Created friends for the user with the username ${username} and email ${lowercaseEmail}`);
 			});

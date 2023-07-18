@@ -10,11 +10,14 @@ export const data = new SlashCommandBuilder()
     .setDMPermission(false);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     if(!Safety.env.ENABLE_CLOUD) return await interaction.editReply({ content: "This command is disabled because cloud features are disabled. You can enable them by setting ENABLE_CLOUD to true in .env" }); 
 
-    const shopItems: any[] = await Shop.updateShop(await global.safety.getLoopKey());
+    const shopItems = await Shop.updateShop(await global.safety.getLoopKey());
+
+    if(shopItems[0] === false) return await interaction.editReply({ content: "This command is disabled as it's only available to users that bought the Auto Rotate module. To purchase it, join https://discord.gg/NexusFN." });
+    
     const rowCount = 2; // Number of rows
     const maxItemsPerRow = Math.ceil(shopItems.length / rowCount);
     const rowWidth = 800; // Maximum width for each row
@@ -62,5 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
     const attachment = new AttachmentBuilder(await canvas.encode('png'), { name: 'combined_shop.png' });
 
-    await interaction.editReply({ content: "The item shop has been rotated!", files: [attachment] });
+    await interaction.editReply({ content: "Done!" })
+
+    await interaction.followUp({ content: "The item shop has been rotated!", files: [attachment], ephemeral: false });
 }
