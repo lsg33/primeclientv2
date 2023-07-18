@@ -32,6 +32,7 @@ interface iEnv {
     REDIS_URL: string;
     ENABLE_CROSS_BANS: boolean;
     ENABLE_CLOUD: boolean;
+    DEBUG_LOG: boolean;
 }
 
 interface iModules {
@@ -79,6 +80,7 @@ export class Safety {
         REDIS_URL: process.env.REDIS_URL,
         ENABLE_CROSS_BANS: this.convertToBool(process.env.ENABLE_CROSS_BANS, "ENABLE_CROSS_BANS"),
         ENABLE_CLOUD: this.convertToBool(process.env.ENABLE_CLOUD, "ENABLE_CLOUD"),
+        DEBUG_LOG: this.convertToBool(process.env.DEBUG_LOG, "DEBUG_LOG"),
     };
 
     public modules: iModules = {
