@@ -4,6 +4,9 @@ import express from "express";
 const app = express.Router();
 import path from "path";
 import fs from "fs";
+import { dirname } from 'dirname-filename-esm';
+
+const __dirname = dirname(import.meta);
 
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
     let resp = { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] }
