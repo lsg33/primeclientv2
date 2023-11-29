@@ -4,7 +4,7 @@ class Modules {
 
     public async getModules(loopKey: string): Promise<string[] | boolean> {
 
-        const modules = await fetch("http://api.nexusfn.net/api/v2/loopkey/modules", {
+        /*const modules = await fetch("http://asteria.nexusfn.net/v2/loopkey/modules", {
             method: 'GET',
             headers: {
                 "loopkey": loopKey
@@ -19,10 +19,8 @@ class Modules {
         if (!modules) return [];
 
         const modulesJSON = modules;
-        const modulesArray = modulesJSON.modules;
-
-        return modulesArray;
-
+        */
+        return ["shop", "matchmaker"];
     }
 
     public async configureModules(modules: string[]) {

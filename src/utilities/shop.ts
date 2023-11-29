@@ -9,9 +9,9 @@ const __dirname = dirname(import.meta)
 
 class Shop {
 
-    public async testModule(loopKey): Promise<boolean> {
+    public async testModule(loopKey: string): Promise<boolean> {
 
-        const test = await fetch(`http://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+        const test = await fetch(`http://asteria.nexusfn.net/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
                 'loopkey': loopKey
@@ -33,7 +33,7 @@ class Shop {
         const newItems: any[] = [];
 
         const [shopResponse, catalogString, catalogRaw] = await Promise.all([
-            fetch(`https://api.nexusfn.net/api/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+            fetch(`https://asteria.nexusfn.net/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
                 method: 'GET',
                 headers: {
                     'loopkey': loopKey

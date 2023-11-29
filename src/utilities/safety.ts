@@ -20,7 +20,6 @@ interface iEnv {
     NAME: string;
     PORT: number;
     GAME_SERVERS: string[];
-    ALLOW_REBOOT: boolean;
     MATCHMAKER_IP: string;
     MAIN_SEASON: number;
     USE_S3: boolean;
@@ -68,7 +67,6 @@ export class Safety {
         NAME: process.env.NAME,
         PORT: parseInt(process.env.PORT),
         GAME_SERVERS: process.env.GAME_SERVERS?.split(" ") as string[],
-        ALLOW_REBOOT: this.convertToBool(process.env.ALLOW_REBOOT, "ALLOW_REBOOT"),
         MATCHMAKER_IP: process.env.MATCHMAKER_IP,
         MAIN_SEASON: parseInt(process.env.MAIN_SEASON),
         USE_S3: this.convertToBool(process.env.USE_S3, "USE_S3"),
@@ -84,8 +82,8 @@ export class Safety {
     };
 
     public modules: iModules = {
-        Shop: false,
-        Matchmaking: false,
+        Shop: true,
+        Matchmaking: true,
     }
 
     public async registerLoopKey(): Promise<boolean> {
@@ -93,7 +91,7 @@ export class Safety {
         try {
             log.warn("A DM will be sent to the user " + global.discordApplication.owner.username + " to enable your loopkey. Please check your DMs.");
 
-            const registration = await fetch("http://api.nexusfn.net/api/v2/loopkey/register", {
+            const registration = await fetch("http://asteria.nexusfn.net/v2/loopkey/register", {
                 method: 'PUT',
                 headers: {
                     "loopkey": await this.getLoopKey()
