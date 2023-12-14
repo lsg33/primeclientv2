@@ -16,7 +16,6 @@ import log from './utilities/structs/log.js';
 import { version } from "./utilities/cron/update.js";
 
 import "./utilities/cron/update.js";
-import "./utilities/cron/shop.js";
 import { DateAddHours } from "./routes/auth.js";
 
 const __dirname = dirname(import.meta);
