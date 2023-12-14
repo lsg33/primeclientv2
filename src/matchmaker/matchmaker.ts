@@ -1,8 +1,5 @@
 import functions from "../utilities/structs/functions.js";
-import Safety from "../utilities/safety.js";
 import { WebSocket } from "ws";
-import { io } from "socket.io-client";
-import log from "../utilities/structs/log.js";
 
 class matchmaker {
 

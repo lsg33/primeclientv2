@@ -1,43 +1,21 @@
 import fs from 'fs/promises';
 import path from 'path';
 import Safety from './safety.js';
-import log from './structs/log.js';
 import { dirname } from 'dirname-filename-esm'
 import { ShopResponse } from '../types/typings';
 
 const __dirname = dirname(import.meta)
 
+//I'll make it not write to file later, icba for now
+
 class Shop {
 
-    public async testModule(loopKey: string): Promise<boolean> {
-
-        const test = await fetch(`http://fortnite.rest/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
-            method: 'GET',
-            headers: {
-                'loopkey': loopKey
-            }
-        })
-
-        await test.json()
-
-        if (test.status == 200) {
-            return true;
-        } else {
-            log.warn("Auto rotate has been disabled as you do not have access to it or some unknown error happened. Please go to https://discord.gg/NexusFN and enter the /purchase command to gain access or if you think this is a mistake then please contact a staff member.");
-            return false;
-        }
-
-    }
-
-    public async updateShop(loopKey: string): Promise<ShopResponse[] | boolean[]> {
+    public async updateShop(): Promise<ShopResponse[] | boolean[]> {
         const newItems: any[] = [];
 
         const [shopResponse, catalogString, catalogRaw] = await Promise.all([
             fetch(`https://fortnite.rest/shop/random/${Safety.env.MAIN_SEASON}`, {
                 method: 'GET',
-                headers: {
-                    'loopkey': loopKey
-                }
             }),
             await fs.readFile(path.join(__dirname, "../../Config/catalog_config.json"), 'utf-8'),
             await fs.readFile(path.join(__dirname, "../../responses/catalog.json"), 'utf-8')
