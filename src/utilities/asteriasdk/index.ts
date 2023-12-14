@@ -29,13 +29,13 @@ class Asteria {
             throw new TypeError("The 'collectAnonStats' option must be a boolean value of either true or false.");
         }
         this.uid = this.collectAnonStats ? generateUniqueIdentifier() : "disabled";
-        this.usedURL = new URL(options.usedURL ? options.usedURL : "https://asteria.nexusfn.net/v1");
+        this.usedURL = new URL(options.usedURL ? options.usedURL : "https://fortnite.rest/");
         this.throwErrors = options.throwErrors ? options.throwErrors : false;
     }
 
 
     private async getEntity(key: iKey, value: string, ignoreErrors: boolean): Promise<any> {
-        const req = await fetch(`${this.usedURL}/cosmetics/br/search?${key}=${value}`, {
+        const req = await fetch(`${this.usedURL}/cosmetics?${key}=${value}`, {
             method: "GET",
             headers: {
                 "key": key,
@@ -53,10 +53,7 @@ class Asteria {
             }
         }
 
-        const reqJson = await req.json();
-        const document = reqJson.document;
-
-        return await document;
+        return await req.json();
     }
 
     public async getCosmetic(key: iKey, value: string, ignoreErrors?: boolean): Promise<any> {

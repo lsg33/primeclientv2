@@ -11,7 +11,7 @@ class Shop {
 
     public async testModule(loopKey: string): Promise<boolean> {
 
-        const test = await fetch(`http://asteria.nexusfn.net/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+        const test = await fetch(`http://fortnite.rest/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
             method: 'GET',
             headers: {
                 'loopkey': loopKey
@@ -33,14 +33,14 @@ class Shop {
         const newItems: any[] = [];
 
         const [shopResponse, catalogString, catalogRaw] = await Promise.all([
-            fetch(`https://asteria.nexusfn.net/v1/shop/random/${Safety.env.MAIN_SEASON}`, {
+            fetch(`https://fortnite.rest/shop/random/${Safety.env.MAIN_SEASON}`, {
                 method: 'GET',
                 headers: {
                     'loopkey': loopKey
                 }
             }),
-            fs.readFile(path.join(__dirname, "../../Config/catalog_config.json"), 'utf-8'),
-            fs.readFile(path.join(__dirname, "../../responses/catalog.json"), 'utf-8')
+            await fs.readFile(path.join(__dirname, "../../Config/catalog_config.json"), 'utf-8'),
+            await fs.readFile(path.join(__dirname, "../../responses/catalog.json"), 'utf-8')
         ]);
 
         if (!shopResponse) return [];
@@ -53,7 +53,8 @@ class Shop {
             }
         }
 
-        const dailyItems = shopJSON[0].daily;
+        const dailyItems = shopJSON.daily;
+        const featuredItems = shopJSON.featured;
         const catalog = JSON.parse(catalogString);
         const catalogRawJSON = JSON.parse(catalogRaw);
 
@@ -66,7 +67,7 @@ class Shop {
             newItems.push(dailyItem);
         }
 
-        for (const [i, featuredItem] of shopJSON[1].featured.entries()) {
+        for (const [i, featuredItem] of featuredItems.entries()) {
             const { shopName, price } = featuredItem;
 
             catalog[`featured${i + 1}`].price = price;
