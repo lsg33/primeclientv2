@@ -4,6 +4,9 @@
 ![Size](https://img.shields.io/github/repo-size/Nexus-FN/Momentum?label=Size&style=for-the-badge)
 ![Visits](https://komarev.com/ghpvc/?username=Nexus-FN&style=for-the-badge)
 
+### Momentum has been discontinued.
+### For a new and improved backend, use https://github.com/simplyzetax/Aphrodite
+
 Momentum is a fork and partial rewrite of the Fortnite Backend LawinServerV2. It is designed to enhance stability, offer production-ready features, and be blazingly fast. 🔥
 
 Join our discord at https://discord.gg/7njfwrAqTd
